@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<buffs version="1">
+		<buff buff_class_id="12" buff_exclusivity_id="1" buff_id="6a3c0a16-6482-535e-9504-ffd9d27241d2" buff_lifetime_id="0" buff_name="ml_ff_woman_clothes" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+		<buff buff_ai_tag_id="200" buff_class_id="12" buff_exclusivity_id="1" buff_id="9397bea8-84f5-51cb-b442-22ab15c638d1" buff_lifetime_id="0" buff_name="ml_ff_dress" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+		<buff buff_ai_tag_id="201" buff_class_id="12" buff_exclusivity_id="1" buff_id="5e7cbc92-adc2-512f-885b-32831441291f" buff_lifetime_id="0" buff_name="ml_ff_shoes" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+		<buff buff_ai_tag_id="202" buff_class_id="12" buff_exclusivity_id="1" buff_id="e8ececff-2d11-5b27-8201-1bdd983d48af" buff_lifetime_id="0" buff_name="ml_ff_cap" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+		<buff buff_ai_tag_id="203" buff_class_id="12" buff_exclusivity_id="1" buff_id="98844626-e6e9-5fce-b92e-dd7cc4802df6" buff_lifetime_id="0" buff_name="ml_ff_mail_coif" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+	</buffs>
+</database>

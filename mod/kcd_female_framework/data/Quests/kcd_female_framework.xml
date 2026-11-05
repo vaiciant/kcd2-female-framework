@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">
+	<!-- Skald project of the framework, apart from the one of KCD2 Life. ObjectiveValueTypes match the vanilla project.
+	     ml_ff_face puts a woman's look on Henry himself. ml_ff_barber gives a woman's
+	     haircut at the barbers of the game. -->
+	<Skald>
+		<Project Name="kcd_female_framework">
+			<Definitions>
+				<Definition File="kcd_female_framework/ml_ff_face.xml" />
+				<Definition File="kcd_female_framework/ml_ff_barber.xml" />
+			</Definitions>
+			<Nodes>
+				<ml_ff_face Name="ml_ff_face" PositionY="0" PositionX="0" />
+				<ml_ff_barber Name="ml_ff_barber" PositionY="400" PositionX="0" />
+			</Nodes>
+			<Text Text="kcd_female_framework" />
+			<ObjectiveValueTypes>
+				<ObjectiveValueType Type="None" IsPast="false" Icon="Exclamation" />
+				<ObjectiveValueType Type="Started" IsPast="false" Icon="Exclamation" Hint="objective_HintStarted" />
+				<ObjectiveValueType Type="Updated" IsPast="false" Icon="Exclamation" Hint="objective_HintUpdated" />
+				<ObjectiveValueType Type="Completed" IsPast="true" Icon="Check" Hint="objective_HintCompleted" />
+				<ObjectiveValueType Type="Canceled" IsPast="true" Icon="Cross" Hint="objective_HintCanceled" />
+			</ObjectiveValueTypes>
+		</Project>
+	</Skald>
+</Database>

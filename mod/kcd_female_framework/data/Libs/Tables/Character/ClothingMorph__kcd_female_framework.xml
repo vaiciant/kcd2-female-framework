@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<ClothingMorphs version="1">
+		<Morph Name="#ml_ff_head" />
+		<Morph Name="#ml_ff_dress_fit" />
+	</ClothingMorphs>
+</database>

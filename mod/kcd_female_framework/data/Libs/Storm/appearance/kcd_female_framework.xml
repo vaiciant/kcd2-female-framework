@@ -1,0 +1,558 @@
+<?xml version="1.0"?>
+<!DOCTYPE storm SYSTEM "../../storm.dtd">
+<!-- The models of the women's looks: each one gets the parts of the game that its look copies, so what a preview
+     shows is what the character gets. -->
+<storm>
+	<rules>
+		<rule name="ml_ff_model_4_look">
+			<selectors>
+				<hasName name="ml_ff_model_4" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_001" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_5_look">
+			<selectors>
+				<hasName name="ml_ff_model_5" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_016" />
+				<setHair name="f_hair_007_ginger" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_6_look">
+			<selectors>
+				<hasName name="ml_ff_model_6" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_009" />
+				<setHair name="f_hair_003_black" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_9_look">
+			<selectors>
+				<hasName name="ml_ff_model_9" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_002" />
+				<setHair name="f_hair_004_blonde" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_10_look">
+			<selectors>
+				<hasName name="ml_ff_model_10" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_017" />
+				<setHair name="f_hair_006_black" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_11_look">
+			<selectors>
+				<hasName name="ml_ff_model_11" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_000" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_12_look">
+			<selectors>
+				<hasName name="ml_ff_model_12" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_003" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_13_look">
+			<selectors>
+				<hasName name="ml_ff_model_13" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_004" />
+				<setHair name="f_hair_005_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_14_look">
+			<selectors>
+				<hasName name="ml_ff_model_14" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_005" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_15_look">
+			<selectors>
+				<hasName name="ml_ff_model_15" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_006" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_16_look">
+			<selectors>
+				<hasName name="ml_ff_model_16" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_007" />
+				<setHair name="f_hair_003_blonde" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_17_look">
+			<selectors>
+				<hasName name="ml_ff_model_17" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_008" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_18_look">
+			<selectors>
+				<hasName name="ml_ff_model_18" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_010" />
+				<setHair name="f_hair_004_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_19_look">
+			<selectors>
+				<hasName name="ml_ff_model_19" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_011" />
+				<setHair name="f_hair_005_dark_grey" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_20_look">
+			<selectors>
+				<hasName name="ml_ff_model_20" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_012" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_21_look">
+			<selectors>
+				<hasName name="ml_ff_model_21" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_013" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_22_look">
+			<selectors>
+				<hasName name="ml_ff_model_22" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_014" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_old_roma" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_23_look">
+			<selectors>
+				<hasName name="ml_ff_model_23" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_015" />
+				<setHair name="f_hair_006_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_24_look">
+			<selectors>
+				<hasName name="ml_ff_model_24" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_018" />
+				<setHair name="f_hair_005_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_25_look">
+			<selectors>
+				<hasName name="ml_ff_model_25" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_019" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_26_look">
+			<selectors>
+				<hasName name="ml_ff_model_26" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_020" />
+				<setHair name="f_hair_001_dark_brown" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_27_look">
+			<selectors>
+				<hasName name="ml_ff_model_27" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_021" />
+				<setHair name="f_hair_003_dark_ginger" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_28_look">
+			<selectors>
+				<hasName name="ml_ff_model_28" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_022" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_29_look">
+			<selectors>
+				<hasName name="ml_ff_model_29" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_023" />
+				<setHair name="f_hair_005_black" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_30_look">
+			<selectors>
+				<hasName name="ml_ff_model_30" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_024" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_31_look">
+			<selectors>
+				<hasName name="ml_ff_model_31" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_025" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_32_look">
+			<selectors>
+				<hasName name="ml_ff_model_32" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_026" />
+				<setHair name="f_hair_005_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_33_look">
+			<selectors>
+				<hasName name="ml_ff_model_33" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_027" />
+				<setHair name="f_hair_002_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_34_look">
+			<selectors>
+				<hasName name="ml_ff_model_34" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_028" />
+				<setHair name="f_hair_006_black" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_35_look">
+			<selectors>
+				<hasName name="ml_ff_model_35" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_029" />
+				<setHair name="f_hair_002_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_36_look">
+			<selectors>
+				<hasName name="ml_ff_model_36" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_030" />
+				<setHair name="f_hair_002_dark_ginger" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_37_look">
+			<selectors>
+				<hasName name="ml_ff_model_37" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_031" />
+				<setHair name="f_hair_006_dark_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_38_look">
+			<selectors>
+				<hasName name="ml_ff_model_38" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_032" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_39_look">
+			<selectors>
+				<hasName name="ml_ff_model_39" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_033" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_40_look">
+			<selectors>
+				<hasName name="ml_ff_model_40" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_034" />
+				<setHair name="f_hair_003_blonde" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_41_look">
+			<selectors>
+				<hasName name="ml_ff_model_41" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_035" />
+				<setHair name="f_hair_006_dark_brown" />
+				<setBody name="f_body_pale_04" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_42_look">
+			<selectors>
+				<hasName name="ml_ff_model_42" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_036" />
+				<setHair name="f_hair_007_dark_ginger" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_43_look">
+			<selectors>
+				<hasName name="ml_ff_model_43" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_037" />
+				<setHair name="f_hair_006_dark_brown" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_44_look">
+			<selectors>
+				<hasName name="ml_ff_model_44" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_038" />
+				<setHair name="f_hair_006_dark_brown" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_45_look">
+			<selectors>
+				<hasName name="ml_ff_model_45" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_039" />
+				<setHair name="f_hair_002_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_46_look">
+			<selectors>
+				<hasName name="ml_ff_model_46" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_040" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_47_look">
+			<selectors>
+				<hasName name="ml_ff_model_47" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_041" />
+				<setHair name="f_hair_007_black" />
+				<setBody name="f_body_tan_03" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_48_look">
+			<selectors>
+				<hasName name="ml_ff_model_48" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_042" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_old_roma" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_49_look">
+			<selectors>
+				<hasName name="ml_ff_model_49" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_043" />
+				<setHair name="f_hair_006_dark_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_50_look">
+			<selectors>
+				<hasName name="ml_ff_model_50" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_044" />
+				<setHair name="f_hair_002_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_51_look">
+			<selectors>
+				<hasName name="ml_ff_model_51" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_045" />
+				<setHair name="f_hair_004_black" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_52_look">
+			<selectors>
+				<hasName name="ml_ff_model_52" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_046" />
+				<setHair name="f_hair_006_black" />
+				<setBody name="f_body_old_roma" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_53_look">
+			<selectors>
+				<hasName name="ml_ff_model_53" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_047" />
+				<setHair name="f_hair_001_dark_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_54_look">
+			<selectors>
+				<hasName name="ml_ff_model_54" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_048" />
+				<setHair name="f_hair_002_grey" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_55_look">
+			<selectors>
+				<hasName name="ml_ff_model_55" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_049" />
+				<setHair name="f_hair_004_dark_brown" />
+				<setBody name="f_body_old_pale_01" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_124_look">
+			<selectors>
+				<hasName name="ml_ff_model_124" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_katherine" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_125_look">
+			<selectors>
+				<hasName name="ml_ff_model_125" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_magdalena" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_126_look">
+			<selectors>
+				<hasName name="ml_ff_model_126" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_miriam" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_127_look">
+			<selectors>
+				<hasName name="ml_ff_model_127" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_mother" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+		<rule name="ml_ff_model_128_look">
+			<selectors>
+				<hasName name="ml_ff_model_128" />
+			</selectors>
+			<operations>
+				<setHead name="f_head_rose" />
+				<setHair name="f_hair_002_dark_brown" />
+				<setBody name="f_body_pale_02" />
+			</operations>
+		</rule>
+	</rules>
+</storm>

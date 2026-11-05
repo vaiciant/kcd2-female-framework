@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">
+	<!-- The barber's talk for a woman: hair only, a style and a color. The screen of the game has one list for everybody,
+	     with men's hair and beards, so she chooses here, with the camera of a normal talk: no line has a camera command, a mood or a prop,
+	     as in the game's barber greeting, so the camera stays on her as the talk began. The barber's mood and props
+	     of the game's haircut screen, made for Henry sitting in the chair, moved it to the wall. Each one named tries the hair on her at once, and only Accept keeps it (FemaleCore.Barber, in
+	     Scripts/FemaleCore/barber.lua). Lua keeps ml_ff_woman, ml_ff_hair_style, ml_ff_hair_color and ml_ff_hair_colors
+	     up to date; a style or color of 0 hides nothing. It takes the place of the game's haircut, with its own line,
+	     "Give me a haircut": while she is a woman, the copy of the game's barber dialog that the tools write hides that
+	     one. -->
+	<Skald>
+		<FaderDialog Name="ml_ff_barber_dialog">
+			<Ports>
+				<Port Name="accepted" Direction="Out" Type="trigger" />
+			</Ports>
+			<Text Text="ml_ff_barber_dialog" />
+			<Dialogue TechnicalStatus="Enabled">
+				<SelectedSouls>
+					<SelectedSoul Role="HENRY" Voice="tomMcKay" Type="Wave" Language="ENG" />
+					<SelectedSoul Role="BARBER" Voice="bobBordeaux" Type="Wave" Language="ENG" />
+				</SelectedSouls>
+				<Decision Name="dec_ff_root" Priority="Repair" VoiceoverFallbackLevel="2" VoiceoverFallbackLevelRoles="BARBER HENRY">
+					<Sequences>
+						<Sequence EntryCondition="gvar('ml_ff_woman') == 1" EndType="Decision" Type="PaymentBarber" Name="seq_ff_cut">
+							<UiPrompt StringName="ui_barber_di_seq5_3vfx" />
+							<Elements>
+								<Response Role="HENRY" />
+							</Elements>
+							<Decision Name="dec_ff_money" Autoselect="true" VoiceoverFallbackLevel="2" VoiceoverFallbackLevelRoles="BARBER HENRY">
+								<Sequences>
+									<Sequence EntryCondition="GetActorMoney()[0] &lt; Port('Payment_seq_ff_cut')" EndType="EndDialogue" Name="seq_ff_no_money">
+										<Elements>
+											<Response Role="BARBER">
+												<Text StringName="ml_ff_barber_no_money" />
+											</Response>
+										</Elements>
+									</Sequence>
+									<Sequence EntryCondition="GetActorMoney()[0] &gt;= Port('Payment_seq_ff_cut')" EndType="Decision" ExitScript="FemaleCore.Barber.Open()" Name="seq_ff_woman_cut">
+										<Elements>
+											<Response Role="BARBER" />
+										</Elements>
+										<Decision Name="dec_ff_woman_hair" Priority="Repair" VoiceoverFallbackLevel="2" VoiceoverFallbackLevelRoles="BARBER HENRY">
+											<Sequences>
+												<Sequence EndType="Decision" Name="seq_ff_select_style">
+													<UiPrompt StringName="ui_ml_ff_hair_select_style" />
+													<Elements>
+														<Response Role="HENRY" />
+													</Elements>
+													<Decision Name="dec_ff_hair_style" Priority="Repair" VoiceoverFallbackLevel="2" VoiceoverFallbackLevelRoles="BARBER HENRY">
+														<Sequences>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 1" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(1)" Name="seq_ff_hair_style_1">
+																<UiPrompt StringName="ui_ml_ff_hair_style_1" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 2" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(2)" Name="seq_ff_hair_style_2">
+																<UiPrompt StringName="ui_ml_ff_hair_style_2" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 3" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(3)" Name="seq_ff_hair_style_3">
+																<UiPrompt StringName="ui_ml_ff_hair_style_3" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 4" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(4)" Name="seq_ff_hair_style_4">
+																<UiPrompt StringName="ui_ml_ff_hair_style_4" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 5" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(5)" Name="seq_ff_hair_style_5">
+																<UiPrompt StringName="ui_ml_ff_hair_style_5" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 6" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(6)" Name="seq_ff_hair_style_6">
+																<UiPrompt StringName="ui_ml_ff_hair_style_6" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_style') != 7" EndType="GoTo" GoToDecision="dec_ff_hair_style" ExitScript="FemaleCore.Barber.Style(7)" Name="seq_ff_hair_style_7">
+																<UiPrompt StringName="ui_ml_ff_hair_style_7" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EndType="GoTo" GoToDecision="dec_ff_woman_hair" Name="seq_ff_style_back">
+																<UiPrompt StringName="ui_ml_ff_back" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+														</Sequences>
+													</Decision>
+												</Sequence>
+												<Sequence EndType="Decision" Name="seq_ff_select_color">
+													<UiPrompt StringName="ui_ml_ff_hair_select_color" />
+													<Elements>
+														<Response Role="HENRY" />
+													</Elements>
+													<Decision Name="dec_ff_hair_color" Priority="Repair" VoiceoverFallbackLevel="2" VoiceoverFallbackLevelRoles="BARBER HENRY">
+														<Sequences>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 1" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(1)" Name="seq_ff_hair_color_1">
+																<UiPrompt StringName="ui_ml_ff_hair_color_1" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 2" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(2)" Name="seq_ff_hair_color_2">
+																<UiPrompt StringName="ui_ml_ff_hair_color_2" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 3" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(3)" Name="seq_ff_hair_color_3">
+																<UiPrompt StringName="ui_ml_ff_hair_color_3" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 4" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(4)" Name="seq_ff_hair_color_4">
+																<UiPrompt StringName="ui_ml_ff_hair_color_4" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 5" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(5)" Name="seq_ff_hair_color_5">
+																<UiPrompt StringName="ui_ml_ff_hair_color_5" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_color') != 6" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(6)" Name="seq_ff_hair_color_6">
+																<UiPrompt StringName="ui_ml_ff_hair_color_6" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_colors') == 9 &amp; gvar('ml_ff_hair_color') != 7" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(7)" Name="seq_ff_hair_color_7">
+																<UiPrompt StringName="ui_ml_ff_hair_color_7" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_colors') == 9 &amp; gvar('ml_ff_hair_color') != 8" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(8)" Name="seq_ff_hair_color_8">
+																<UiPrompt StringName="ui_ml_ff_hair_color_8" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EntryCondition="gvar('ml_ff_hair_colors') == 9 &amp; gvar('ml_ff_hair_color') != 9" EndType="GoTo" GoToDecision="dec_ff_hair_color" ExitScript="FemaleCore.Barber.Color(9)" Name="seq_ff_hair_color_9">
+																<UiPrompt StringName="ui_ml_ff_hair_color_9" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+															<Sequence EndType="GoTo" GoToDecision="dec_ff_woman_hair" Name="seq_ff_color_back">
+																<UiPrompt StringName="ui_ml_ff_back" />
+																<Elements>
+																	<Response Role="HENRY" />
+																</Elements>
+															</Sequence>
+														</Sequences>
+													</Decision>
+												</Sequence>
+												<Sequence EndType="EndDialogue" ExitScript="FemaleCore.Barber.Accept()" Name="seq_ff_hair_accept">
+													<UiPrompt StringName="ui_ml_ff_hair_accept" />
+													<Triggers>
+														<Port Name="accepted" />
+													</Triggers>
+													<Elements>
+														<Response Role="HENRY" />
+													</Elements>
+												</Sequence>
+												<Sequence EndType="EndDialogue" ExitScript="FemaleCore.Barber.Cancel()" Name="seq_ff_hair_cancel">
+													<UiPrompt StringName="ui_ml_ff_never_mind" />
+													<Elements>
+														<Response Role="HENRY" />
+													</Elements>
+												</Sequence>
+											</Sequences>
+										</Decision>
+									</Sequence>
+								</Sequences>
+							</Decision>
+						</Sequence>
+					</Sequences>
+				</Decision>
+			</Dialogue>
+		</FaderDialog>
+	</Skald>
+</Database>

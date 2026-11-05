@@ -1,0 +1,673 @@
+# KCD2 Female Framework: the looks. Each one is a face of the game with the parts it starts with. The id never changes: saved
+# lives keep it. tools/generate_models.py adds the faces of the game that fit, with the next ids, and never touches an
+# entry that is already here, so it can be edited by hand. Everything in this file is a woman's look.
+#
+#   id         Number of the look, shared by both frameworks.
+#   name       Short name for the console. A face with no name of its own keeps its internal name.
+#   head       Head of the game.
+#   ethnicity  czech, hungarian or romani. Empty for a named character's face.
+#   age        young or old, from the table of the game.
+#   villager   true for a generic face of common people, false for a named character's.
+#   body       Body of the game.
+#   hair       Hair of the game it starts with.
+#   soul, token  GUIDs of its preview model and its token. They never change.
+
+[[look]]
+id = 4
+name = "woman_czech_1"
+head = "f_head_001"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "d1667e53-8166-5b48-a316-9a57a5113539"
+token = "876c06c0-bed2-5c9f-a023-c279a6adfe2c"
+
+[[look]]
+id = 5
+name = "woman_czech_2"
+head = "f_head_016"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_007_ginger"
+soul = "b92bfc8d-1cad-5721-be8f-55a7eb00a3e3"
+token = "8aa29ca2-3f62-552c-b6db-547c27127718"
+
+[[look]]
+id = 6
+name = "woman_hungarian_1"
+head = "f_head_009"
+ethnicity = "hungarian"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_003_black"
+soul = "ed22c379-b98c-506d-8483-4bf0cd49cb6b"
+token = "2bfe5974-ee2f-5b4c-b571-b065b6fc4fa9"
+
+[[look]]
+id = 9
+name = "woman_czech_3"
+head = "f_head_002"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_004_blonde"
+soul = "04fbb95b-dd83-5e25-9029-303344719254"
+token = "1a860984-d7d2-5fd8-b16c-b738bdd1899b"
+
+[[look]]
+id = 10
+name = "woman_hungarian_2"
+head = "f_head_017"
+ethnicity = "hungarian"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_006_black"
+soul = "9ba07efd-299a-5201-b072-d55883a466e5"
+token = "76cdf0b7-ff83-5450-b127-ae03d2daa51b"
+
+[[look]]
+id = 11
+name = "woman_czech_4"
+head = "f_head_000"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "c878889d-abd7-5198-a37c-e24b8136095b"
+token = "c9a4adf1-931d-5d9a-8f52-d4909463898c"
+
+[[look]]
+id = 12
+name = "woman_czech_5"
+head = "f_head_003"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_002_dark_brown"
+soul = "ce401894-ff0e-5d9c-af00-c07ad2e0b96c"
+token = "d1dae8b7-97c7-5b9d-a29e-a8a76278a18a"
+
+[[look]]
+id = 13
+name = "woman_czech_6"
+head = "f_head_004"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_005_dark_brown"
+soul = "3c1a81bf-8cab-5ac6-a133-a9bde7597403"
+token = "d5a12ab8-ccda-5d1f-8ac8-abc00fb91472"
+
+[[look]]
+id = 14
+name = "woman_romani_1"
+head = "f_head_005"
+ethnicity = "romani"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_002_dark_brown"
+soul = "10a30a21-7ac9-51e0-9256-9318a1513f65"
+token = "4d1f9a09-4a67-5054-9559-5a2fe5daa14a"
+
+[[look]]
+id = 15
+name = "woman_czech_7"
+head = "f_head_006"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "f2208085-ceed-58cf-b64a-1855a84cac92"
+token = "c6a15aa5-a5da-5932-b618-384ce80a36ba"
+
+[[look]]
+id = 16
+name = "woman_czech_8"
+head = "f_head_007"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_003_blonde"
+soul = "cc9ab761-a993-5f17-a611-b2403fad989f"
+token = "4bc9dbea-56d9-5ee1-821b-9e10fe95f90b"
+
+[[look]]
+id = 17
+name = "woman_czech_9"
+head = "f_head_008"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "c84eb689-f0a1-5f54-8763-a5f3bb34f9a3"
+token = "fbcca504-e2eb-5272-8dd6-a36ead15c2d3"
+
+[[look]]
+id = 18
+name = "woman_czech_10"
+head = "f_head_010"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_004_dark_brown"
+soul = "8095fb6d-aa0a-5976-a2c6-69288fd0d09f"
+token = "fe7c4efd-c04e-5afb-b384-fd38057af6e3"
+
+[[look]]
+id = 19
+name = "woman_czech_11"
+head = "f_head_011"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_005_dark_grey"
+soul = "871942b2-e6f3-57e8-8fe9-2394a3269c94"
+token = "b54a90ff-2621-5667-a22c-f648d2c7dedc"
+
+[[look]]
+id = 20
+name = "woman_czech_12"
+head = "f_head_012"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "08f68f04-2cb7-55cf-8f71-d99797f74b63"
+token = "3f80398c-ffd0-50fb-a82d-7b604dd907c2"
+
+[[look]]
+id = 21
+name = "woman_czech_13"
+head = "f_head_013"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_002_dark_brown"
+soul = "00f131a4-de29-5207-9fb3-ee2a25b68938"
+token = "c6089b31-0ded-5eac-ad93-8c5a8980142a"
+
+[[look]]
+id = 22
+name = "woman_romani_2"
+head = "f_head_014"
+ethnicity = "romani"
+age = "old"
+villager = true
+body = "f_body_old_roma"
+hair = "f_hair_002_dark_brown"
+soul = "3023a897-25e0-55ac-8d14-0354d107959e"
+token = "30fa76f4-e7cb-5fbc-9ad3-bba06ac4a0c0"
+
+[[look]]
+id = 23
+name = "woman_czech_14"
+head = "f_head_015"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_006_dark_brown"
+soul = "650b5cfa-9289-51ba-b8fe-5dc5ea3aeb1e"
+token = "57913a23-ba72-510f-88ae-6e490fb3ac19"
+
+[[look]]
+id = 24
+name = "woman_czech_15"
+head = "f_head_018"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_005_dark_brown"
+soul = "1af326dc-5d24-569b-86fc-b7f2b807c4d3"
+token = "bed9edb7-5634-553d-ac00-bc9638ba5fd2"
+
+[[look]]
+id = 25
+name = "woman_czech_16"
+head = "f_head_019"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_002_dark_brown"
+soul = "d0b35229-3059-5a3e-86f5-cf659c19be69"
+token = "0aba6a9d-a5c9-550c-83af-a024ffd57b27"
+
+[[look]]
+id = 26
+name = "woman_romani_3"
+head = "f_head_020"
+ethnicity = "romani"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_001_dark_brown"
+soul = "21de21fc-9535-51cb-b88f-0d90b50326b0"
+token = "5c3aae46-64e9-5259-93df-199c6f54261d"
+
+[[look]]
+id = 27
+name = "woman_czech_17"
+head = "f_head_021"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_003_dark_ginger"
+soul = "335c733f-542c-55c0-b0a3-a57e26fd1fe7"
+token = "47138e06-1d50-5018-ac79-8f365eaaefde"
+
+[[look]]
+id = 28
+name = "woman_czech_18"
+head = "f_head_022"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "435b6672-a0c2-5824-bc4b-5c1ab21918db"
+token = "ffb3143a-8f74-5281-93d9-7af85a025698"
+
+[[look]]
+id = 29
+name = "woman_czech_19"
+head = "f_head_023"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_005_black"
+soul = "28f18ca2-8495-5bfb-92b0-4f3431928661"
+token = "bd80cfc0-bdaf-51f6-8343-89dfd63eec65"
+
+[[look]]
+id = 30
+name = "woman_czech_20"
+head = "f_head_024"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "7bca1873-f3e8-59ea-a622-81053cb08a96"
+token = "83935bf5-fad2-52ae-8593-a25df8bfe379"
+
+[[look]]
+id = 31
+name = "woman_czech_21"
+head = "f_head_025"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_002_dark_brown"
+soul = "045ff1e2-f583-58d6-ac7c-a75dfabff136"
+token = "463fdd47-380b-5291-a75f-dce36338bd01"
+
+[[look]]
+id = 32
+name = "woman_czech_22"
+head = "f_head_026"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_005_dark_brown"
+soul = "9a7b0955-c4f3-583c-8b84-68d122c7f1d0"
+token = "7c2d5f5b-beb0-5709-9ab7-8a037a1b074b"
+
+[[look]]
+id = 33
+name = "woman_czech_23"
+head = "f_head_027"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_002_grey"
+soul = "b578ada4-5f33-5cd5-936a-5b005a9371d7"
+token = "a180fca4-7066-5c8d-8769-e7d20f1d47e5"
+
+[[look]]
+id = 34
+name = "woman_romani_4"
+head = "f_head_028"
+ethnicity = "romani"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_006_black"
+soul = "50e19811-88cc-52d1-8ad4-43a34f35c8a0"
+token = "7a7b4625-f6f8-5503-96ce-14c555b98471"
+
+[[look]]
+id = 35
+name = "woman_czech_24"
+head = "f_head_029"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_002_grey"
+soul = "4881afd1-c17b-5812-bc62-e06f5ce32c6f"
+token = "10a76fb4-962f-589a-8370-a21457dca7b0"
+
+[[look]]
+id = 36
+name = "woman_czech_25"
+head = "f_head_030"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_ginger"
+soul = "4cf8a920-b858-57b3-904b-f21a46a88ef4"
+token = "6fee163b-37e0-57e4-9936-e01a8a2c2c98"
+
+[[look]]
+id = 37
+name = "woman_czech_26"
+head = "f_head_031"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_006_dark_grey"
+soul = "217d7961-9cb8-5f02-b096-fd4dfd832fe1"
+token = "d47844e5-f7ad-55d1-a8cd-7da812792421"
+
+[[look]]
+id = 38
+name = "woman_czech_27"
+head = "f_head_032"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "dd8d941b-41fe-5d38-af3a-3b3c70d59983"
+token = "946877e9-c3b0-5262-965b-9c85941b0db9"
+
+[[look]]
+id = 39
+name = "woman_czech_28"
+head = "f_head_033"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_002_dark_brown"
+soul = "acfe52a8-7cf0-5944-99d1-29fb4e2a0124"
+token = "5593a9a1-5621-5a7e-b7fb-0cdc1565eb56"
+
+[[look]]
+id = 40
+name = "woman_czech_29"
+head = "f_head_034"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_003_blonde"
+soul = "0d4d4d67-86bf-510f-9799-b656bbc35ae3"
+token = "b5fe71ed-5a78-5902-bd00-bc66857b7125"
+
+[[look]]
+id = 41
+name = "woman_czech_30"
+head = "f_head_035"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_04"
+hair = "f_hair_006_dark_brown"
+soul = "c4d9a623-8eef-573f-9842-653d0b469d59"
+token = "cdd5af12-45fa-5246-b923-384e1fa4d56f"
+
+[[look]]
+id = 42
+name = "woman_romani_5"
+head = "f_head_036"
+ethnicity = "romani"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_007_dark_ginger"
+soul = "9da34719-fca4-50ec-bf92-31f590729fdc"
+token = "2651bc31-10db-5f83-abd7-56d0aa4816f1"
+
+[[look]]
+id = 43
+name = "woman_czech_31"
+head = "f_head_037"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_006_dark_brown"
+soul = "27d67f77-6acb-590b-883a-b3f51e651bf8"
+token = "e5783060-1c44-531f-9f71-88d027356ae8"
+
+[[look]]
+id = 44
+name = "woman_czech_32"
+head = "f_head_038"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_006_dark_brown"
+soul = "23b232fa-0ec7-5a9d-aafd-6fb3539ce0a8"
+token = "3b711886-392f-599f-a97b-3feb6b393ab3"
+
+[[look]]
+id = 45
+name = "woman_czech_33"
+head = "f_head_039"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_002_grey"
+soul = "a2d8d015-8d06-56e0-977e-3a3cd58b7112"
+token = "f6134e53-1f96-5a83-bb23-465e88e865d6"
+
+[[look]]
+id = 46
+name = "woman_czech_34"
+head = "f_head_040"
+ethnicity = "czech"
+age = "young"
+villager = true
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "ddea7ffb-c2bf-5515-9570-3f1a4361fa5d"
+token = "4443f00f-68ea-5fe2-ac18-fa1203ece241"
+
+[[look]]
+id = 47
+name = "woman_romani_6"
+head = "f_head_041"
+ethnicity = "romani"
+age = "young"
+villager = true
+body = "f_body_tan_03"
+hair = "f_hair_007_black"
+soul = "b76a0e00-c87e-56a4-8f14-dfbfbdf40430"
+token = "738980aa-8427-5792-8816-792cefdbbf95"
+
+[[look]]
+id = 48
+name = "woman_romani_7"
+head = "f_head_042"
+ethnicity = "romani"
+age = "old"
+villager = true
+body = "f_body_old_roma"
+hair = "f_hair_002_dark_brown"
+soul = "8351c631-01df-58d9-b773-efd039c3668b"
+token = "1096e4d5-ec0c-5e35-9f9e-3e21a87e9cfb"
+
+[[look]]
+id = 49
+name = "woman_czech_35"
+head = "f_head_043"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_006_dark_grey"
+soul = "834866da-4bf6-57c5-932d-6e5e39899816"
+token = "53bd0b3e-d67c-54ad-97a7-b7bd5d699498"
+
+[[look]]
+id = 50
+name = "woman_czech_36"
+head = "f_head_044"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_002_grey"
+soul = "617c1eca-5a44-54d9-9c72-876c46aba5df"
+token = "76229eaf-bcf9-5a69-9f52-91abd87b398c"
+
+[[look]]
+id = 51
+name = "woman_czech_37"
+head = "f_head_045"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_004_black"
+soul = "e02e1c5a-4013-53af-b23f-730d45cdc657"
+token = "65fa15c7-b4c5-5851-89ce-e201e9bd1ecb"
+
+[[look]]
+id = 52
+name = "woman_romani_8"
+head = "f_head_046"
+ethnicity = "romani"
+age = "old"
+villager = true
+body = "f_body_old_roma"
+hair = "f_hair_006_black"
+soul = "b0fde433-a6d3-5e2a-9ddb-084b2b0ecd03"
+token = "362cd0d2-96d0-5e47-884f-89c7c5a0d729"
+
+[[look]]
+id = 53
+name = "woman_czech_38"
+head = "f_head_047"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_001_dark_grey"
+soul = "26786dd9-26d0-5777-b928-ee5e810c522a"
+token = "753a1b08-c327-5b7d-af19-49abfb9e6c86"
+
+[[look]]
+id = 54
+name = "woman_czech_39"
+head = "f_head_048"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_002_grey"
+soul = "20c5228c-e8c7-57a2-8774-8d4c08a22e09"
+token = "ea20e6d2-ed79-5806-9e6c-d99080fda61b"
+
+[[look]]
+id = 55
+name = "woman_czech_40"
+head = "f_head_049"
+ethnicity = "czech"
+age = "old"
+villager = true
+body = "f_body_old_pale_01"
+hair = "f_hair_004_dark_brown"
+soul = "bd64cce2-4f02-530b-a6a7-e477adab7da4"
+token = "8f651ed0-8601-5dfe-9020-75ed9aca73f0"
+
+[[look]]
+id = 124
+name = "ml_ff_head_katherine"
+head = "f_head_katherine"
+ethnicity = ""
+age = "young"
+villager = false
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "ba0f2f1a-ff10-520c-bd4b-890f31fd06d1"
+token = "0fb8b0bf-763b-5a31-94fa-18f12313bc73"
+
+[[look]]
+id = 125
+name = "ml_ff_head_magdalena"
+head = "f_head_magdalena"
+ethnicity = ""
+age = "young"
+villager = false
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "38f2d17a-d17a-5d17-9b31-0215d9875a3e"
+token = "e8c54f61-2684-57a4-b1f3-fc4924bfc9dc"
+
+[[look]]
+id = 126
+name = "ml_ff_head_miriam"
+head = "f_head_miriam"
+ethnicity = ""
+age = "young"
+villager = false
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "36f53fed-cc0e-5b8d-bd1a-243de14f09ad"
+token = "15014c44-b61e-5e6c-b7d4-478552492f21"
+
+[[look]]
+id = 127
+name = "ml_ff_head_mother"
+head = "f_head_mother"
+ethnicity = ""
+age = "young"
+villager = false
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "9dd45182-59df-5d6c-a2b7-37b4d314b07a"
+token = "759febb4-b652-5293-b3b9-b188f15533b5"
+
+[[look]]
+id = 128
+name = "ml_ff_head_rose"
+head = "f_head_rose"
+ethnicity = ""
+age = "young"
+villager = false
+body = "f_body_pale_02"
+hair = "f_hair_002_dark_brown"
+soul = "02c469ef-7caa-5137-a86e-e64b4eb1903d"
+token = "4ac36044-a976-54ff-8a9f-d08dba4ae82e"

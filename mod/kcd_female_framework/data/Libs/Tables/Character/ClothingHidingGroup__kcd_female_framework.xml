@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<ClothingHidingGroups version="2">
+		<HidingGroup Name="ml_ff_Arms" EquipmentPart="arms" Index="5" />
+		<HidingGroup Name="ml_ff_Thighs" EquipmentPart="legs" Index="4" />
+		<HidingGroup Name="ml_ff_DressSkirt" EquipmentPart="legs" Index="3" />
+	</ClothingHidingGroups>
+</database>

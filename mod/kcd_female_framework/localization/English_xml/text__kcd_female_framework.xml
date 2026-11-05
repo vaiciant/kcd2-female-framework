@@ -1,0 +1,34 @@
+<Table>
+  <Row><Cell>ui_nm_ml_ff_state</Cell><Cell>ui_nm_ml_ff_state</Cell><Cell>Keepsake of a new look</Cell></Row>
+  <Row><Cell>ui_in_ml_ff_state</Cell><Cell>ui_in_ml_ff_state</Cell><Cell>KCD2 Female Framework keeps its state here. Do not sell, drop or store it.</Cell></Row>
+  <Row><Cell>ml_ff_changing_look</Cell><Cell>ml_ff_changing_look</Cell><Cell>Changing the look...</Cell></Row>
+  <Row><Cell>ml_ff_stripped_torso</Cell><Cell>ml_ff_stripped_torso</Cell><Cell>Men's torso clothes taken off: they don't go with a dress. Headgear and shoes do.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_gloves</Cell><Cell>ml_ff_stripped_gloves</Cell><Cell>Men's gloves taken off: they don't go with a dress. Headgear and shoes do.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_legs</Cell><Cell>ml_ff_stripped_legs</Cell><Cell>Trousers and leg armor taken off: they don't go with a dress. Headgear and shoes do.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_shoes</Cell><Cell>ml_ff_stripped_shoes</Cell><Cell>Women's shoes taken off: they don't go with men's clothes. Men's shoes do.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_cap</Cell><Cell>ml_ff_stripped_cap</Cell><Cell>Women's headwear taken off: it doesn't go with men's clothes. Men's headgear does.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_not_men</Cell><Cell>ml_ff_stripped_not_men</Cell><Cell>Women's clothes taken off: a man can't wear dresses, women's shoes or women's headwear.</Cell></Row>
+  <Row><Cell>ml_ff_no_way_back</Cell><Cell>ml_ff_no_way_back</Cell><Cell>There is no way back to Henry yet: a woman stays a woman in this save.</Cell></Row>
+  <Row><Cell>ml_ff_barber_no_money</Cell><Cell>ml_ff_barber_no_money</Cell><Cell>You don't have enough coin for that.</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_select_style</Cell><Cell>ui_ml_ff_hair_select_style</Cell><Cell>Select hairstyle</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_select_color</Cell><Cell>ui_ml_ff_hair_select_color</Cell><Cell>Select color</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_1</Cell><Cell>ui_ml_ff_hair_style_1</Cell><Cell>Side rolls</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_2</Cell><Cell>ui_ml_ff_hair_style_2</Cell><Cell>Braided crown</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_3</Cell><Cell>ui_ml_ff_hair_style_3</Cell><Cell>Twin braids</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_4</Cell><Cell>ui_ml_ff_hair_style_4</Cell><Cell>Long and loose</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_5</Cell><Cell>ui_ml_ff_hair_style_5</Cell><Cell>Low bun</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_6</Cell><Cell>ui_ml_ff_hair_style_6</Cell><Cell>Low ponytail</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_7</Cell><Cell>ui_ml_ff_hair_style_7</Cell><Cell>Side ponytail</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_1</Cell><Cell>ui_ml_ff_hair_color_1</Cell><Cell>Dark brown</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_2</Cell><Cell>ui_ml_ff_hair_color_2</Cell><Cell>Black</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_3</Cell><Cell>ui_ml_ff_hair_color_3</Cell><Cell>Light brown</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_4</Cell><Cell>ui_ml_ff_hair_color_4</Cell><Cell>Blonde</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_5</Cell><Cell>ui_ml_ff_hair_color_5</Cell><Cell>Ginger</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_6</Cell><Cell>ui_ml_ff_hair_color_6</Cell><Cell>Dark ginger</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_7</Cell><Cell>ui_ml_ff_hair_color_7</Cell><Cell>Dark grey</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_8</Cell><Cell>ui_ml_ff_hair_color_8</Cell><Cell>Grey</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_9</Cell><Cell>ui_ml_ff_hair_color_9</Cell><Cell>White</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_accept</Cell><Cell>ui_ml_ff_hair_accept</Cell><Cell>I'll take this one</Cell></Row>
+  <Row><Cell>ui_ml_ff_back</Cell><Cell>ui_ml_ff_back</Cell><Cell>Back</Cell></Row>
+  <Row><Cell>ui_ml_ff_never_mind</Cell><Cell>ui_ml_ff_never_mind</Cell><Cell>Never mind</Cell></Row>
+</Table>

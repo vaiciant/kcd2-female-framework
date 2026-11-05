@@ -1,0 +1,34 @@
+<Table>
+  <Row><Cell>ui_nm_ml_ff_state</Cell><Cell>ui_nm_ml_ff_state</Cell><Cell>Recuerdo de un nuevo aspecto</Cell></Row>
+  <Row><Cell>ui_in_ml_ff_state</Cell><Cell>ui_in_ml_ff_state</Cell><Cell>KCD2 Female Framework guarda aquí su estado. No lo vendas, tires ni guardes en un cofre.</Cell></Row>
+  <Row><Cell>ml_ff_changing_look</Cell><Cell>ml_ff_changing_look</Cell><Cell>Cambiando el aspecto...</Cell></Row>
+  <Row><Cell>ml_ff_stripped_torso</Cell><Cell>ml_ff_stripped_torso</Cell><Cell>Ropa de torso de hombre retirada: no va con vestido. Lo de cabeza y los zapatos sí.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_gloves</Cell><Cell>ml_ff_stripped_gloves</Cell><Cell>Guantes de hombre retirados: no van con vestido. Lo de cabeza y los zapatos sí.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_legs</Cell><Cell>ml_ff_stripped_legs</Cell><Cell>Pantalones y armadura de piernas retirados: no van con vestido. Lo de cabeza y los zapatos sí.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_shoes</Cell><Cell>ml_ff_stripped_shoes</Cell><Cell>Zapatos de mujer retirados: no van con ropa de hombre. Los zapatos de hombre sí.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_cap</Cell><Cell>ml_ff_stripped_cap</Cell><Cell>Prenda de cabeza de mujer retirada: no va con ropa de hombre. Las de hombre sí.</Cell></Row>
+  <Row><Cell>ml_ff_stripped_not_men</Cell><Cell>ml_ff_stripped_not_men</Cell><Cell>Ropa de mujer retirada: un hombre no puede usar vestidos, zapatos ni prendas de cabeza de mujer.</Cell></Row>
+  <Row><Cell>ml_ff_no_way_back</Cell><Cell>ml_ff_no_way_back</Cell><Cell>Todavía no se puede volver a Henry: en esta partida, la mujer sigue siendo mujer.</Cell></Row>
+  <Row><Cell>ml_ff_barber_no_money</Cell><Cell>ml_ff_barber_no_money</Cell><Cell>No te alcanza para eso.</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_select_style</Cell><Cell>ui_ml_ff_hair_select_style</Cell><Cell>Elegir peinado</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_select_color</Cell><Cell>ui_ml_ff_hair_select_color</Cell><Cell>Elegir color</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_1</Cell><Cell>ui_ml_ff_hair_style_1</Cell><Cell>Rodetes</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_2</Cell><Cell>ui_ml_ff_hair_style_2</Cell><Cell>Corona de trenzas</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_3</Cell><Cell>ui_ml_ff_hair_style_3</Cell><Cell>Dos trenzas</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_4</Cell><Cell>ui_ml_ff_hair_style_4</Cell><Cell>Largo suelto</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_5</Cell><Cell>ui_ml_ff_hair_style_5</Cell><Cell>Moño bajo</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_6</Cell><Cell>ui_ml_ff_hair_style_6</Cell><Cell>Coleta baja</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_style_7</Cell><Cell>ui_ml_ff_hair_style_7</Cell><Cell>Coleta de lado</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_1</Cell><Cell>ui_ml_ff_hair_color_1</Cell><Cell>Castaño oscuro</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_2</Cell><Cell>ui_ml_ff_hair_color_2</Cell><Cell>Negro</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_3</Cell><Cell>ui_ml_ff_hair_color_3</Cell><Cell>Castaño claro</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_4</Cell><Cell>ui_ml_ff_hair_color_4</Cell><Cell>Rubio</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_5</Cell><Cell>ui_ml_ff_hair_color_5</Cell><Cell>Pelirrojo</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_6</Cell><Cell>ui_ml_ff_hair_color_6</Cell><Cell>Cobrizo</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_7</Cell><Cell>ui_ml_ff_hair_color_7</Cell><Cell>Gris oscuro</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_8</Cell><Cell>ui_ml_ff_hair_color_8</Cell><Cell>Gris</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_color_9</Cell><Cell>ui_ml_ff_hair_color_9</Cell><Cell>Blanco</Cell></Row>
+  <Row><Cell>ui_ml_ff_hair_accept</Cell><Cell>ui_ml_ff_hair_accept</Cell><Cell>Me quedo con este</Cell></Row>
+  <Row><Cell>ui_ml_ff_back</Cell><Cell>ui_ml_ff_back</Cell><Cell>Atrás</Cell></Row>
+  <Row><Cell>ui_ml_ff_never_mind</Cell><Cell>ui_ml_ff_never_mind</Cell><Cell>Déjalo</Cell></Row>
+</Table>

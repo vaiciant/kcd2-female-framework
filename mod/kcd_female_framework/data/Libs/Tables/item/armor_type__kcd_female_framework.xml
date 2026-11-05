@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<armor_types version="1">
+		<armor_type Id="68" Name="F_SimpleDress" Surface="mat_fabric" EquipBuffId="9397bea8-84f5-51cb-b442-22ab15c638d1" />
+		<armor_type Id="69" Name="F_Smock" Surface="mat_fabric" EquipBuffId="9397bea8-84f5-51cb-b442-22ab15c638d1" />
+		<armor_type Id="65" Name="F_Shoes" Surface="mat_leather" EquipBuffId="5e7cbc92-adc2-512f-885b-32831441291f" />
+		<armor_type Id="62" Name="F_Hood" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="63" Name="F_Bonnet" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="64" Name="F_CapAndWimple" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="72" Name="F_Hat" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="73" Name="F_HoodOpen" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="74" Name="F_Veil" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="75" Name="F_VeilAndWimple" Surface="mat_fabric" EquipBuffId="e8ececff-2d11-5b27-8201-1bdd983d48af" />
+		<armor_type Id="16" Name="CoifMail" Surface="mat_chainmail" SurfacePriorityMultiplier="2.5" EquipBuffId="98844626-e6e9-5fce-b92e-dd7cc4802df6" />
+	</armor_types>
+</database>
