@@ -13,7 +13,7 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 | `ml_ff_look <look> [true]` | Changes her head and her body to that look. Her hair stays | `FemaleCore.SetLook(look, noScreen)` |
 | `ml_ff_random [true]` | Gives her a look at random among all but hers, with the hair it starts with | `FemaleCore.SetRandomLook(noScreen)` |
 | `ml_ff_hair <style> <color>` | Gives her a hair style, from 1 to 7, and a color, by name or by number from 1 to 9, like `ml_ff_hair 2 blonde` | `FemaleCore.SetHair(style, color)` |
-| `ml_ff_henry` | Going back to Henry is not possible yet: it only says so, in the middle of the screen | `FemaleCore.Henry()` |
+| `ml_ff_henry [true]` | Turns her back into Henry: his head, body and hair, with no beard. Her clothes come off, with a notice | `FemaleCore.Henry(noScreen)` |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show | `FemaleCore.Refresh()` |
 
 **Colors:** `dark_brown`, `black`, `light_brown`, `blonde`, `ginger`, `dark_ginger`, `dark_grey`, `grey` and `white`, numbered from 1 to 9 in that order. Style 3 has only the first six.
@@ -30,9 +30,9 @@ From Lua it is the last argument, `noScreen`. Left out, it is `false`, and the s
 
 ## Going back to Henry
 
-**Not possible yet.** A woman cannot become Henry again: in that save she stays a woman. `ml_ff_henry` changes nothing, and says so in the middle of the screen.
+`ml_ff_henry` turns her back into Henry, in the same save, under the black screen. He gets his own head and body, his usual hair and no beard, not the ones he had before. Women's clothes come off, with a notice, as a man cannot wear them. `ml_ff_female` makes him a woman again at any time.
 
-Keep a save from before `ml_ff_female` to play on with Henry.
+His head and body stay on as a look of the framework while he is a man. A look of KCD2 Male Framework 0.2.0 or later takes their place, and `ml_mf_henry` puts them back.
 
 ## When the commands do nothing
 
@@ -43,11 +43,10 @@ Each command writes what it did in the console and in `kcd.log`, in lines that s
 
 ## Limits
 
-- **No way back to Henry** yet, as above.
 - **At the barber,** *Give me a haircut* gives her a woman's haircut. She never gets a beard.
-- **Removing the mod** from a save where Henry is a woman is not supported. Keep a save from before `ml_ff_female`.
+- **Removing the mod** from a save where Henry is or was a woman is not supported: after `ml_ff_henry`, his face comes from the framework. Keep a save from before `ml_ff_female`.
 - **For a moment after a load,** the framework asks for the look in use, and two small tokens may show in the inventory for a second.
 
 ## With KCD2 Male Framework
 
-After `ml_ff_female`, the `ml_mf_` commands of [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework/blob/main/mod/kcd_male_framework/COMMANDS.md) do nothing, so they do not put a man's face on her.
+After `ml_ff_female`, the `ml_mf_` commands of [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework/blob/main/mod/kcd_male_framework/COMMANDS.md) do nothing, so they do not put a man's face on her. After `ml_ff_henry` they work again. Use version 0.2.0 or later of both.

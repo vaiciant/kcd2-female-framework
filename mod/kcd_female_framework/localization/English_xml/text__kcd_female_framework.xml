@@ -8,7 +8,6 @@
   <Row><Cell>ml_ff_stripped_shoes</Cell><Cell>ml_ff_stripped_shoes</Cell><Cell>Women's shoes taken off: they don't go with men's clothes. Men's shoes do.</Cell></Row>
   <Row><Cell>ml_ff_stripped_cap</Cell><Cell>ml_ff_stripped_cap</Cell><Cell>Women's headwear taken off: it doesn't go with men's clothes. Men's headgear does.</Cell></Row>
   <Row><Cell>ml_ff_stripped_not_men</Cell><Cell>ml_ff_stripped_not_men</Cell><Cell>Women's clothes taken off: a man can't wear dresses, women's shoes or women's headwear.</Cell></Row>
-  <Row><Cell>ml_ff_no_way_back</Cell><Cell>ml_ff_no_way_back</Cell><Cell>There is no way back to Henry yet: a woman stays a woman in this save.</Cell></Row>
   <Row><Cell>ml_ff_barber_no_money</Cell><Cell>ml_ff_barber_no_money</Cell><Cell>You don't have enough coin for that.</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_style</Cell><Cell>ui_ml_ff_hair_select_style</Cell><Cell>Select hairstyle</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_color</Cell><Cell>ui_ml_ff_hair_select_color</Cell><Cell>Select color</Cell></Row>

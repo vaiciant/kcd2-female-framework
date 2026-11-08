@@ -18,7 +18,7 @@ end
 System.AddCCommand("ml_ff_looks", "FemaleCore.PrintLooks()", "Lists the women's looks of KCD2 Female Framework: name, people, age and id")
 System.AddCCommand("ml_ff_female", "FemaleCore.FemaleCommand(%line)", "Turns Henry into a woman, with a look or the first one, like ml_ff_female woman_czech_2. A last word true leaves out the black screen")
 System.AddCCommand("ml_ff_look", "FemaleCore.LookCommand(%line)", "Gives her the head and body of a look, by name or id, like ml_ff_look woman_romani_3. A last word true leaves out the black screen")
-System.AddCCommand("ml_ff_henry", "FemaleCore.Henry()", "Pending: a woman cannot become Henry again yet, and this only says so")
+System.AddCCommand("ml_ff_henry", "FemaleCore.HenryCommand(%line)", "Turns her back into Henry: his head, body and hair, with no beard. A last word true leaves out the black screen")
 System.AddCCommand("ml_ff_random", "FemaleCore.RandomCommand(%line)", "Gives her a look at random among all, with the hair it starts with. A last word true leaves out the black screen")
 System.AddCCommand("ml_ff_hair", "FemaleCore.HairCommand(%line)", "Gives her a hair style from 1 to 7 and a color, like ml_ff_hair 2 blonde")
 System.AddCCommand("ml_ff_refresh", "FemaleCore.RefreshCommand()", "Rebuilds the model, for when her look does not show")

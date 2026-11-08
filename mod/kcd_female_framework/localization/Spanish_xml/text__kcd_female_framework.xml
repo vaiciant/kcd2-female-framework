@@ -8,7 +8,6 @@
   <Row><Cell>ml_ff_stripped_shoes</Cell><Cell>ml_ff_stripped_shoes</Cell><Cell>Zapatos de mujer retirados: no van con ropa de hombre. Los zapatos de hombre sí.</Cell></Row>
   <Row><Cell>ml_ff_stripped_cap</Cell><Cell>ml_ff_stripped_cap</Cell><Cell>Prenda de cabeza de mujer retirada: no va con ropa de hombre. Las de hombre sí.</Cell></Row>
   <Row><Cell>ml_ff_stripped_not_men</Cell><Cell>ml_ff_stripped_not_men</Cell><Cell>Ropa de mujer retirada: un hombre no puede usar vestidos, zapatos ni prendas de cabeza de mujer.</Cell></Row>
-  <Row><Cell>ml_ff_no_way_back</Cell><Cell>ml_ff_no_way_back</Cell><Cell>Todavía no se puede volver a Henry: en esta partida, la mujer sigue siendo mujer.</Cell></Row>
   <Row><Cell>ml_ff_barber_no_money</Cell><Cell>ml_ff_barber_no_money</Cell><Cell>No te alcanza para eso.</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_style</Cell><Cell>ui_ml_ff_hair_select_style</Cell><Cell>Elegir peinado</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_color</Cell><Cell>ui_ml_ff_hair_select_color</Cell><Cell>Elegir color</Cell></Row>

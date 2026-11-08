@@ -1,14 +1,16 @@
 -- =============================================================================
 -- FemaleCore: the API of KCD2 Female Framework (MODDING.md). It turns Henry himself into a
--- woman and changes her look, with no other mod. Head, body and underwear are overrides of
--- ml_ff_face.xml, picked with a token given to Henry, and Skald takes off the clothes that
--- do not go together. Her hair goes on his soul with the native Barber object. The model
--- only shows the overrides after a rebuild, which two real hair changes force: a woman has
--- no beard to change. Women's clothes that reach her inventory turn into copies she can wear.
+-- woman, changes her look and turns her back into Henry, with no other mod. Head, body and
+-- underwear are overrides of ml_ff_face.xml, picked with a token given to Henry, and Skald
+-- takes off the clothes that do not go together. Her hair goes on his soul with the native
+-- Barber object. The model only shows the overrides after a rebuild, which two real hair
+-- changes force: a woman has no beard to change. Women's clothes that reach her inventory
+-- turn into copies she can wear.
 -- =============================================================================
 FemaleCore = FemaleCore or {}
 
-FemaleCore.API = 1
+-- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new.
+FemaleCore.API = 2
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -17,6 +19,11 @@ FemaleCore.TICK_MS = 1000
 FemaleCore.NOTICE_SECONDS = 6
 -- Every style has them.
 FemaleCore.REBUILD_HAIRS = { "ml_ff_hair_002_black", "ml_ff_hair_002_blonde" }
+-- The same, for Henry back as a man: men's hair. A beard would be on her head until his shows.
+FemaleCore.HENRY_REBUILD_HAIRS = { "m_hair_005_black", "m_hair_005_dark_brown" }
+-- Henry's own hair and no beard, as KCD2 Male Framework gives them back.
+FemaleCore.HENRY_HAIR = "m_hair_henry"
+FemaleCore.HENRY_BEARD = "m_beard_00"
 -- A beard on the head of a woman has crashed the game. This one has no mesh, so it fits any head.
 FemaleCore.SAFE_BEARD = "m_beard_00"
 -- The hair styles, each with how many of HAIR_COLORS it has: the game has no grey for style 3.
@@ -130,18 +137,6 @@ local function showScreen(noScreen)
 	end)
 end
 
--- The same text in the middle of the screen, without the black.
-FemaleCore.TEXT_SECONDS = 10
-
-local function centerText(text)
-	hud("SetNarrativeSubtitles", text, TEXT_LAYOUT, TEXT_FADE_MS)
-	Script.SetTimer(FemaleCore.TEXT_SECONDS * 1000, function()
-		if not screen.up then
-			hud("HideNarrativeSubtitles", TEXT_FADE_MS)
-		end
-	end)
-end
-
 -- State
 
 -- The id of the look she wears. 0 while Henry is a man. Skald keeps it in the save, and nothing shows in the inventory:
@@ -160,10 +155,16 @@ local function setCurrent(id)
 	FemaleCore.current = id
 end
 
+-- After ml_ff_henry his head and body stay on as a look of the graph: a Commit with them in view did not give his head
+-- back to his soul after hers. wasWoman says that Henry was a woman in this save.
+local henryKept = false
+local wasWoman = false
+
 local function count(class)
 	return try("token", function() return player.inventory:GetCountOfClass(class) end) or 0
 end
 
+-- Skald answers with the id of the look, plus HENRY_KEPT_ANSWER and WAS_WOMAN_ANSWER when those are on.
 local function askCurrent(after)
 	sendToken(FemaleCore.ASK_TOKEN)
 	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
@@ -171,6 +172,16 @@ local function askCurrent(after)
 		if id > 0 then
 			try("token", function() player.inventory:DeleteItemOfClass(FemaleCore.ANSWER_ITEM, id) end)
 		end
+		wasWoman = id >= FemaleCore.WAS_WOMAN_ANSWER
+		if wasWoman then
+			id = id - FemaleCore.WAS_WOMAN_ANSWER
+		end
+		henryKept = id >= FemaleCore.HENRY_KEPT_ANSWER
+		if henryKept then
+			id = id - FemaleCore.HENRY_KEPT_ANSWER
+		end
+		-- A save where she became a woman with an older version does not have it on yet.
+		wasWoman = wasWoman or id > 0
 		setCurrent(id)
 		after(id)
 	end)
@@ -192,14 +203,16 @@ local function withBarber(label, fn)
 end
 
 -- Two hair changes, in case one is the hair in use, and back: the model rebuilds and shows the overrides, with her hair.
+-- With Henry back as a man, men's hair.
 local function rebuild(after)
+	local hairs = FemaleCore.WomanInUse() and FemaleCore.REBUILD_HAIRS or FemaleCore.HENRY_REBUILD_HAIRS
 	local barber = try("rebuild", function()
 		local object = Barber:Create(player.soul)
-		object:TryHair(FemaleCore.REBUILD_HAIRS[1])
+		object:TryHair(hairs[1])
 		return object
 	end)
 	Script.SetTimer(FemaleCore.REBUILD_MS, function()
-		try("rebuild", function() barber:TryHair(FemaleCore.REBUILD_HAIRS[2]) end)
+		try("rebuild", function() barber:TryHair(hairs[2]) end)
 		Script.SetTimer(FemaleCore.REBUILD_MS, function()
 			try("rebuild", function()
 				barber:Revert()
@@ -346,7 +359,7 @@ function FemaleCore.Hair()
 	return 2, 1, false
 end
 
--- Henry becomes a woman, with that look: a name or an id. Without one, the first look. She stays one until Henry(true).
+-- Henry becomes a woman, with that look: a name or an id. Without one, the first look. She stays one until Henry().
 function FemaleCore.BecomeWoman(name, noScreen)
 	if notHenry() then
 		return false
@@ -375,8 +388,11 @@ function FemaleCore.BecomeWoman(name, noScreen)
 		barber:TryHair(hairName(look.style, look.color))
 	end)
 	FemaleCore.RememberHair(look.style, look.color)
+	-- Her token also takes off his head and body, if they were kept on after ml_ff_henry.
 	sendToken(look.token)
 	setCurrent(look.id)
+	henryKept = false
+	wasWoman = true
 	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
 		rebuild(function()
 			startTick()
@@ -544,15 +560,65 @@ local function sendPrice()
 	FemaleCore.Log("barber price:", low and "5 groschen, with Realish Economy" or "50 groschen")
 end
 
-FemaleCore.NO_WAY_BACK_TEXT = "@ml_ff_no_way_back"
+-- She becomes Henry again: his head, body and hair, with no beard. His head and body go on as one more look and stay
+-- on, as long as he is a man. KCD2 Male Framework gives his face back with a Commit made with them in view, but after a
+-- woman's head that left her face with his hair, so here they are not taken off. The
+-- Commit is still made, for his hair and beard. Her clothes come off by the rules of the graph, with a notice.
+function FemaleCore.Henry(noScreen)
+	if notHenry() then
+		return false
+	end
+	if not FemaleCore.IsWoman() then
+		FemaleCore.Log("Henry is not a woman: nothing to do")
+		return false
+	end
+	FemaleCore.Log("back to Henry: his head and body go on as a look, and stay on")
+	showScreen(noScreen)
+	sendToken(FemaleCore.RESET_TOKEN)
+	setCurrent(0)
+	hair = nil
+	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
+		sendToken(FemaleCore.HENRY_TOKEN)
+		henryKept = true
+		wasWoman = true
+		Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
+			rebuild(function()
+				withBarber("henry parts", function(barber)
+					barber:TryBeard(FemaleCore.HENRY_BEARD)
+					barber:TryHair(FemaleCore.HENRY_HAIR)
+				end)
+				FemaleCore.Log("Henry is back")
+				hideScreen()
+			end)
+		end)
+	end)
+	return true
+end
 
--- Pending: a woman cannot become Henry again yet. Showing his head and body as one more look and committing them, as KCD2
--- Male Framework does, left her face with his hair. Committing real beard changes with his head
--- in view did not give it back either. Until a way is found, it only says so.
-function FemaleCore.Henry()
-	FemaleCore.Log("no way back to Henry yet: a woman stays a woman")
-	centerText(FemaleCore.NO_WAY_BACK_TEXT)
-	return false
+-- For KCD2 Male Framework, before it puts on a look of its own: Henry's head and body, kept on after ml_ff_henry, come
+-- off, so they do not cover it.
+function FemaleCore.TakeOffHenry()
+	if henryKept then
+		FemaleCore.Log("his head and body come off, for a look of KCD2 Male Framework")
+		sendToken(FemaleCore.RESET_TOKEN)
+		henryKept = false
+	end
+end
+
+-- For KCD2 Male Framework, when it gives Henry his own face back: if he was a woman in this save, his head and body go
+-- on again, because hers may still be his soul's own. Its last rebuild changes the beard, and a beard on her head has
+-- crashed the game.
+function FemaleCore.KeepHenry()
+	if wasWoman and not henryKept and not FemaleCore.IsWoman() then
+		FemaleCore.Log("his head and body go on again")
+		sendToken(FemaleCore.HENRY_TOKEN)
+		henryKept = true
+	end
+end
+
+-- Whether Henry's head and body are on as a look of the framework, after ml_ff_henry.
+function FemaleCore.HenryKept()
+	return henryKept
 end
 
 -- Rebuilds the model with what she has now, for when her look does not show.
@@ -571,6 +637,8 @@ function FemaleCore:OnGameplayStarted()
 	hideScreen()
 	-- What memory has may belong to the save before.
 	setCurrent(0)
+	henryKept = false
+	wasWoman = false
 	hair = nil
 	Script.SetTimer(FemaleCore.LOAD_WAIT_MS, function()
 		local old = count(FemaleCore.OLD_STATE_ITEM)
@@ -579,8 +647,8 @@ function FemaleCore:OnGameplayStarted()
 		end
 		sendPrice()
 		askCurrent(function(current)
-			FemaleCore.Log("look on load", current)
-			if current > 0 then
+			FemaleCore.Log("look on load", current, "- his head kept on:", henryKept, "- was a woman:", wasWoman)
+			if current > 0 or henryKept then
 				rebuild()
 			end
 			startTick()
@@ -656,6 +724,11 @@ end
 function FemaleCore.HairCommand(line)
 	local list = words(line)
 	inGame("ml_ff_hair", function() FemaleCore.SetHair(list[1], list[2]) end)
+end
+
+function FemaleCore.HenryCommand(line)
+	local noScreen = noScreenWord(words(line))
+	inGame("ml_ff_henry", function() FemaleCore.Henry(noScreen) end)
 end
 
 function FemaleCore.RefreshCommand()

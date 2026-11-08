@@ -32,8 +32,19 @@ It takes a few seconds, under a black screen with a line that says so. If your m
 
 She keeps Henry's voice and lines, and the story still calls her Henry. A mod that wants a different person, with her own name and things, starts a new character, as KCD2 Life does (see "If your mod plays its own character").
 
-> **No way back to Henry, for now.** A woman cannot become Henry again yet: `ml_ff_henry`, or `FemaleCore.Henry()`, only
-> says so. Make your mod save before, or tell your players to.
+## Back to Henry
+
+```text
+ml_ff_henry
+```
+
+```lua
+FemaleCore.Henry()
+```
+
+She becomes Henry again, in the same save: his head and body, his usual hair and no beard. Her clothes come off, with a notice. It takes the same `noScreen` as the other calls. His head and body stay on as a look of the framework while he is a man, because after a woman's head, `Barber:Commit` did not give him his own back.
+
+Removing the framework from a save where Henry was ever a woman is not supported. If your mod may be removed with it, make it save before `BecomeWoman`, or tell your players to.
 
 ## Changing her look
 
@@ -88,7 +99,7 @@ Use `look.villager` and `look.age` to offer only the faces that suit your story,
 Every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, and its people. To add a face, even one from another mod:
 
 1. Add an entry with the next `id` and the name of its head. Without `ethnicity`, it shows with its internal name.
-2. Run `tools/generate_models.py` and then `tools/generate_women.py`, from the root of the repository. They write the rest: the model, the token, the copy of the head fitted to the player's skeleton.
+2. Run `tools/generate_models.py` and then `tools/generate_women.py`, from the root of the repository. They write the rest: the model, the token, the copy of the head fitted to the player's skeleton, with its face poses.
 
 The generator also adds by itself every face of the game that fits. It never changes an entry that is already there.
 
@@ -127,7 +138,16 @@ After every load and every map, also say whether that character is a woman: `Fem
 
 ## With KCD2 Male Framework
 
-They work alone or together. [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework) gives Henry another man's face with `ml_mf_look`, and `ml_mf_henry` brings his own back. While Henry is a woman, its commands do nothing, so they do not put a man's face on her.
+They work alone or together. [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework) gives Henry another man's face with `ml_mf_look`, and `ml_mf_henry` brings his own back. While Henry is a woman, its commands do nothing, so they do not put a man's face on her. Use version 0.2.0 or later of both.
+
+If your mod puts a head of its own on Henry after he was a woman, do as KCD2 Male Framework does:
+
+```lua
+FemaleCore.TakeOffHenry()   -- before your head goes on: the framework's look of Henry comes off
+FemaleCore.KeepHenry()      -- when Henry gets his own face back: the framework puts its look of him on again
+```
+
+Both do nothing when they are not needed, so they are safe to call every time.
 
 ## Credit
 
