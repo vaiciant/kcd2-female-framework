@@ -4,6 +4,9 @@ FemaleCore.RESET_TOKEN = "8cfa0695-dd99-502c-a3de-e8ae4e4b057d"
 FemaleCore.HENRY_TOKEN = "6f5cb3b6-3075-5da4-a3cf-af1059a332ae"
 FemaleCore.ASK_TOKEN = "80273b76-b1dc-5037-a03f-3b43e5799575"
 FemaleCore.ANSWER_ITEM = "66726bee-c42a-53d9-851f-9bb07d8bc27f"
+-- Added to the id of the look in the answer: Henry's head and body kept on, and that he was a woman in this save.
+FemaleCore.HENRY_KEPT_ANSWER = 500
+FemaleCore.WAS_WOMAN_ANSWER = 1000
 -- Older saves kept the look in its amount: it is only taken away.
 FemaleCore.OLD_STATE_ITEM = "cfa869dd-ab2e-556e-8a1b-df7b477d7b33"
 -- KCD2 Life gives it to Henry when SwitchPlayer ends: its new character is in use.

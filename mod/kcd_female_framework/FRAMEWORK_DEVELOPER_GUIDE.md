@@ -34,10 +34,11 @@ It gives the player a woman's head, body, hair and clothes, while keeping combat
 | It contains | It does not contain |
 |---|---|
 | 55 looks: 50 generic women's faces and 5 named women of the story | Jobs, wages, origins, reputation or any gameplay loop |
-| Women's meshes fitted to the male skeleton | New animations |
+| Women's meshes fitted to the male skeleton, with faces that move as a man's do | New animations |
 | Copies of the 315 women's garments, which a male soul can wear | A woman's voice: the voice stays Henry's |
-| The clothing rules: what can be worn with what | A moving mouth on women's heads |
-| 7 hair styles in up to 9 colors, and no beards | A way back to Henry, for now |
+| The clothing rules: what can be worn with what | Clothes from other mods |
+| 7 hair styles in up to 9 colors, and no beards | The hair and beard Henry had before: he comes back with his usual ones |
+| A way back to Henry, in the same save | |
 | Its looks on Henry and on the playable character of KCD2 Life | A character of its own |
 
 ## 2. Why it is built this way
@@ -60,6 +61,7 @@ A woman's mesh on male bones comes out short and deformed, because the engine mo
 |---|---|
 | Binary format | Read the chunk table of the `.skin` format (`CrCh`, version `0x746`), and write meshes, streams, bones, morphs and physics chunks back |
 | Different proportions | Move each vertex, through its bone weights, by what its bones move from one skeleton to the other. Positions only: the hands have other axes in each skeleton but point the same way. Only the fingers are straightened |
+| A face that does not move | A head brings the bones of its face, which the male skeleton lacks, in its own copy of the skeleton inside the `.skin`. That copy is moved like the vertices: bones of the male skeleton take its rest pose, and the face bones move with the head, without turning. The game's `<head>_poses.xml` goes next to the mesh unchanged, since its poses are deltas on each face bone |
 | Seeing inside the head in first person | Bit 0 of the alpha of the vertex color is the `FirstPersonView` hiding group. The mask is copied from Henry's head by UV, because heads share their UV map |
 | Clothes removing the whole body | The body is split into hands, arms, feet, legs and torso, because each garment removes only its own part |
 | Skirts on a wide male stance | The hem opens, and the skirt is weighted to follow the thighs. Cloth simulation is removed |
@@ -72,6 +74,7 @@ A woman's mesh on male bones comes out short and deformed, because the engine mo
 |---|---|---|
 | Invalid write at `WHGame.dll+0x20F574F` on putting on a woman's body | The split kept the morph chunk, which indexes the whole mesh, so a morph pointed past the end of a part | Fixed: the parts are written without morphs, and keep their physics shapes |
 | Crash when a beard is built on a woman's head | Women's heads have no beard meshes | Avoided: the framework never tries a beard on one, and a beard override keeps the game's barber screen from showing one |
+| The face lost its shape and its eyes once the poses file was added | Only the vertices had been moved: the mesh's copy of the skeleton stayed where the woman's is, 7 cm below the moved face, and the poses turned the face bones about that place | Fixed: the copy of the skeleton moves like the vertices |
 | `D3D12 Device Removed`, `DeviceStatus=PageFault`, once, entering the barber screen | Unknown. The head and the table were ruled out | Not seen again, and not fixed |
 
 ## 3. Load order
@@ -96,6 +99,7 @@ With a `mod_order.txt`, only the mods listed load, in that order. Without it, St
 4. **The hair.** `Barber:Commit` puts her hair on the soul, where the woman's haircut at the barber and the framework's commands can change it. `Commit` also keeps in the soul the head that is shown, so on the first change her hair goes on while Henry's head still shows.
 5. **Saving.** The states live in the project, so every map and every save keeps them. After a load, Lua puts `ml_ff_ask` in Henry's inventory, and Skald answers with as many `ml_ff_answer` tokens as the id of the look that is on. Lua reads them, takes them away, and rebuilds the model. Nothing stays in the inventory.
 6. **The black screen.** While the look changes, the HUD fades to black with a line of text (`SetFaderState` and `SetNarrativeSubtitles`), and the `player` action map is locked. Every call takes `noScreen`, which leaves the screen as it is.
+7. **Back to Henry.** `ml_ff_reset` turns her look off, and `ml_ff_henry_face` turns on Henry's head and body, `henry` and `henry_body`, as one more look. A `Commit` with them in view puts on his hair and no beard. After a woman's head, that `Commit` did not give Henry his own head back, as it does for KCD2 Male Framework, so this look stays on while he is a man. A woman's look, or `ml_ff_reset`, turns it off. The state `was_woman` remembers that he was a woman in that save.
 
 The playable character of KCD2 Life, the soul `ml_player`, gets the same nodes with `new_` in front of their names. See [section 5.4](#54-the-character-of-kcd2-life).
 
@@ -111,6 +115,7 @@ All mods share one Lua state, so a call is a plain function call. A look is its 
 | `FemaleCore.API` | An integer, raised when the API changes |
 | `FemaleCore.IsWoman()` | `true` if Henry is a woman |
 | `FemaleCore.Current()` | The id of Henry's look, or `0` while he is a man |
+| `FemaleCore.HenryKept()` | `true` while Henry's head and body are on as a look of the framework, after `Henry()` |
 | `FemaleCore.OtherCharacter` | A function your mod sets when it plays a character of its own. While it returns `true`, the commands do nothing |
 
 ### 5.2 Looks
@@ -132,7 +137,9 @@ A look table has `id`, `name`, `ethnicity` (`"czech"`, `"hungarian"`, `"romani"`
 | `FemaleCore.SetRandomLook(noScreen)` | Her head and body of a look at random among all but hers, and the hair it starts with. Returns that look, or `nil` |
 | `FemaleCore.SetHair(style, color)` | Style 1 to 7, and a color by number, 1 to 9, or by name. Style 3 has only the first six colors |
 | `FemaleCore.Refresh()` | Rebuilds the model, for when the look does not show |
-| `FemaleCore.Henry()` | Not possible yet: it only says so, in the middle of the screen |
+| `FemaleCore.Henry(noScreen)` | She becomes Henry again: his head and body, his usual hair and no beard. Returns `true` if it started |
+| `FemaleCore.TakeOffHenry()` | For a mod that puts its own head on Henry, as KCD2 Male Framework does: the look of Henry kept on after `Henry()` comes off first. Does nothing if it is off |
+| `FemaleCore.KeepHenry()` | When that mod gives Henry his own face back: if he was a woman in this save, the look of Henry goes on again. Does nothing otherwise |
 | `FemaleCore.Hair()` | Her style and color, and `true` if the framework knows them. After a load it does not, and returns the hair her look starts with |
 
 `FemaleCore.HAIR_COLORS` lists the colors by name, and `FemaleCore.HAIR_STYLES` how many each style has. `BecomeWoman`, `SetLook` and `SetHair` return `true` if they started the change.
@@ -175,7 +182,8 @@ KCD2 Life keeps its character, `SwitchPlayer` and its soul `ml_player`, and only
 |---|---|---|
 | `ml_ff_set_N` | Lua to Skald | Look `N` on Henry |
 | `ml_ff_reset` | Lua to Skald | Every look of Henry off |
-| `ml_ff_ask` and `ml_ff_answer` | Lua to Skald, and back | The look in use, after a load: as many answers as its id |
+| `ml_ff_henry_face` | Lua to Skald | Henry's head and body on, until a woman's look or `ml_ff_reset` |
+| `ml_ff_ask` and `ml_ff_answer` | Lua to Skald, and back | The look in use, after a load: as many answers as its id, plus 500 while Henry's head and body are kept on, and 1000 if he was a woman |
 | `ml_ff_look_N` | Lua to Skald | Look `N` for the character of KCD2 Life, before the switch |
 | `ml_ff_new_started` | Another Skald project to this one | The switch to the character of KCD2 Life has ended |
 | `ml_ff_henry_stripped_*` | Skald to Lua | A garment came off. Lua shows why |
@@ -246,21 +254,20 @@ Garments of other types, and garments of other mods, are not converted. With a m
 | Situation | What happens |
 |---|---|
 | The framework alone, in the game's campaign | Looks go on Henry's soul, with no switch. His voice, name and story stay |
-| With KCD2 Male Framework | Before Henry becomes a woman, his man's face comes off. While he is a woman, its commands do nothing |
+| With KCD2 Male Framework | Before Henry becomes a woman, his man's face comes off. While he is a woman, its commands do nothing. After `ml_ff_henry`, its looks take the place of the framework's look of Henry, and `ml_mf_henry` puts it back. Both need 0.2.0 or later |
 | With KCD2 Life | Its character gets the looks, and the commands do nothing with it |
 | Removing the mod, with a save from before `ml_ff_female` | Nothing changes |
-| Removing the mod, with a save where Henry is a woman | Not supported |
-| Back to Henry from a woman | Not possible yet |
+| Removing the mod, with a save where Henry is or was a woman | Not supported: after `ml_ff_henry`, his head comes from the framework |
+| Back to Henry from a woman | `ml_ff_henry`, in the same save. His usual hair and no beard |
 
 The framework adds no entity classes to the save. A save that holds an entity of a class that a mod defined does not load without that mod.
 
 ## 9. Known limits
 
-- A woman cannot go back to Henry yet.
+- Back to Henry gives him his usual hair and no beard, not the ones he had before: `Barber` cannot read the hair in use.
 - The framework replaces the game's barber dialog file. A mod that replaces the same file clashes with it.
 - The adjusted headgear meshes live at the game's paths and replace its own. Another mod that replaces the same mesh wins or loses by load order, and if it wins, the helmet sits high on a woman.
 - After a game update, the meshes must be rebuilt if their sources changed.
-- Women's mouths do not move: the fix broke the face, so it was dropped.
 - In the inventory preview, the underwear sometimes shows only after reopening the inventory.
 - Clothes from other mods are not converted.
 

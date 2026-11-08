@@ -9,7 +9,9 @@ reads the game's table and meshes and writes:
   vertex is translated, by its weights, as much as its bones move from one skeleton to the other. Positions only: the
   hands have other axes in each skeleton but point the same way in the world, so rotating them would twist them. Only
   the fingers are straightened, because at rest they point elsewhere. The skirts are widened to cover the man's wide
-  stance. The heads carry no *_poses.xml: next to this mesh it breaks the face.
+  stance. Each head also carries the bones of its face, which the man's skeleton does not have, and its face poses,
+  a copy of the game's *_poses.xml: so the face moves when she speaks. The copy of the skeleton inside the mesh moves
+  like its vertices; left where it was, the poses broke the face.
   The body and the long smock are split, because each garment removes only its own part.
   They derive from game files: they are not versioned (.gitignore).
 - Objects/characters/humans/male/clothing/head/: the men's headgear, with a morph that only the woman's head
@@ -153,6 +155,12 @@ STREAM_POSITION, STREAM_UV, STREAM_COLOR, STREAM_INDICES, STREAM_WEIGHTS = 0, 2,
 # Where the mesh chunk stores the chunk of each stream, by class.
 MESH_STREAMS = 28
 MORPHS_VERSION = 0x802
+# Each bone of the bone table takes 584 bytes, after a 32-byte header. Its bind pose is two 3x4 matrices, one after the
+# other: world to bone, then bone to world.
+BONE_SIZE, BONE_WORLD_TO_BONE, BONE_TO_WORLD, BONE_NAME, BONE_NAME_END, BONE_PARENT = 584, 216, 264, 312, 568, 572
+BIND_SIZE = 96
+# The face poses of each head, next to its mesh, with the same name.
+POSES = "_poses.xml"
 
 root = ET.parse(TABLES / "Character/CharacterComponent.xml").getroot().find("CharacterComponents")
 male = root.find("Component[@Name='Male']")
@@ -375,19 +383,55 @@ def chunks(data):
     return [struct.unpack_from("<HHIII", data, table + i * 16) for i in range(count)]
 
 
-def bones(data):
-    """Name, position and parent of each bone. Each bone takes 584 bytes, after a 32-byte header."""
+def bone_starts(data):
+    """Where each bone of the bone table starts."""
     for kind, _, _, size, offset in chunks(data):
         if kind == CHUNK_BONES:
-            bone_list = []
-            for i in range((size - 32) // 584):
-                base = offset + 32 + i * 584
-                matrix = struct.unpack_from("<12f", data, base + 264)
-                parent = struct.unpack_from("<i", data, base + 572)[0]
-                name = data[base + 312:base + 568].split(b"\0")[0].decode("latin1")
-                bone_list.append((name, (matrix[3], matrix[7], matrix[11]), i + parent if parent else -1))
-            return bone_list
+            return [offset + 32 + i * BONE_SIZE for i in range((size - 32) // BONE_SIZE)]
     raise SystemExit("No bone table")
+
+
+def bone_name(data, base):
+    return data[base + BONE_NAME:base + BONE_NAME_END].split(b"\0")[0].decode("latin1")
+
+
+def bones(data):
+    """Name, position and parent of each bone."""
+    bone_list = []
+    for i, base in enumerate(bone_starts(data)):
+        matrix = struct.unpack_from("<12f", data, base + BONE_TO_WORLD)
+        parent = struct.unpack_from("<i", data, base + BONE_PARENT)[0]
+        bone_list.append((bone_name(data, base), (matrix[3], matrix[7], matrix[11]), i + parent if parent else -1))
+    return bone_list
+
+
+def bind_poses(data):
+    """The bind pose of each bone, as it is stored, by name."""
+    return {bone_name(data, base): data[base + BONE_WORLD_TO_BONE:base + BONE_WORLD_TO_BONE + BIND_SIZE] for base in bone_starts(data)}
+
+
+def with_moved_bind(data, man, woman, man_binds):
+    """The mesh keeps its own copy of the skeleton, and fit() only moves the vertices. The head also brings the bones of
+    its face, which the man's skeleton does not have, and its poses turn them about where that copy says they are: 7 cm
+    below the moved face, so the face broke. The bones of the man's skeleton take his bind
+    pose, the one the game uses for them. The others move as fit() moved their vertices: the same displacement, without
+    turning, so their axes stay the woman's and the poses turn them as they turn hers."""
+    out = bytearray(data)
+    table = displacements(bones(data), man, woman)
+    for i, base in enumerate(bone_starts(data)):
+        name = bone_name(data, base)
+        if name in man_binds:
+            out[base + BONE_WORLD_TO_BONE:base + BONE_WORLD_TO_BONE + BIND_SIZE] = man_binds[name]
+            continue
+        to_bone = list(struct.unpack_from("<12f", data, base + BONE_WORLD_TO_BONE))
+        to_world = list(struct.unpack_from("<12f", data, base + BONE_TO_WORLD))
+        position = table[i]((to_world[3], to_world[7], to_world[11]))
+        to_world[3], to_world[7], to_world[11] = position
+        for row in range(3):
+            to_bone[row * 4 + 3] = -sum(to_bone[row * 4 + k] * position[k] for k in range(3))
+        struct.pack_into("<12f", out, base + BONE_WORLD_TO_BONE, *to_bone)
+        struct.pack_into("<12f", out, base + BONE_TO_WORLD, *to_world)
+    return bytes(out)
 
 
 def cross(a, b):
@@ -893,7 +937,7 @@ def generate_meshes():
         with zipfile.ZipFile(pak) as archive:
             for name in archive.namelist():
                 normalized = name.replace("\\", "/").lower()
-                if normalized.startswith(GAME_PATH) and normalized.endswith((".skin", ".chr")):
+                if normalized.startswith(GAME_PATH) and normalized.endswith((".skin", ".chr", POSES)):
                     index[normalized] = (pak, name)
 
     def read(normalized):
@@ -905,6 +949,7 @@ def generate_meshes():
         return {n: p for n, p, _ in bones(read(f"{GAME_PATH}{gender}/skeleton/{gender}.chr"))}
 
     man, woman = bone_positions("male"), bone_positions("female")
+    man_binds = bind_poses(read(f"{GAME_PATH}male/skeleton/male.chr"))
     for kind, path in sorted(meshes):
         source = f"{GAME_PATH}female/{kind}/{path}".lower()
         if source not in index:
@@ -918,6 +963,14 @@ def generate_meshes():
             out_path.parent.mkdir(parents=True, exist_ok=True)
             print(f"{out_path.name}: height {low:.3f} to {high:.3f}")
             mesh_stem = pathlib.PurePosixPath(path).stem.lower()
+            if kind == "head":
+                # The poses are deltas on each bone of the face, so they go as they are.
+                fitted = with_moved_bind(fitted, man, woman, man_binds)
+                if name == source:
+                    poses = base + POSES
+                    if poses not in index:
+                        raise SystemExit(f"Not in the paks: {poses}")
+                    out_path.with_name(mesh_stem + POSES).write_bytes(read(poses))
             if kind == "body":
                 parts = split_mesh(fitted, parts_by_bone(fitted), list(BODY_PARTS))
                 for bit in (THIGHS_BIT, UNDER_WAIST_BIT):

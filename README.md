@@ -4,8 +4,9 @@
 
 A library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that makes playable women possible. The player gets a woman's head, body and hair, women's clothes that fit, and keeps fighting and riding like any player. One console command turns Henry into a woman in any game, and other mods can build on it. Any mod may use it, with a credit as the only condition.
 
-> **No way back to Henry yet.** `ml_ff_female` turns Henry himself into a woman, and that save stays with her. Keep a
-> save from before if you want to play on with the Henry you know.
+> **Back to Henry in the same save.** `ml_ff_female` turns Henry himself into a woman, and `ml_ff_henry` turns her back
+> into him. Removing the mod from a save where he was ever a woman is not supported, so keep a save from before if you
+> may want to.
 
 ## How it works
 
@@ -19,6 +20,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 - **First-person heads.** Each head hides in first person through the `FirstPersonView` bit of its vertex colors, like Henry's.
 - **Headgear.** 146 men's hats, hoods and helmets get a morph that only a woman's head turns on. For everyone else they are unchanged.
 - **The look.** Head, body and underwear are `BodyPartOverride` nodes in the framework's Skald project, on Henry's soul. Lua picks a look with a token in Henry's inventory, and the native `Barber` object puts on her hair and forces the model to rebuild. The states live in the project, so every map and every save keeps them.
+- **Back to Henry.** `Barber:Commit` keeps in the soul the head that is shown, but after a woman's head it does not give Henry his own back. So his head and body go on as one more look of the framework, and stay on while he is a man. A look of KCD2 Male Framework takes their place, and its `ml_mf_henry` puts them back.
 - **Clothes.** A woman's garment that reaches her inventory turns into its copy, with the same condition. Once a second, Skald checks what she wears: a dress takes off men's clothes from the torso, hands and legs, and men's clothes on the chest take off women's shoes and headwear. A notice says what came off.
 - **The barber.** The game's barber screen reads one list for everyone, `barber_option.xml`, with no column for gender, and a mod can only add rows to it. So while she is a woman, the barber's haircut is the framework's own dialog, `ml_ff_barber`, with the same line, *Give me a haircut*. The game's haircut is hidden: the framework ships the game's `barber_dialogue.xml` with `gvar('ml_ff_woman') != 1 AND gvar('ml_mf_model') != 1` added to its two haircut options, the same copy as KCD2 Male Framework. Her dialog keeps the camera of a normal talk, on her, so each hair shows as she picks it. Each choice calls `TryHair` on a `Barber` session, *I'll take this one* commits it, and leaving the talk reverts it. A beard override, the empty `m_beard_00`, keeps her clean shaven all the same.
 
@@ -32,6 +34,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
 | Combat and riding | They work, because the character is still the game's player |
 | A new character of another mod | The same look on the playable character of KCD2 Life |
+| Back to Henry | `ml_ff_henry` gives him his head, body and hair back, with no beard, in the same save. Her clothes come off, with a notice |
 
 ## Console commands
 
@@ -42,6 +45,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 | `ml_ff_look <name>` | Changes the head and the body to that look, like `ml_ff_look woman_czech_2` or `ml_ff_look ml_ff_head_katherine` |
 | `ml_ff_random` | Gives her a look at random among all, with the hair it starts with |
 | `ml_ff_hair <style> <color>` | Changes her hair, like `ml_ff_hair 2 blonde` |
+| `ml_ff_henry` | Turns her back into Henry: his head, body and hair, with no beard |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show |
 
 While the model changes, the screen goes black for a few seconds. A last `true` leaves it as it is. Typed with the inventory, the map or a menu open, a command waits until you close it. [COMMANDS.md](mod/kcd_female_framework/COMMANDS.md) has every command, with its Lua call.
@@ -61,11 +65,12 @@ end
 
 ## Compatibility and known limits
 
-- **No way back to Henry yet.** A woman stays a woman in that save. `ml_ff_henry` only says so.
+- **Back to Henry** gives him his usual hair and no beard, not the ones he had before.
+- **With KCD2 Male Framework,** use 0.2.0 or later of both: from then on it takes Henry's head off before its own looks and puts it back with `ml_mf_henry`.
 - **The barber's talk.** The framework replaces the game's `barber_dialogue.xml`, with its haircut hidden for her, and for a man with a look of KCD2 Male Framework, which ships the same copy. A mod that replaces the same file clashes with it, and the one that loads last wins.
-- **Removing it** from a save where Henry is a woman is not supported. Keep a save from before `ml_ff_female`.
+- **Removing it** from a save where Henry is or was a woman is not supported: after `ml_ff_henry` his head comes from the framework. Keep a save from before `ml_ff_female`.
 - **Headgear meshes.** The 146 adjusted meshes replace the game's at their own paths. A mod that replaces the same meshes wins or loses by load order, and if it wins, the helmet sits high on her.
-- **Voice and mouth.** She speaks with Henry's voice and lines, and her mouth does not move.
+- **Voice.** She speaks with Henry's voice and lines. Her lips, eyes and brows move with them, as a man's do.
 - **Game updates.** The meshes must be rebuilt if their sources change.
 
 ## Installing
@@ -96,8 +101,8 @@ Set `KCD2_GAME` to the game's folder if it is not in the default Steam library.
 
 Plans, not promises.
 
-- **A way back to Henry,** with his own face, in the same save.
-- **Speech:** a mouth that moves with the lines, as a man's does.
+- ~~**Speech:** a mouth that moves with the lines, as a man's does.~~ Done in 0.2.0.
+- ~~**A way back to Henry,** with his own face, in the same save.~~ Done in 0.2.0.
 - **Clothes from other mods:** tested with clothing mods, and a clear pipeline to fit their garments to her, as the tools do for the game's. Loose jackets and cloaks over her body go with it.
 
 ## License

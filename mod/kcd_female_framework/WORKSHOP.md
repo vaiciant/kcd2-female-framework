@@ -7,6 +7,8 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 ## What you get
 
 - **55 faces.** Every common woman's face of the game, young and old, and a few women of the story.
+- **Her face moves.** Her lips move when she speaks, and she blinks and makes faces, as Henry does.
+- **Back to Henry** whenever you like, in the same save, with his own face.
 - **Women's clothes.** Dresses, shoes, hoods and veils from any shop fit her, and keep their condition.
 - **Hats and helmets** sit right on her head.
 - **Her hair.** 7 styles of the time, in up to 9 colors.
@@ -23,14 +25,16 @@ Open the console with the key under Esc, and type:
 - `ml_ff_looks` to see every face.
 - `ml_ff_look woman_romani_3` to change her face, or `ml_ff_random` for one at random.
 - `ml_ff_hair 2 blonde` to change her hair, or just ask a barber for a haircut.
+- `ml_ff_henry` to turn her back into Henry, with his own face.
 
 The screen goes dark for a few seconds while she changes. Type the commands in the game, not in the inventory or the map: there, the change waits until you close them.
 
 ## Good to know
 
-- **There is no way back to Henry yet.** Keep a save from before if you want to play on with him.
+- **Back to Henry** comes with his usual hair and no beard.
+- **Keep a save from before** `ml_ff_female` if you may want to remove the mod: once Henry has been a woman, his face comes from the mod.
+- With KCD2 Male Framework, use version 0.2.0 or later of both.
 - She speaks with Henry's voice, and the story still calls her Henry.
-- Her mouth does not move when she speaks.
 - Mods that change the barber's talk can clash with it.
 - Mods that replace the models of hats and helmets can make them sit oddly on her.
 
@@ -38,8 +42,8 @@ The screen goes dark for a few seconds while she changes. Type the commands in t
 
 Plans, not promises.
 
-- **Back to Henry:** a woman can become Henry again, in the same save.
-- **A mouth that moves** when she speaks, as a man's does.
+- ~~**A mouth that moves** when she speaks, as a man's does.~~ Done in 0.2.0.
+- ~~**Back to Henry:** a woman can become Henry again, in the same save.~~ Done in 0.2.0.
 - **Clothes from other mods:** tested with clothing mods, with clear steps to make their clothes fit her.
 
 ## Installing
