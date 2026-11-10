@@ -6,5 +6,6 @@
 		<buff buff_ai_tag_id="201" buff_class_id="12" buff_exclusivity_id="1" buff_id="5e7cbc92-adc2-512f-885b-32831441291f" buff_lifetime_id="0" buff_name="ml_ff_shoes" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
 		<buff buff_ai_tag_id="202" buff_class_id="12" buff_exclusivity_id="1" buff_id="e8ececff-2d11-5b27-8201-1bdd983d48af" buff_lifetime_id="0" buff_name="ml_ff_cap" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
 		<buff buff_ai_tag_id="203" buff_class_id="12" buff_exclusivity_id="1" buff_id="98844626-e6e9-5fce-b92e-dd7cc4802df6" buff_lifetime_id="0" buff_name="ml_ff_mail_coif" buff_params="charisma+0" duration="-1" implementation="Cpp:EquippableItemWeighted" is_persistent="true" />
+		<buff buff_ai_tag_id="204" buff_class_id="15" buff_exclusivity_id="1" buff_id="0571294f-90a1-599c-9d29-98d1e26c5ffc" buff_lifetime_id="0" buff_name="ml_ff_woman" buff_params="charisma+0" duration="-1" icon_id="0" implementation="Cpp:Constant" is_persistent="true" />
 	</buffs>
 </database>
