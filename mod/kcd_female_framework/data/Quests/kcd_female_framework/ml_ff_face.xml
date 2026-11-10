@@ -2714,6 +2714,11 @@
 					<Constant Name="Component" Value="m_beard_00" />
 					<Edge From="woman.State" To="IsActive" />
 				</BodyPartOverride>
+				<BuffEffect Name="woman_mark" PositionY="-460" PositionX="0">
+					<Asset Name="Souls" Alias="henry" />
+					<Constant Name="BuffGUID" Value="0571294f-90a1-599c-9d29-98d1e26c5ffc" />
+					<Edge From="woman.State" To="IsActive" />
+				</BuffEffect>
 				<Timer Name="watch" PositionY="-1500" PositionX="-1200">
 					<Constant Name="Duration" Value="1s" />
 					<Constant Name="TimeType" Value="GameTime" />

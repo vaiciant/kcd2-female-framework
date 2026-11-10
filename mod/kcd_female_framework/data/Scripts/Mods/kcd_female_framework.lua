@@ -22,6 +22,7 @@ System.AddCCommand("ml_ff_henry", "FemaleCore.HenryCommand(%line)", "Turns her b
 System.AddCCommand("ml_ff_random", "FemaleCore.RandomCommand(%line)", "Gives her a look at random among all, with the hair it starts with. A last word true leaves out the black screen")
 System.AddCCommand("ml_ff_hair", "FemaleCore.HairCommand(%line)", "Gives her a hair style from 1 to 7 and a color, like ml_ff_hair 2 blonde")
 System.AddCCommand("ml_ff_refresh", "FemaleCore.RefreshCommand()", "Rebuilds the model, for when her look does not show")
+System.AddCCommand("ml_ff_start", "FemaleCore.StartCommand(%line)", "The next game that starts or loads begins as a woman with that look, like ml_ff_start woman_czech_2: type it in the main menu before New Game. ml_ff_start none cancels it")
 
 local ok, problem = pcall(function() UIAction.RegisterEventSystemListener(FemaleCore, "System", "OnGameplayStarted", "OnGameplayStarted") end)
 FemaleCore.Log(ok and "listening to OnGameplayStarted" or ("ERROR listener " .. tostring(problem)))

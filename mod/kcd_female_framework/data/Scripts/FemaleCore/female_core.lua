@@ -10,7 +10,7 @@
 FemaleCore = FemaleCore or {}
 
 -- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new.
-FemaleCore.API = 2
+FemaleCore.API = 3
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -226,6 +226,25 @@ local function rebuild(after)
 	end)
 end
 
+-- The buff ml_ff_woman tells the game's scenes that the framework ships (FRAMEWORK_DEVELOPER_GUIDE.md) that
+-- Henry is a woman, so they leave his head, body and breeches off her. Her graph keeps it on, but after a load a scene
+-- can look before it is back, and the bandaged body came back at Bozhena's. So it goes off and on again here,
+-- and each scene hears it arrive. Only on Henry: a scene of his story is never on the character of another mod.
+FemaleCore.WOMAN_BUFF = "0571294f-90a1-599c-9d29-98d1e26c5ffc"
+
+local function markWoman(on)
+	local ok, other = pcall(FemaleCore.OtherCharacter)
+	if ok and other then
+		return
+	end
+	try("woman mark", function()
+		player.soul:RemoveAllBuffsByGuid(FemaleCore.WOMAN_BUFF)
+		if on then
+			player.soul:AddBuff(FemaleCore.WOMAN_BUFF)
+		end
+	end)
+end
+
 -- Clothes
 
 local notices = {}
@@ -391,6 +410,7 @@ function FemaleCore.BecomeWoman(name, noScreen)
 	-- Her token also takes off his head and body, if they were kept on after ml_ff_henry.
 	sendToken(look.token)
 	setCurrent(look.id)
+	markWoman(true)
 	henryKept = false
 	wasWoman = true
 	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
@@ -576,6 +596,7 @@ function FemaleCore.Henry(noScreen)
 	showScreen(noScreen)
 	sendToken(FemaleCore.RESET_TOKEN)
 	setCurrent(0)
+	markWoman(false)
 	hair = nil
 	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
 		sendToken(FemaleCore.HENRY_TOKEN)
@@ -627,12 +648,87 @@ function FemaleCore.Refresh()
 	rebuild()
 end
 
+-- A look chosen before the game starts: from the console of the main menu before New Game, or by another mod.
+-- The game tells no new game from a load (only OnGameplayStarted), so it goes on at the next start of the game, new
+-- or loaded, once the framework knows her state. START_WAIT_MS more lets the start of a new game settle.
+FemaleCore.START_WAIT_MS = 2000
+FemaleCore.startLook = nil
+-- A new game begins with Godwin, in Kuttenberg, on the first day of the world; Henry's part begins on the second, in
+-- Trosecko, after a cutscene (kcd.log of 2026-11-09: world day 1, then 2). The soul of the player cannot be told from
+-- Lua (soul:GetId is a runtime WUID), so the day tells it, and the look waits while it is the first.
+FemaleCore.HENRY_FIRST_DAY = 2
+-- Only Engine/Config/CVarOverrides/Cutscene.cfg sets this cvar, to 1, while a cutscene plays: the look waits for its
+-- end, so it goes on once Henry is in the saddle.
+FemaleCore.CUTSCENE_CVAR = "e_SkipInFrustumOptimizationWH"
+FemaleCore.CUTSCENE_POLL_MS = 1000
+local startGen = 0
+
+-- name: a look, by name or id. nil, "" or "none" cancels it. Returns whether the look exists.
+function FemaleCore.StartAs(name)
+	if name == nil or name == "" or name == "none" then
+		FemaleCore.startLook = nil
+		FemaleCore.Log("no look waits for the next start of the game")
+		return true
+	end
+	local look = find(name)
+	if not look then
+		FemaleCore.Log("no look called", name, "- ml_ff_looks lists them")
+		return false
+	end
+	FemaleCore.startLook = look.name
+	FemaleCore.Log("the next game that starts or loads begins as a woman, look", look.name)
+	return true
+end
+
+-- The look that waits for the next start of the game, or nil.
+function FemaleCore.StartLook()
+	return FemaleCore.startLook
+end
+
+local function inCutscene()
+	local value = try("cutscene", System.GetCVar, FemaleCore.CUTSCENE_CVAR)
+	return tonumber(value) == 1
+end
+
+local function applyStartLook()
+	local name = FemaleCore.startLook
+	if not name then
+		return
+	end
+	local day = try("calendar", Calendar.GetWorldDay)
+	if day and day < FemaleCore.HENRY_FIRST_DAY then
+		FemaleCore.Log("world day", day, "- the prologue with Godwin: the look waits for Henry")
+		return
+	end
+	FemaleCore.startLook = nil
+	local gen, waited = startGen, false
+	local function attempt()
+		-- Another save loaded meanwhile: the look waits for that one.
+		if gen ~= startGen then
+			FemaleCore.startLook = FemaleCore.startLook or name
+			return
+		end
+		if inCutscene() then
+			if not waited then
+				waited = true
+				FemaleCore.Log("a cutscene plays: the look waits for its end")
+			end
+			Script.SetTimer(FemaleCore.CUTSCENE_POLL_MS, attempt)
+			return
+		end
+		FemaleCore.Log("look chosen before the start:", name)
+		try("start look", function() FemaleCore.BecomeWoman(name) end)
+	end
+	Script.SetTimer(FemaleCore.START_WAIT_MS, attempt)
+end
+
 -- The overrides need a rebuild after every load, or the model shows Henry's head again. The inventory is read a moment
 -- later: right at the start of the game it may not be there yet.
 FemaleCore.LOAD_WAIT_MS = 3000
 
 function FemaleCore:OnGameplayStarted()
 	FemaleCore.Log("gameplay started")
+	startGen = startGen + 1
 	-- A load in the middle of a change.
 	hideScreen()
 	-- What memory has may belong to the save before.
@@ -647,11 +743,15 @@ function FemaleCore:OnGameplayStarted()
 		end
 		sendPrice()
 		askCurrent(function(current)
-			FemaleCore.Log("look on load", current, "- his head kept on:", henryKept, "- was a woman:", wasWoman)
+			FemaleCore.Log("look on load", current, "- his head kept on:", henryKept, "- was a woman:", wasWoman,
+				"- world day", try("calendar", Calendar.GetWorldDay), "time", try("calendar", Calendar.GetWorldTime))
+			-- Before the rebuild, so the model rebuilds without his parts. With Henry a man, it clears a mark left over.
+			markWoman(current > 0)
 			if current > 0 or henryKept then
 				rebuild()
 			end
 			startTick()
+			applyStartLook()
 		end)
 	end)
 end
@@ -733,4 +833,14 @@ end
 
 function FemaleCore.RefreshCommand()
 	inGame("ml_ff_refresh", FemaleCore.Refresh)
+end
+
+-- It only remembers the look, so it works in the main menu too. With no look, it says which one waits.
+function FemaleCore.StartCommand(line)
+	local list = words(line)
+	if not list[1] then
+		FemaleCore.Log("look for the next start of the game:", FemaleCore.startLook or "none")
+		return
+	end
+	FemaleCore.StartAs(list[1])
 end

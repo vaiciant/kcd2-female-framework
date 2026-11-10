@@ -15,8 +15,19 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 | `ml_ff_hair <style> <color>` | Gives her a hair style, from 1 to 7, and a color, by name or by number from 1 to 9, like `ml_ff_hair 2 blonde` | `FemaleCore.SetHair(style, color)` |
 | `ml_ff_henry [true]` | Turns her back into Henry: his head, body and hair, with no beard. Her clothes come off, with a notice | `FemaleCore.Henry(noScreen)` |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show | `FemaleCore.Refresh()` |
+| `ml_ff_start [look]` | The next game that starts or loads begins as a woman with that look. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `FemaleCore.StartAs(look)` |
 
 **Colors:** `dark_brown`, `black`, `light_brown`, `blonde`, `ginger`, `dark_ginger`, `dark_grey`, `grey` and `white`, numbered from 1 to 9 in that order. Style 3 has only the first six.
+
+## Before the game starts
+
+`ml_ff_start` chooses her look before you play, and works in the main menu too: open the console there, type it, and start a new game.
+
+```text
+ml_ff_start woman_czech_2
+```
+
+The game does not tell a new game from a loaded one, so the look goes on at the next start of the game, new or loaded, a few seconds after you have control, under the black screen. A new game begins with Godwin: the look waits for Henry's part, and for the end of the cutscene that starts it, so it goes on once he rides. It goes on once: `ml_ff_start none` cancels it before that. From Lua, `FemaleCore.StartAs(look)` does the same, and `FemaleCore.StartLook()` says which look waits.
 
 ## The black screen
 

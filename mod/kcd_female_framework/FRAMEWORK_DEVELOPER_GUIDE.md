@@ -221,7 +221,16 @@ Declare Henry's soul in the `Assets` of your module:
 </Assets>
 ```
 
-### 6.4 The barber
+### 6.4 The game's scenes
+
+An override of a quest of the level wins over one of the project, even when it turns on first (KCD2 Male Framework's face covered hers, which is why `MaleCore.TakeOff` runs first). Five scenes of the game put Henry's own parts on the player soul: in the prologue, `prepadeni/prepadeni/mokry_jindrich_a_ptacek` (wet), `prepadeni/hibernovana_cast/honicka_ve_skalach/nastaveni_ptacka_a_jindricha` (the escape), `zachrana/henryho_morfovani_tel_a_obvazu` and its `henry__pred_prvni_cs` (wounded and bandaged), and `kumaniNaTrosecku/.../soutez_v_plavani` (wet, at the swimming contest). Every other override of the game is on another soul.
+
+- `ml_ff_face` keeps the buff `ml_ff_woman` on Henry while `woman` is on (`BuffEffect woman_mark`). It has no effect and no icon, and its tag is 204, `ml_ff_woman`.
+- The framework ships those five files, under `Quests/Final/Barbora/trosecko/`. In each, every `BodyPartOverride` of `player` goes on with its own condition `And` not a woman. A woman is `BuffTagCheck(player, 204)` `Or` the state `ml_ff_woman_seen`, which a `BuffTagTrigger` on tag 204 sets when the buff arrives and clears when it goes. The tools copy the files from your game and check each one against its SHA-256, so they are not in the repository.
+- After a load a scene can read the buff before it is back. So `female_core.lua` takes it off and gives it again on each load, before the rebuild, and when she becomes a woman, and takes it off with `FemaleCore.Henry()`. Each scene hears it arrive.
+- A mod with a look on Henry of its own can put a buff with tag 204 on him while it is on, and the five scenes leave his head, body and underwear alone.
+
+### 6.5 The barber
 
 The game's barber screen reads `rpg/barber_option`, one list for everyone with no column for gender. A mod can only add rows, so a woman's hair there would show to every man too. The framework's module `ml_ff_barber` adds a dialog instead, `ml_ff_barber_dialog`, to every NPC with the `BARBER` role, and it takes the place of the game's haircut:
 
@@ -265,7 +274,7 @@ The framework adds no entity classes to the save. A save that holds an entity of
 ## 9. Known limits
 
 - Back to Henry gives him his usual hair and no beard, not the ones he had before: `Barber` cannot read the hair in use.
-- The framework replaces the game's barber dialog file. A mod that replaces the same file clashes with it.
+- The framework replaces the game's barber dialog file and five scene files (section 6.4). A mod that replaces the same files clashes with them.
 - The adjusted headgear meshes live at the game's paths and replace its own. Another mod that replaces the same mesh wins or loses by load order, and if it wins, the helmet sits high on a woman.
 - After a game update, the meshes must be rebuilt if their sources changed.
 - In the inventory preview, the underwear sometimes shows only after reopening the inventory.

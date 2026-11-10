@@ -32,6 +32,16 @@ It takes a few seconds, under a black screen with a line that says so. If your m
 
 She keeps Henry's voice and lines, and the story still calls her Henry. A mod that wants a different person, with her own name and things, starts a new character, as KCD2 Life does (see "If your mod plays its own character").
 
+## From the start of a game
+
+To start a game as a woman, choose her look before it starts:
+
+```lua
+FemaleCore.StartAs("woman_czech_2")   -- or nil to cancel it
+```
+
+The game does not tell a new game from a loaded one, so the look goes on at the next start of the game, new or loaded, once the framework knows her state, a few seconds after the player has control. In a new game it waits for Henry's part, after the prologue with Godwin (the first day of the world), and for the end of any cutscene. It goes on once. Call it when your mod knows a game is about to start, for example from a choice in the main menu. `FemaleCore.StartLook()` says which look waits. In the console it is `ml_ff_start`.
+
 ## Back to Henry
 
 ```text
@@ -151,4 +161,4 @@ Both do nothing when they are not needed, so they are safe to call every time.
 
 ## Credit
 
-Use it in any mod, closed or open, free or paid. The only condition is a credit where people can see it, like a line in your mod's description: "Uses KCD2 Female Framework". See [LICENSE](LICENSE).
+Use it in any mod, closed or open. Asking for donations or Patreon support is fine, as long as nothing in your mod is only for those who pay: Warhorse's rules do not allow selling KCD2 mods. The only condition is a credit where people can see it, like a line in your mod's description: "Uses KCD2 Female Framework". See [LICENSE](LICENSE).
