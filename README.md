@@ -74,7 +74,7 @@ end
 - **The game's scenes.** The six scene files replace the game's, like the barber's talk, and KCD2 Male Framework ships the same ones: a mod that replaces the same files clashes with them.
 - **Removing it** from a save where Henry is or was a woman is not supported: after `ml_ff_henry` his head comes from the framework. Keep a save from before `ml_ff_female`.
 - **Headgear meshes.** The 146 adjusted meshes replace the game's at their own paths. A mod that replaces the same meshes wins or loses by load order, and if it wins, the helmet sits high on her.
-- **Voice.** She speaks with Henry's voice and lines. Her lips, eyes and brows move with them, as a man's do.
+- **Her face moves.** She says Henry's lines, and her lips, eyes and brows move with them, as a man's do.
 - **Game updates.** The meshes must be rebuilt if their sources change.
 
 ## Installing

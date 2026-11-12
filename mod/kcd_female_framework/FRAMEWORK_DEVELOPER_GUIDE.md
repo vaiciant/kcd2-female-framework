@@ -35,7 +35,7 @@ It gives the player a woman's head, body, hair and clothes, while keeping combat
 |---|---|
 | 55 looks: 50 generic women's faces and 5 named women of the story | Jobs, wages, origins, reputation or any gameplay loop |
 | Women's meshes fitted to the male skeleton, with faces that move as a man's do | New animations |
-| Copies of the 315 women's garments, which a male soul can wear | A woman's voice: the voice stays Henry's |
+| Copies of the 315 women's garments, which a male soul can wear | Lines of her own: she says Henry's |
 | The clothing rules: what can be worn with what | Clothes from other mods |
 | 7 hair styles in up to 9 colors, and no beards | The hair and beard Henry had before: he comes back with his usual ones |
 | A way back to Henry, in the same save | |
@@ -263,7 +263,7 @@ Garments of other types, and garments of other mods, are not converted. With a m
 
 | Situation | What happens |
 |---|---|
-| The framework alone, in the game's campaign | Looks go on Henry's soul, with no switch. His voice, name and story stay |
+| The framework alone, in the game's campaign | Looks go on Henry's soul, with no switch. His name and story stay |
 | With KCD2 Male Framework | Before Henry becomes a woman, his man's face comes off. From a woman, its `SetLook` calls `FemaleCore.Henry(true, after)` and puts its face on when he is back, with no `ml_ff_henry` in between (API 4). After `ml_ff_henry`, its looks take the place of the framework's look of Henry, and `ml_mf_henry` puts it back |
 | With KCD2 Life | Its character gets the looks, and the commands do nothing with it |
 | Removing the mod, with a save from before `ml_ff_female` | Nothing changes |
