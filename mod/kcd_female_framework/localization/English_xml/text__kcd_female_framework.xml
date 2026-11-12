@@ -1,6 +1,8 @@
 <Table>
   <Row><Cell>ui_nm_ml_ff_state</Cell><Cell>ui_nm_ml_ff_state</Cell><Cell>Keepsake of a new look</Cell></Row>
   <Row><Cell>ui_in_ml_ff_state</Cell><Cell>ui_in_ml_ff_state</Cell><Cell>KCD2 Female Framework keeps its state here. Do not sell, drop or store it.</Cell></Row>
+  <Row><Cell>ui_nm_ml_scene_rebuild</Cell><Cell>ui_nm_ml_scene_rebuild</Cell><Cell>Keepsake of a scene</Cell></Row>
+  <Row><Cell>ui_in_ml_scene_rebuild</Cell><Cell>ui_in_ml_scene_rebuild</Cell><Cell>A scene of the game left this for a moment. It goes away on its own.</Cell></Row>
   <Row><Cell>ml_ff_changing_look</Cell><Cell>ml_ff_changing_look</Cell><Cell>Changing the look...</Cell></Row>
   <Row><Cell>ml_ff_stripped_torso</Cell><Cell>ml_ff_stripped_torso</Cell><Cell>Men's torso clothes taken off: they don't go with a dress. Headgear and shoes do.</Cell></Row>
   <Row><Cell>ml_ff_stripped_gloves</Cell><Cell>ml_ff_stripped_gloves</Cell><Cell>Men's gloves taken off: they don't go with a dress. Headgear and shoes do.</Cell></Row>

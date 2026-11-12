@@ -2,6 +2,26 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 0.4.0
+
+It works on its own or with KCD2 Male Framework, and goes from one to the other directly. Her look now reaches the game's cutscenes.
+
+### New
+
+- **One command to a look.** `ml_ff_look` and `ml_ff_random` turn Henry into a woman with that look. `ml_ff_female` is no longer needed first.
+- **Straight to a man's face.** With KCD2 Male Framework, `ml_mf_look` and `ml_mf_random` turn her into a man with that face, without going back to Henry first.
+- **Cutscenes.** The doubles of Henry that the game's cutscenes make wear her look.
+- **The pillory.** She wears hose there, and her look comes back right after it.
+- **On its own.** It no longer needs KCD2 Male Framework, and works with it as before. KCD2 Life needs both.
+- **LOOKS.md** says which named characters of the game wear each face, and `ml_ff_looks` shows their names.
+- **For modders:** `FemaleCore.Henry(noScreen, after)` and `FemaleCore.Ready()`. `FemaleCore.API` is 5.
+
+### Fixes
+
+- **Commands right after loading** wait until both frameworks have read the save, so nothing is put on before the look of the save.
+- **A save where she became a man** no longer keeps her woman's state on.
+- **The doubles of the cutscenes** keep the haircut from the barber.
+
 ## 0.3.0
 
 - **Start a new game as a woman.** `ml_ff_start woman_czech_2`, in the console of the main menu before New Game, chooses her look. It goes on once Henry's part begins, after the prologue with Godwin and the cutscene that ends it. It works for the next game that starts or loads, once, and `ml_ff_start none` cancels it.

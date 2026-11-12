@@ -2631,6 +2631,16 @@
 					<Constant Name="ShowUINotification" Value="false" />
 					<Edge From="answer_if_was_woman.True" To="Exec" />
 				</EventFunction>
+				<If Name="answer_if_woman" PositionY="-600" PositionX="300">
+					<Edge From="woman.State" To="Condition" />
+					<Edge From="ask_token.OnAcquire" To="Exec" />
+				</If>
+				<EventFunction Name="answer_woman" PositionY="-600" PositionX="600" MethodName="wh::entitymodule::CreatePlayerReward" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="66726bee-c42a-53d9-851f-9bb07d8bc27f" />
+					<Constant Name="Amount" Value="2000" />
+					<Constant Name="ShowUINotification" Value="false" />
+					<Edge From="answer_if_woman.True" To="Exec" />
+				</EventFunction>
 				<BodyPartOverride Name="henry_head" PositionY="-450" PositionX="0">
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Head" />
@@ -2641,6 +2651,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="henry_body" />
+					<Edge From="henry_face.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="henry_underwear" PositionY="-310" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="henry_face.State" To="IsActive" />
 				</BodyPartOverride>
 				<State Name="woman" PositionY="-600" PositionX="-300" TypeT="bool">
@@ -2701,6 +2717,7 @@
 					<Edge From="set_token_127.OnAcquire" To="SetTrue" />
 					<Edge From="set_token_128.OnAcquire" To="SetTrue" />
 					<Edge From="henry_token.OnAcquire" To="SetFalse" />
+					<Edge From="reset_token.OnAcquire" To="SetFalse" />
 				</State>
 				<BodyPartOverride Name="woman_underwear" PositionY="-600" PositionX="0">
 					<Asset Name="Soul" Alias="henry" />

@@ -6,5 +6,7 @@
 		<buff_ai_tag buff_ai_tag_id="202" buff_ai_tag_name="ml_ff_cap" />
 		<buff_ai_tag buff_ai_tag_id="203" buff_ai_tag_name="ml_ff_mail_coif" />
 		<buff_ai_tag buff_ai_tag_id="204" buff_ai_tag_name="ml_ff_woman" />
+		<!-- A look of KCD2 Male Framework, which has the same two rows: the copies of the game's scenes ask for both. -->
+		<buff_ai_tag buff_ai_tag_id="205" buff_ai_tag_name="ml_mf_look" />
 	</buff_ai_tags>
 </database>

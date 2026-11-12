@@ -10,7 +10,7 @@
 FemaleCore = FemaleCore or {}
 
 -- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new.
-FemaleCore.API = 3
+FemaleCore.API = 5
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -159,6 +159,8 @@ end
 -- back to his soul after hers. wasWoman says that Henry was a woman in this save.
 local henryKept = false
 local wasWoman = false
+-- Her state woman, read on each load: it keeps her shift and her beard without a mesh on the soul.
+local womanOn = false
 
 local function count(class)
 	return try("token", function() return player.inventory:GetCountOfClass(class) end) or 0
@@ -171,6 +173,10 @@ local function askCurrent(after)
 		local id = count(FemaleCore.ANSWER_ITEM)
 		if id > 0 then
 			try("token", function() player.inventory:DeleteItemOfClass(FemaleCore.ANSWER_ITEM, id) end)
+		end
+		womanOn = FemaleCore.WOMAN_ON_ANSWER ~= nil and id >= FemaleCore.WOMAN_ON_ANSWER
+		if womanOn then
+			id = id - FemaleCore.WOMAN_ON_ANSWER
 		end
 		wasWoman = id >= FemaleCore.WAS_WOMAN_ANSWER
 		if wasWoman then
@@ -311,6 +317,18 @@ local function tick(gen)
 	if not showing then
 		showNotice()
 	end
+	if FemaleCore.CutsceneDoubles then
+		try("cutscene doubles", FemaleCore.CutsceneDoubles)
+	end
+	-- A scene of the game that dresses her with a PlayerOutfitOverride gives this when the outfit goes on and when it comes
+	-- off. The outfit goes on the model without her overrides, and a rebuild puts them back: a load in the middle of the
+	-- pillory showed her right. KCD2 Male Framework ships the same scene and the same token, for a face of
+	-- its own: this one takes it while a woman is in use, and always when KCD2 Male Framework is not there.
+	local mine = womanInUse() or not (MaleCore and MaleCore.LOADED)
+	if FemaleCore.REBUILD_TOKEN and mine and takeToken(FemaleCore.REBUILD_TOKEN) and womanInUse() then
+		FemaleCore.Log("an outfit of a scene changed: rebuild")
+		rebuild()
+	end
 	Script.SetTimer(FemaleCore.TICK_MS, function() tick(gen) end)
 end
 
@@ -323,10 +341,11 @@ end
 
 -- FemaleCore.LOOKS is a list in menu order. Each look keeps its id, shared with KCD2 Male Framework, so the ids of the
 -- women are not one after another. soul is the model with that look, for a mod that shows it before choosing, and style
--- and color are the hair it starts with.
+-- and color are the hair it starts with. characters are the characters of the game with a name of their own who wear its
+-- face, as in LOOKS.md.
 local function copy(look)
 	return look and { id = look.id, name = look.name, ethnicity = look.ethnicity, age = look.age, villager = look.villager,
-		soul = look.soul, style = look.style, color = look.color }
+		soul = look.soul, style = look.style, color = look.color, characters = { unpack(look.characters or {}) } }
 end
 
 local function find(key)
@@ -442,20 +461,12 @@ local function putLook(look, noScreen, after)
 	end)
 end
 
-local function canChangeLook()
-	if notHenry() then
-		return false
-	end
-	if not FemaleCore.IsWoman() then
-		FemaleCore.Log("Henry is not a woman yet: ml_ff_female first")
-		return false
-	end
-	return true
-end
 
 -- She takes the head and the body of that look: a name or an id. Her hair stays.
+-- From Henry, or from a face of KCD2 Male Framework, it makes him a woman with that look, as ml_mf_look gives him a
+-- face straight away.
 function FemaleCore.SetLook(name, noScreen)
-	if not canChangeLook() then
+	if notHenry() then
 		return false
 	end
 	local look = name and find(name)
@@ -463,13 +474,16 @@ function FemaleCore.SetLook(name, noScreen)
 		FemaleCore.Log("no look called", name, "- ml_ff_looks lists them")
 		return false
 	end
+	if not FemaleCore.IsWoman() then
+		return FemaleCore.BecomeWoman(look.name, noScreen)
+	end
 	putLook(look, noScreen)
 	return true
 end
 
 -- A look at random among all but hers, with the hair it starts with. Returns that look, or nil.
 function FemaleCore.SetRandomLook(noScreen)
-	if not canChangeLook() then
+	if notHenry() then
 		return nil
 	end
 	local choices = {}
@@ -482,6 +496,10 @@ function FemaleCore.SetRandomLook(noScreen)
 		return nil
 	end
 	local look = choices[math.random(#choices)]
+	-- From Henry, she becomes a woman with it, and with its hair.
+	if not FemaleCore.IsWoman() then
+		return FemaleCore.BecomeWoman(look.name, noScreen) and copy(look) or nil
+	end
 	putLook(look, noScreen, function() FemaleCore.SetHair(look.style, look.color) end)
 	return copy(look)
 end
@@ -492,7 +510,7 @@ function FemaleCore.SetHair(style, color)
 		return false
 	end
 	if not FemaleCore.IsWoman() then
-		FemaleCore.Log("Henry is not a woman yet: ml_ff_female first")
+		FemaleCore.Log("Henry is not a woman yet: ml_ff_look first")
 		return false
 	end
 	style = tonumber(style)
@@ -584,7 +602,9 @@ end
 -- on, as long as he is a man. KCD2 Male Framework gives his face back with a Commit made with them in view, but after a
 -- woman's head that left her face with his hair, so here they are not taken off. The
 -- Commit is still made, for his hair and beard. Her clothes come off by the rules of the graph, with a notice.
-function FemaleCore.Henry(noScreen)
+-- after runs once he is back, before the screen clears: KCD2 Male Framework puts a face of its own on him then, straight
+-- from a woman.
+function FemaleCore.Henry(noScreen, after)
 	if notHenry() then
 		return false
 	end
@@ -609,6 +629,9 @@ function FemaleCore.Henry(noScreen)
 					barber:TryHair(FemaleCore.HENRY_HAIR)
 				end)
 				FemaleCore.Log("Henry is back")
+				if after then
+					try("after Henry", after)
+				end
 				hideScreen()
 			end)
 		end)
@@ -726,8 +749,18 @@ end
 -- later: right at the start of the game it may not be there yet.
 FemaleCore.LOAD_WAIT_MS = 3000
 
+-- Ready once the look of the save is known and the model rebuilt with it. A command or a change of the other framework
+-- in the seconds before met the look of the save before: a face of KCD2 Male Framework went on while this one did
+-- not know yet that she was a woman, and her state and her beard without a mesh stayed on.
+local ready = false
+
+function FemaleCore.Ready()
+	return ready
+end
+
 function FemaleCore:OnGameplayStarted()
 	FemaleCore.Log("gameplay started")
+	ready = false
 	startGen = startGen + 1
 	-- A load in the middle of a change.
 	hideScreen()
@@ -744,11 +777,31 @@ function FemaleCore:OnGameplayStarted()
 		sendPrice()
 		askCurrent(function(current)
 			FemaleCore.Log("look on load", current, "- his head kept on:", henryKept, "- was a woman:", wasWoman,
-				"- world day", try("calendar", Calendar.GetWorldDay), "time", try("calendar", Calendar.GetWorldTime))
+				"- her state on:", womanOn, "- world day", try("calendar", Calendar.GetWorldDay), "time", try("calendar", Calendar.GetWorldTime))
 			-- Before the rebuild, so the model rebuilds without his parts. With Henry a man, it clears a mark left over.
 			markWoman(current > 0)
-			if current > 0 or henryKept then
-				rebuild()
+			-- Her state left on with a man: her shift and her beard without a mesh stayed on him, and on his doubles. Henry's token turns it off and keeps his head, body and underwear on, as ml_ff_henry does. Without
+			-- them on, a face of KCD2 Male Framework took their place, and the reset turns it off, as that framework
+			-- sends before its face.
+			local repaired = false
+			if womanOn and current == 0 then
+				repaired = true
+				if henryKept then
+					FemaleCore.Log("her state was still on, with Henry: his token turns it off")
+					sendToken(FemaleCore.HENRY_TOKEN)
+				else
+					FemaleCore.Log("her state was still on, without Henry's head: the reset turns it off")
+					sendToken(FemaleCore.RESET_TOKEN)
+				end
+			end
+			local function done()
+				ready = true
+				FemaleCore.Log("ready")
+			end
+			if current > 0 or henryKept or repaired then
+				Script.SetTimer(repaired and FemaleCore.TOKEN_MS + 200 or 0, function() rebuild(done) end)
+			else
+				done()
 			end
 			startTick()
 			applyStartLook()
@@ -780,23 +833,47 @@ end
 -- change started under them breaks. Those screens pause the game, and a timer of the game waits while it is paused
 --, so the change starts once the game runs again.
 FemaleCore.IN_GAME_MS = 500
+-- And once both frameworks know the look of the save and rebuilt with it. If that never comes, after this long
+-- it starts anyway.
+FemaleCore.READY_WAIT_MS = 30000
+
+local function bothReady()
+	local ok, other = pcall(function() return not (MaleCore and MaleCore.Ready) or MaleCore.Ready() end)
+	return ready and (not ok or other == true)
+end
 
 local function inGame(label, fn)
 	local asked = try("clock", System.GetCurrAsyncTime)
-	FemaleCore.Log(label .. ": it starts in the game, once no inventory, map or menu is open")
-	Script.SetTimer(FemaleCore.IN_GAME_MS, function()
+	FemaleCore.Log(label .. ": it starts in the game, once no inventory, map or menu is open, and the look of the save is on")
+	local waited, told = 0, false
+	local function attempt()
+		if not bothReady() and waited < FemaleCore.READY_WAIT_MS then
+			if not told then
+				told = true
+				FemaleCore.Log(label, "waits for the look of the save")
+			end
+			waited = waited + FemaleCore.IN_GAME_MS
+			Script.SetTimer(FemaleCore.IN_GAME_MS, attempt)
+			return
+		end
 		-- In real time: much more than IN_GAME_MS means the game was paused.
 		local now = try("clock", System.GetCurrAsyncTime)
 		if asked and now then
 			FemaleCore.Log(label, "starts after", string.format("%.1f", now - asked), "s")
 		end
 		try(label, fn)
-	end)
+	end
+	Script.SetTimer(FemaleCore.IN_GAME_MS, attempt)
 end
 
+-- Each look, and after it the characters of the game who wear its face.
 function FemaleCore.PrintLooks()
 	for _, look in ipairs(FemaleCore.ListLooks()) do
-		System.LogAlways(string.format("%s: woman, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id))
+		local line = string.format("%s: woman, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id)
+		if #look.characters > 0 then
+			line = line .. " - " .. table.concat(look.characters, ", ")
+		end
+		System.LogAlways(line)
 	end
 end
 
