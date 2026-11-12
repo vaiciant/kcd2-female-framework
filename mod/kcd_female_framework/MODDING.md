@@ -30,7 +30,7 @@ That is all. The framework does the rest by itself:
 
 It takes a few seconds, under a black screen with a line that says so. If your mod covers the screen on its own, pass `true` as the last argument to leave it as it is: `FemaleCore.BecomeWoman("woman_czech_2", true)`. Every command is in [COMMANDS.md](COMMANDS.md).
 
-She keeps Henry's voice and lines, and the story still calls her Henry. A mod that wants a different person, with her own name and things, starts a new character, as KCD2 Life does (see "If your mod plays its own character").
+She keeps Henry's lines, and the story still calls her Henry. A mod that wants a different person, with her own name and things, starts a new character, as KCD2 Life does (see "If your mod plays its own character").
 
 ## From the start of a game
 

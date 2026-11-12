@@ -31,7 +31,7 @@ It works on its own or with KCD2 Male Framework, and goes from one to the other 
 
 ## 0.2.0
 
-- **Her face moves.** Her lips move with Henry's voice, and she blinks and makes faces, as a man does. Every head now carries its face poses, and the bones of its face sit where the fitted face is.
+- **Her face moves.** Her lips move when she speaks, and she blinks and makes faces, as a man does. Every head now carries its face poses, and the bones of its face sit where the fitted face is.
 - **Back to Henry.** `ml_ff_henry` turns her back into Henry, in the same save: his head and body, his usual hair and no beard. Her clothes come off, with a notice. `ml_ff_female` makes him a woman again at any time.
 - **With KCD2 Male Framework 0.2.0 or later,** its faces work after going back to Henry, and `ml_mf_henry` keeps his own.
 - **For modders:** `FemaleCore.Henry(noScreen)` works, and `FemaleCore.TakeOffHenry()`, `FemaleCore.KeepHenry()` and `FemaleCore.HenryKept()` are new. `FemaleCore.API` is 2.
