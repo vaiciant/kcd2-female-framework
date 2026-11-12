@@ -15,16 +15,16 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 - **The barber knows she is a woman.** Ask any barber for a haircut and she gets a woman's one. Pick the style and the color in the talk, and see each one on her before you take it. It costs the usual 50 groschen, or 5 with Realish Economy.
 - **First person** looks clean: you never see the inside of her face.
 - **Combat and riding** work as always.
-- **The game's scenes** keep her own body where Henry is wet, wounded or bandaged.
+- **The game's scenes** keep her own body where Henry is wet, wounded or bandaged, and in the pillory.
 - **Clothes that make sense.** A dress and men's armour do not go together. When they clash, what does not fit comes off, and a message tells you why.
 
 ## How to play
 
 Open the console with the key under Esc, and type:
 
-- `ml_ff_female` to turn Henry into a woman. To pick her face, add its name: `ml_ff_female woman_czech_2`.
-- `ml_ff_looks` to see every face.
-- `ml_ff_look woman_romani_3` to change her face, or `ml_ff_random` for one at random.
+- `ml_ff_look woman_czech_2` to turn Henry into a woman with that face, or to change her face. `ml_ff_female` does the same with the first face.
+- `ml_ff_looks` to see every face, and which characters of the game wear it.
+- `ml_ff_random` for a face at random.
 - `ml_ff_hair 2 blonde` to change her hair, or just ask a barber for a haircut.
 - `ml_ff_henry` to turn her back into Henry, with his own face.
 - `ml_ff_start woman_czech_2` in the main menu, before New Game, to start the new game as a woman. She takes Henry's place once he rides out after the prologue with Godwin.
@@ -35,7 +35,7 @@ The screen goes dark for a few seconds while she changes. Type the commands in t
 
 - **Back to Henry** comes with his usual hair and no beard.
 - **Keep a save from before** `ml_ff_female` if you may want to remove the mod: once Henry has been a woman, his face comes from the mod.
-- With KCD2 Male Framework, use version 0.2.0 or later of both.
+- With KCD2 Male Framework, use version 0.4.0 or later of both.
 - She speaks with Henry's voice, and the story still calls her Henry.
 - Mods that change the barber's talk, or the scenes where Henry is wet or wounded, can clash with it.
 - Mods that replace the models of hats and helmets can make them sit oddly on her.
@@ -56,4 +56,4 @@ Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods
 
 Any mod can use it: one line of Lua turns Henry into a woman. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-female-framework).
 
-*Required by KCD2 Life.*
+*Works on its own or with KCD2 Male Framework. Required by KCD2 Life.*

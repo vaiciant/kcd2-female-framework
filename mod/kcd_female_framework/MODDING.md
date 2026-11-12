@@ -66,9 +66,9 @@ ml_ff_look woman_romani_3
 FemaleCore.SetLook("woman_romani_3")
 ```
 
-It changes the head and the body. Her hair stays until she visits a barber.
+It changes the head and the body. Her hair stays until she visits a barber. From Henry, it turns him into a woman with that look, as `FemaleCore.BecomeWoman` does, so one command is enough, as with `ml_mf_look` of KCD2 Male Framework. `FemaleCore.API` is 5 from then on.
 
-`ml_ff_random`, or `FemaleCore.SetRandomLook()`, gives her a look at random among all but hers, with the hair it starts with, and returns that look.
+`ml_ff_random`, or `FemaleCore.SetRandomLook()`, gives her a look at random among all but hers, with the hair it starts with, and returns that look. From Henry, it turns him into a woman with it.
 
 ## Her hair
 
@@ -98,9 +98,12 @@ From Lua:
 ```lua
 for _, look in ipairs(FemaleCore.ListLooks(FemaleCore.WOMAN)) do
 	-- look.id, look.name, look.ethnicity ("czech", "hungarian", "romani" or nil),
-	-- look.age ("young" or "old"), look.villager (false for a named character's face)
+	-- look.age ("young" or "old"), look.villager (false for a named character's face),
+	-- look.characters (the characters of the game with a name of their own who wear its face, maybe none)
 end
 ```
+
+[LOOKS.md](LOOKS.md) lists them all, by look and by character.
 
 Use `look.villager` and `look.age` to offer only the faces that suit your story, as KCD2 Life offers only young villagers.
 
@@ -148,7 +151,7 @@ After every load and every map, also say whether that character is a woman: `Fem
 
 ## With KCD2 Male Framework
 
-They work alone or together. [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework) gives Henry another man's face with `ml_mf_look`, and `ml_mf_henry` brings his own back. While Henry is a woman, its commands do nothing, so they do not put a man's face on her. Use version 0.2.0 or later of both.
+They work alone or together. [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework) gives Henry another man's face with `ml_mf_look`, and `ml_mf_henry` brings his own back. From a woman, its `ml_mf_look` turns her back into Henry with this framework and puts the face on straight away, and from one of its faces, `ml_ff_female` turns him into a woman: neither needs `ml_ff_henry` in between. Use 0.4.0 or later of this one.
 
 If your mod puts a head of its own on Henry after he was a woman, do as KCD2 Male Framework does:
 

@@ -99,7 +99,7 @@ With a `mod_order.txt`, only the mods listed load, in that order. Without it, St
 4. **The hair.** `Barber:Commit` puts her hair on the soul, where the woman's haircut at the barber and the framework's commands can change it. `Commit` also keeps in the soul the head that is shown, so on the first change her hair goes on while Henry's head still shows.
 5. **Saving.** The states live in the project, so every map and every save keeps them. After a load, Lua puts `ml_ff_ask` in Henry's inventory, and Skald answers with as many `ml_ff_answer` tokens as the id of the look that is on. Lua reads them, takes them away, and rebuilds the model. Nothing stays in the inventory.
 6. **The black screen.** While the look changes, the HUD fades to black with a line of text (`SetFaderState` and `SetNarrativeSubtitles`), and the `player` action map is locked. Every call takes `noScreen`, which leaves the screen as it is.
-7. **Back to Henry.** `ml_ff_reset` turns her look off, and `ml_ff_henry_face` turns on Henry's head and body, `henry` and `henry_body`, as one more look. A `Commit` with them in view puts on his hair and no beard. After a woman's head, that `Commit` did not give Henry his own head back, as it does for KCD2 Male Framework, so this look stays on while he is a man. A woman's look, or `ml_ff_reset`, turns it off. The state `was_woman` remembers that he was a woman in that save.
+7. **Back to Henry.** `ml_ff_reset` turns her look off, and `ml_ff_henry_face` turns on Henry's head, body and underwear, `henry`, `henry_body` and `m_underwear01_m01`, as one more look. A `Commit` with them in view puts on his hair and no beard. After a woman's head, that `Commit` did not give Henry his own head back, as it does for KCD2 Male Framework, so this look stays on while he is a man. A woman's look, or `ml_ff_reset`, turns it off. The state `was_woman` remembers that he was a woman in that save.
 
 The playable character of KCD2 Life, the soul `ml_player`, gets the same nodes with `new_` in front of their names. See [section 5.4](#54-the-character-of-kcd2-life).
 
@@ -122,7 +122,7 @@ All mods share one Lua state, so a call is a plain function call. A look is its 
 
 | Function | Returns |
 |---|---|
-| `FemaleCore.ListLooks()` | Every look, in menu order. `FemaleCore.ListLooks(FemaleCore.MAN)` returns none |
+| `FemaleCore.ListLooks()` | Every look, in menu order, with the characters of the game who wear its face in `characters`. `FemaleCore.ListLooks(FemaleCore.MAN)` returns none |
 | `FemaleCore.GetLook(look)` | A look table, or `nil` |
 | `FemaleCore.FindLook(name)` | The same, by name only |
 
@@ -133,11 +133,11 @@ A look table has `id`, `name`, `ethnicity` (`"czech"`, `"hungarian"`, `"romani"`
 | Function | What it does |
 |---|---|
 | `FemaleCore.BecomeWoman(look, noScreen)` | Henry becomes a woman, with that look or the first one |
-| `FemaleCore.SetLook(look, noScreen)` | Changes her head and body. Her hair stays |
-| `FemaleCore.SetRandomLook(noScreen)` | Her head and body of a look at random among all but hers, and the hair it starts with. Returns that look, or `nil` |
+| `FemaleCore.SetLook(look, noScreen)` | Changes her head and body. Her hair stays. From Henry, it turns him into a woman with that look (API 5) |
+| `FemaleCore.SetRandomLook(noScreen)` | Her head and body of a look at random among all but hers, and the hair it starts with. From Henry, it turns him into a woman with it. Returns that look, or `nil` |
 | `FemaleCore.SetHair(style, color)` | Style 1 to 7, and a color by number, 1 to 9, or by name. Style 3 has only the first six colors |
 | `FemaleCore.Refresh()` | Rebuilds the model, for when the look does not show |
-| `FemaleCore.Henry(noScreen)` | She becomes Henry again: his head and body, his usual hair and no beard. Returns `true` if it started |
+| `FemaleCore.Henry(noScreen, after)` | She becomes Henry again: his head and body, his usual hair and no beard. `after`, if given, runs once he is back, before the screen clears (API 4). Returns `true` if it started |
 | `FemaleCore.TakeOffHenry()` | For a mod that puts its own head on Henry, as KCD2 Male Framework does: the look of Henry kept on after `Henry()` comes off first. Does nothing if it is off |
 | `FemaleCore.KeepHenry()` | When that mod gives Henry his own face back: if he was a woman in this save, the look of Henry goes on again. Does nothing otherwise |
 | `FemaleCore.Hair()` | Her style and color, and `true` if the framework knows them. After a load it does not, and returns the hair her look starts with |
@@ -182,8 +182,8 @@ KCD2 Life keeps its character, `SwitchPlayer` and its soul `ml_player`, and only
 |---|---|---|
 | `ml_ff_set_N` | Lua to Skald | Look `N` on Henry |
 | `ml_ff_reset` | Lua to Skald | Every look of Henry off |
-| `ml_ff_henry_face` | Lua to Skald | Henry's head and body on, until a woman's look or `ml_ff_reset` |
-| `ml_ff_ask` and `ml_ff_answer` | Lua to Skald, and back | The look in use, after a load: as many answers as its id, plus 500 while Henry's head and body are kept on, and 1000 if he was a woman |
+| `ml_ff_henry_face` | Lua to Skald | Henry's head, body and underwear on, until a woman's look or `ml_ff_reset` |
+| `ml_ff_ask` and `ml_ff_answer` | Lua to Skald, and back | The look in use, after a load: as many answers as its id, plus 500 while Henry's head and body are kept on, 1000 if he was a woman, and 2000 while her state `woman` is on. With a man, the framework turns that state off with Henry's token or the reset |
 | `ml_ff_look_N` | Lua to Skald | Look `N` for the character of KCD2 Life, before the switch |
 | `ml_ff_new_started` | Another Skald project to this one | The switch to the character of KCD2 Life has ended |
 | `ml_ff_henry_stripped_*` | Skald to Lua | A garment came off. Lua shows why |
@@ -226,9 +226,10 @@ Declare Henry's soul in the `Assets` of your module:
 An override of a quest of the level wins over one of the project, even when it turns on first (KCD2 Male Framework's face covered hers, which is why `MaleCore.TakeOff` runs first). Five scenes of the game put Henry's own parts on the player soul: in the prologue, `prepadeni/prepadeni/mokry_jindrich_a_ptacek` (wet), `prepadeni/hibernovana_cast/honicka_ve_skalach/nastaveni_ptacka_a_jindricha` (the escape), `zachrana/henryho_morfovani_tel_a_obvazu` and its `henry__pred_prvni_cs` (wounded and bandaged), and `kumaniNaTrosecku/.../soutez_v_plavani` (wet, at the swimming contest). Every other override of the game is on another soul.
 
 - `ml_ff_face` keeps the buff `ml_ff_woman` on Henry while `woman` is on (`BuffEffect woman_mark`). It has no effect and no icon, and its tag is 204, `ml_ff_woman`.
-- The framework ships those five files, under `Quests/Final/Barbora/trosecko/`. In each, every `BodyPartOverride` of `player` goes on with its own condition `And` not a woman. A woman is `BuffTagCheck(player, 204)` `Or` the state `ml_ff_woman_seen`, which a `BuffTagTrigger` on tag 204 sets when the buff arrives and clears when it goes. The tools copy the files from your game and check each one against its SHA-256, so they are not in the repository.
+- The framework ships those five files, under `Quests/Final/Barbora/trosecko/`. In each, every `BodyPartOverride` of `player` goes on with its own condition `And` one more. A woman is `BuffTagCheck(player, 204)` `Or` the state `ml_ff_woman_seen`, which a `BuffTagTrigger` on tag 204 sets when the buff arrives and clears when it goes. A look of KCD2 Male Framework is the same with its buff `ml_mf_look`, tag 205. The head and the body go on only with neither (`ml_no_look`), the underwear only with no woman (`ml_ff_not_woman`): Henry's breeches are a man's. KCD2 Male Framework ships the same five files, and both frameworks have both tags, so either one works alone. The tools copy the files from your game and check each one against its SHA-256, so they are not in the repository.
 - After a load a scene can read the buff before it is back. So `female_core.lua` takes it off and gives it again on each load, before the rebuild, and when she becomes a woman, and takes it off with `FemaleCore.Henry()`. Each scene hears it arrive.
-- A mod with a look on Henry of its own can put a buff with tag 204 on him while it is on, and the five scenes leave his head, body and underwear alone.
+- **The pillory** in Troskowitz, `socky/hibernable/pranyr`, does it another way: a `PlayerOutfitOverride` dresses the player in the preset `socky_Henry_cutscene_NoShirt` (Henry's hose and boots), and the outfit goes on the model without her overrides, so Henry's body showed under her head until the next load. The framework ships it too, with the outfit as the game's and one more node on each output where it goes on or off: a `CreatePlayerReward` of the token `ml_scene_rebuild` (`FemaleCore.REBUILD_TOKEN`). The tick takes it while a woman is in use and rebuilds her look, so she wears the hose and boots as the cutscene shows her. KCD2 Male Framework ships the same file and the same token row, and takes it the rest of the time, so either one works alone. The game has about 40 more `PlayerOutfitOverride`s (a disguise, tournaments, baths), not handled yet.
+- A mod with a look on Henry of its own can put a buff with tag 204 on him while it is on, and the five scenes leave his head, body and underwear alone. With tag 205 they leave his head and body alone, and keep his breeches.
 
 ### 6.5 The barber
 
@@ -263,7 +264,7 @@ Garments of other types, and garments of other mods, are not converted. With a m
 | Situation | What happens |
 |---|---|
 | The framework alone, in the game's campaign | Looks go on Henry's soul, with no switch. His voice, name and story stay |
-| With KCD2 Male Framework | Before Henry becomes a woman, his man's face comes off. While he is a woman, its commands do nothing. After `ml_ff_henry`, its looks take the place of the framework's look of Henry, and `ml_mf_henry` puts it back. Both need 0.2.0 or later |
+| With KCD2 Male Framework | Before Henry becomes a woman, his man's face comes off. From a woman, its `SetLook` calls `FemaleCore.Henry(true, after)` and puts its face on when he is back, with no `ml_ff_henry` in between (API 4). After `ml_ff_henry`, its looks take the place of the framework's look of Henry, and `ml_mf_henry` puts it back |
 | With KCD2 Life | Its character gets the looks, and the commands do nothing with it |
 | Removing the mod, with a save from before `ml_ff_female` | Nothing changes |
 | Removing the mod, with a save where Henry is or was a woman | Not supported: after `ml_ff_henry`, his head comes from the framework |
@@ -274,7 +275,7 @@ The framework adds no entity classes to the save. A save that holds an entity of
 ## 9. Known limits
 
 - Back to Henry gives him his usual hair and no beard, not the ones he had before: `Barber` cannot read the hair in use.
-- The framework replaces the game's barber dialog file and five scene files (section 6.4). A mod that replaces the same files clashes with them.
+- The framework replaces the game's barber dialog file and six scene files (section 6.4). A mod that replaces the same files clashes with them.
 - The adjusted headgear meshes live at the game's paths and replace its own. Another mod that replaces the same mesh wins or loses by load order, and if it wins, the helmet sits high on a woman.
 - After a game update, the meshes must be rebuilt if their sources changed.
 - In the inventory preview, the underwear sometimes shows only after reopening the inventory.

@@ -1,6 +1,6 @@
 # KCD2 Female Framework (`kcd_female_framework`)
 
-**Works on its own. Required by [KCD2 Life](https://github.com/vaiciant/kcd2-life).**
+**Works on its own or with [KCD2 Male Framework](https://github.com/vaiciant/kcd2-male-framework). Required by [KCD2 Life](https://github.com/vaiciant/kcd2-life).**
 
 A library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that makes playable women possible. The player gets a woman's head, body and hair, women's clothes that fit, and keeps fighting and riding like any player. One console command turns Henry into a woman in any game, and other mods can build on it. Any mod may use it, with a credit as the only condition.
 
@@ -20,10 +20,11 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 - **First-person heads.** Each head hides in first person through the `FirstPersonView` bit of its vertex colors, like Henry's.
 - **Headgear.** 146 men's hats, hoods and helmets get a morph that only a woman's head turns on. For everyone else they are unchanged.
 - **The look.** Head, body and underwear are `BodyPartOverride` nodes in the framework's Skald project, on Henry's soul. Lua picks a look with a token in Henry's inventory, and the native `Barber` object puts on her hair and forces the model to rebuild. The states live in the project, so every map and every save keeps them.
-- **Back to Henry.** `Barber:Commit` keeps in the soul the head that is shown, but after a woman's head it does not give Henry his own back. So his head and body go on as one more look of the framework, and stay on while he is a man. A look of KCD2 Male Framework takes their place, and its `ml_mf_henry` puts them back.
+- **Back to Henry.** `Barber:Commit` keeps in the soul the head that is shown, but after a woman's head it does not give Henry his own back. So his head, his body and his underwear go on as one more look of the framework, and stay on while he is a man. On each load the framework also asks whether her state is still on with a man, which kept her shift and her beard without a mesh on him, and turns it off. A look of KCD2 Male Framework takes their place, and its `ml_mf_henry` puts them back.
 - **Clothes.** A woman's garment that reaches her inventory turns into its copy, with the same condition. Once a second, Skald checks what she wears: a dress takes off men's clothes from the torso, hands and legs, and men's clothes on the chest take off women's shoes and headwear. A notice says what came off.
 - **The barber.** The game's barber screen reads one list for everyone, `barber_option.xml`, with no column for gender, and a mod can only add rows to it. So while she is a woman, the barber's haircut is the framework's own dialog, `ml_ff_barber`, with the same line, *Give me a haircut*. The game's haircut is hidden: the framework ships the game's `barber_dialogue.xml` with `gvar('ml_ff_woman') != 1 AND gvar('ml_mf_model') != 1` added to its two haircut options, the same copy as KCD2 Male Framework. Her dialog keeps the camera of a normal talk, on her, so each hair shows as she picks it. Each choice calls `TryHair` on a `Barber` session, *I'll take this one* commits it, and leaving the talk reverts it. A beard override, the empty `m_beard_00`, keeps her clean shaven all the same.
-- **The game's scenes.** Five scenes of the game put Henry's own parts on the player with overrides of their own: wet, wounded and bandaged in the prologue in Trosecko, and wet at the Cumans' swimming contest. An override of a quest wins over hers, so she showed his wounded head, his body and his breeches there. While she is a woman, the framework keeps a buff with no effect and no icon on her, `ml_ff_woman`, and ships the game's files of those five scenes with one more condition on each override of the player: no `ml_ff_woman`. She keeps her head, her body and her shift, with no wounds or bandages, and Henry as a man sees the scenes as they were. The tools copy the files from your game, so they are not in the repository.
+- **The game's scenes.** Five scenes of the game put Henry's own parts on the player with overrides of their own: wet, wounded and bandaged in the prologue in Trosecko, and wet at the Cumans' swimming contest. An override of a quest wins over hers, so she showed his wounded head, his body and his breeches there. While she is a woman, the framework keeps a buff with no effect and no icon on her, `ml_ff_woman`, and ships the game's files of those five scenes with one more condition on each override of the player: no `ml_ff_woman`. She keeps her head, her body and her shift, with no wounds or bandages, and Henry as a man sees the scenes as they were. KCD2 Male Framework ships the same files, which leave Henry's head and body off a man with a face of its own too. The pillory in Troskowitz dresses the player in Henry's hose and boots with an outfit of its own, `PlayerOutfitOverride`, and the outfit goes on the model without her overrides: his body showed under her head until a load, which rebuilt her right. Its copy keeps the outfit and gives the player a token, `ml_scene_rebuild`, when it goes on and when it comes off, and the framework rebuilds her look. She wears the hose and boots, as the cutscene shows her. KCD2 Male Framework ships the same copy and the same token, for a man with a face of its own. The tools copy the files from your game, so they are not in the repository.
+- **Henry's doubles in the cutscenes.** In a cutscene of the engine, Henry is an `AnimChar` of the cutscene's layer, and the soul in its `Properties.Body.guidBodyPresetId` gives its look. Most use the player's soul, so they show her. 27 use a soul of their own that the game gives Henry's head: wet at the lake, wounded when he falls, his arm bandaged, dreaming, whipped, naked in the romances. While she is a woman, the framework gives those the player's soul: it wraps `AnimChar.SetFromProperties`, which the game looks up when a layer makes its doubles, and once a second it checks the doubles that are there already. Henry as a man sees them as always. KCD2 Male Framework does the same for a man with a look of its own, and the two agree.
 
 ## Features
 
@@ -41,10 +42,10 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 
 | Command | What it does |
 |---|---|
-| `ml_ff_looks` | Lists every face: its name, its people, its age and its id |
+| `ml_ff_looks` | Lists every face: its name, its people, its age, its id and the characters of the game who wear it. [LOOKS.md](mod/kcd_female_framework/LOOKS.md) has the same list, and who wears what |
 | `ml_ff_female [name]` | Turns Henry into a woman, with that look or the first one. He keeps his story, his skills and his things |
-| `ml_ff_look <name>` | Changes the head and the body to that look, like `ml_ff_look woman_czech_2` or `ml_ff_look ml_ff_head_katherine` |
-| `ml_ff_random` | Gives her a look at random among all, with the hair it starts with |
+| `ml_ff_look <name>` | Changes the head and the body to that look, like `ml_ff_look woman_czech_2` or `ml_ff_look ml_ff_head_katherine`. From Henry, it turns him into a woman with it |
+| `ml_ff_random` | Gives her a look at random among all, with the hair it starts with. From Henry, it turns him into a woman with it |
 | `ml_ff_hair <style> <color>` | Changes her hair, like `ml_ff_hair 2 blonde` |
 | `ml_ff_henry` | Turns her back into Henry: his head, body and hair, with no beard |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show |
@@ -68,9 +69,9 @@ end
 ## Compatibility and known limits
 
 - **Back to Henry** gives him his usual hair and no beard, not the ones he had before.
-- **With KCD2 Male Framework,** use 0.2.0 or later of both: from then on it takes Henry's head off before its own looks and puts it back with `ml_mf_henry`.
+- **With KCD2 Male Framework,** use 0.2.0 or later of both: from then on it takes Henry's head off before its own looks and puts it back with `ml_mf_henry`. From 0.4.0 of both, a woman goes straight to one of its faces with `ml_mf_look`, and one of its faces straight to a woman with `ml_ff_female`, with no `ml_ff_henry` in between.
 - **The barber's talk.** The framework replaces the game's `barber_dialogue.xml`, with its haircut hidden for her, and for a man with a look of KCD2 Male Framework, which ships the same copy. A mod that replaces the same file clashes with it, and the one that loads last wins.
-- **The game's scenes.** The five scene files replace the game's, like the barber's talk: a mod that replaces the same files clashes with them. A look of KCD2 Male Framework still shows Henry's wounded head in the prologue.
+- **The game's scenes.** The six scene files replace the game's, like the barber's talk, and KCD2 Male Framework ships the same ones: a mod that replaces the same files clashes with them.
 - **Removing it** from a save where Henry is or was a woman is not supported: after `ml_ff_henry` his head comes from the framework. Keep a save from before `ml_ff_female`.
 - **Headgear meshes.** The 146 adjusted meshes replace the game's at their own paths. A mod that replaces the same meshes wins or loses by load order, and if it wins, the helmet sits high on her.
 - **Voice.** She speaks with Henry's voice and lines. Her lips, eyes and brows move with them, as a man's do.
@@ -94,7 +95,7 @@ python -I tools/install_mod.py mod/kcd_female_framework
 | Tool | What it writes |
 |---|---|
 | `tools/extract_game.py` | The game tables that the tools read, from your game into `game_files/`. Once, and again after a game update |
-| `tools/generate_models.py` | The catalog of looks in `looks.toml`, the Skald graph, the tokens and the Lua data of both frameworks, and the game's barber dialog with its haircut for men only |
+| `tools/generate_models.py` | The catalog of looks in `looks.toml` and `LOOKS.md`, the Skald graph, the tokens and the Lua data of both frameworks, and the game's barber dialog with its haircut for men only |
 | `tools/generate_women.py` | The meshes fitted to the male skeleton, their components, the copies of the women's garments and the headgear morphs |
 | `tools/install_mod.py` | Packs the mod and copies it to the game. The game must be closed |
 
