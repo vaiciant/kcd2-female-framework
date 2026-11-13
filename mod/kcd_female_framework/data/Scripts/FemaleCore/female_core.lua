@@ -9,8 +9,9 @@
 -- =============================================================================
 FemaleCore = FemaleCore or {}
 
--- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new.
-FemaleCore.API = 5
+-- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new. 6: SetLook, BecomeWoman and
+-- StartAs take a hair, and SetHair the game's names and the hairs of the women of the story.
+FemaleCore.API = 6
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -29,6 +30,9 @@ FemaleCore.SAFE_BEARD = "m_beard_00"
 -- The hair styles, each with how many of HAIR_COLORS it has: the game has no grey for style 3.
 FemaleCore.HAIR_STYLES = { 9, 9, 6, 9, 9, 9, 9 }
 FemaleCore.HAIR_COLORS = { "dark_brown", "black", "light_brown", "blonde", "ginger", "dark_ginger", "dark_grey", "grey", "white" }
+-- The hairs of women of the story that the framework fits too, out of the barber: f_hair_katherine of the game is
+-- ml_ff_hair_katherine here. generate_women.py mounts the same ones (HAIRS).
+FemaleCore.NAMED_HAIRS = { "katherine", "rose", "mother", "miriam" }
 -- FemaleCore.LOOKS and the tokens come from looks_data.lua, and FemaleCore.CLOTHES from clothes_data.lua.
 
 -- A mod that plays its own character instead of Henry, like KCD2 Life, puts here a function that says so. The look
@@ -198,6 +202,43 @@ local function hairName(style, color)
 end
 
 FemaleCore.HairName = hairName
+
+-- A hair of hers as a command or a mod gives it: a style from 1 to 7 and a color, by name or number, as
+-- ml_ff_hair 5 blonde; the game's name of one of those, as LOOKS.md gives it, f_hair_005_blonde; or a hair of a woman
+-- of the story, katherine or f_hair_katherine. Returns its name in the framework, and its style and color when it has
+-- them, or nil.
+local function resolveHair(style, color)
+	local text = string.lower(tostring(style or ""))
+	text = string.gsub(text, "^ml_ff_hair_", "")
+	text = string.gsub(text, "^f_hair_", "")
+	for _, named in ipairs(FemaleCore.NAMED_HAIRS) do
+		if text == named then
+			return "ml_ff_hair_" .. named
+		end
+	end
+	local number, rest = string.match(text, "^(%d+)_(.+)$")
+	if number then
+		style, color = number, rest
+	end
+	style = tonumber(style)
+	local colors = style and FemaleCore.HAIR_STYLES[style]
+	local index = tonumber(color)
+	for i, name in ipairs(FemaleCore.HAIR_COLORS) do
+		if name == color then
+			index = i
+		end
+	end
+	if not (colors and index and index >= 1 and index <= colors) then
+		return nil
+	end
+	return hairName(style, index), style, index
+end
+
+local function hairHelp(what)
+	FemaleCore.Log("no hair " .. tostring(what) .. ": a style from 1 to " .. #FemaleCore.HAIR_STYLES .. " and a color from 1 to 9 or by name,",
+		table.concat(FemaleCore.HAIR_COLORS, ", ") .. " (style 3 has no dark_grey, grey or white), as 5 blonde or f_hair_005_blonde;",
+		"or one of", table.concat(FemaleCore.NAMED_HAIRS, ", "))
+end
 
 local function withBarber(label, fn)
 	try(label, function()
@@ -380,8 +421,9 @@ end
 -- keeps the hair itself.
 local hair = nil
 
+-- A hair of a woman of the story has no style for the barber: then her hair is not known.
 function FemaleCore.RememberHair(style, color)
-	hair = { style = style, color = color }
+	hair = style and { style = style, color = color } or nil
 end
 
 -- Her hair: a style, a color and whether it is known. When it is not, the hair her look starts with.
@@ -398,13 +440,13 @@ function FemaleCore.Hair()
 end
 
 -- Henry becomes a woman, with that look: a name or an id. Without one, the first look. She stays one until Henry().
-function FemaleCore.BecomeWoman(name, noScreen)
+function FemaleCore.BecomeWoman(name, noScreen, hairStyle, hairColor)
 	if notHenry() then
 		return false
 	end
 	if FemaleCore.IsWoman() then
 		if name then
-			return FemaleCore.SetLook(name, noScreen)
+			return FemaleCore.SetLook(name, noScreen, hairStyle, hairColor)
 		end
 		FemaleCore.Log("Henry is a woman already: ml_ff_look changes her look")
 		return false
@@ -414,7 +456,17 @@ function FemaleCore.BecomeWoman(name, noScreen)
 		FemaleCore.Log("no look called", name, "- ml_ff_looks lists them")
 		return false
 	end
-	FemaleCore.Log("Henry becomes a woman, look", look.name, "id", look.id)
+	-- A hair given instead of the look's.
+	local mesh, style, color = nil, look.style, look.color
+	if hairStyle then
+		mesh, style, color = resolveHair(hairStyle, hairColor)
+		if not mesh then
+			hairHelp(hairStyle)
+			style, color = look.style, look.color
+		end
+	end
+	mesh = mesh or hairName(look.style, look.color)
+	FemaleCore.Log("Henry becomes a woman, look", look.name, "id", look.id, "hair", mesh)
 	showScreen(noScreen)
 	-- A face of KCD2 Male Framework would cover hers.
 	if MaleCore and MaleCore.TakeOff then
@@ -423,9 +475,9 @@ function FemaleCore.BecomeWoman(name, noScreen)
 	-- Barber:Commit keeps the head it sees in the soul, so her hair goes on while his head still shows.
 	withBarber("woman parts", function(barber)
 		barber:TryBeard(FemaleCore.SAFE_BEARD)
-		barber:TryHair(hairName(look.style, look.color))
+		barber:TryHair(mesh)
 	end)
-	FemaleCore.RememberHair(look.style, look.color)
+	FemaleCore.RememberHair(style, color)
 	-- Her token also takes off his head and body, if they were kept on after ml_ff_henry.
 	sendToken(look.token)
 	setCurrent(look.id)
@@ -462,10 +514,11 @@ local function putLook(look, noScreen, after)
 end
 
 
--- She takes the head and the body of that look: a name or an id. Her hair stays.
+-- She takes the head and the body of that look: a name or an id. Her hair stays, unless a hair is given, as SetHair
+-- takes it.
 -- From Henry, or from a face of KCD2 Male Framework, it makes him a woman with that look, as ml_mf_look gives him a
 -- face straight away.
-function FemaleCore.SetLook(name, noScreen)
+function FemaleCore.SetLook(name, noScreen, hairStyle, hairColor)
 	if notHenry() then
 		return false
 	end
@@ -475,9 +528,9 @@ function FemaleCore.SetLook(name, noScreen)
 		return false
 	end
 	if not FemaleCore.IsWoman() then
-		return FemaleCore.BecomeWoman(look.name, noScreen)
+		return FemaleCore.BecomeWoman(look.name, noScreen, hairStyle, hairColor)
 	end
-	putLook(look, noScreen)
+	putLook(look, noScreen, hairStyle and function() FemaleCore.SetHair(hairStyle, hairColor) end or nil)
 	return true
 end
 
@@ -504,7 +557,8 @@ function FemaleCore.SetRandomLook(noScreen)
 	return copy(look)
 end
 
--- Her hair: a style from 1 to 7 and a color, by name or number. Hair only: no beard.
+-- Her hair: a style from 1 to 7 and a color, by name or number, the game's name of one, or a hair of a woman of the
+-- story (resolveHair). Hair only: no beard.
 function FemaleCore.SetHair(style, color)
 	if notHenry() then
 		return false
@@ -513,22 +567,14 @@ function FemaleCore.SetHair(style, color)
 		FemaleCore.Log("Henry is not a woman yet: ml_ff_look first")
 		return false
 	end
-	style = tonumber(style)
-	local colors = style and FemaleCore.HAIR_STYLES[style]
-	local index = tonumber(color)
-	for i, name in ipairs(FemaleCore.HAIR_COLORS) do
-		if name == color then
-			index = i
-		end
-	end
-	if not (colors and index and index >= 1 and index <= colors) then
-		FemaleCore.Log("hair: a style from 1 to " .. #FemaleCore.HAIR_STYLES .. ", and a color from 1 to 9 or by name:",
-			table.concat(FemaleCore.HAIR_COLORS, ", ") .. ". Style 3 has no dark_grey, grey or white")
+	local mesh, number, index = resolveHair(style, color)
+	if not mesh then
+		hairHelp(style)
 		return false
 	end
-	withBarber("hair", function(barber) barber:TryHair(hairName(style, index)) end)
-	FemaleCore.RememberHair(style, index)
-	FemaleCore.Log("hair", hairName(style, index))
+	withBarber("hair", function(barber) barber:TryHair(mesh) end)
+	FemaleCore.RememberHair(number, index)
+	FemaleCore.Log("hair", mesh)
 	return true
 end
 
@@ -687,9 +733,9 @@ FemaleCore.CUTSCENE_POLL_MS = 1000
 local startGen = 0
 
 -- name: a look, by name or id. nil, "" or "none" cancels it. Returns whether the look exists.
-function FemaleCore.StartAs(name)
+function FemaleCore.StartAs(name, hairStyle, hairColor)
 	if name == nil or name == "" or name == "none" then
-		FemaleCore.startLook = nil
+		FemaleCore.startLook, FemaleCore.startHair = nil, nil
 		FemaleCore.Log("no look waits for the next start of the game")
 		return true
 	end
@@ -698,8 +744,13 @@ function FemaleCore.StartAs(name)
 		FemaleCore.Log("no look called", name, "- ml_ff_looks lists them")
 		return false
 	end
-	FemaleCore.startLook = look.name
-	FemaleCore.Log("the next game that starts or loads begins as a woman, look", look.name)
+	-- With a hair of its own, checked now, so the log says at once if it is not one.
+	if hairStyle and not resolveHair(hairStyle, hairColor) then
+		hairHelp(hairStyle)
+		hairStyle, hairColor = nil, nil
+	end
+	FemaleCore.startLook, FemaleCore.startHair = look.name, hairStyle and { hairStyle, hairColor } or nil
+	FemaleCore.Log("the next game that starts or loads begins as a woman, look", look.name, "hair", hairStyle, hairColor)
 	return true
 end
 
@@ -723,12 +774,15 @@ local function applyStartLook()
 		FemaleCore.Log("world day", day, "- the prologue with Godwin: the look waits for Henry")
 		return
 	end
-	FemaleCore.startLook = nil
+	local startHair = FemaleCore.startHair or {}
+	FemaleCore.startLook, FemaleCore.startHair = nil, nil
 	local gen, waited = startGen, false
 	local function attempt()
 		-- Another save loaded meanwhile: the look waits for that one.
 		if gen ~= startGen then
-			FemaleCore.startLook = FemaleCore.startLook or name
+			if not FemaleCore.startLook then
+				FemaleCore.startLook, FemaleCore.startHair = name, startHair
+			end
 			return
 		end
 		if inCutscene() then
@@ -740,7 +794,7 @@ local function applyStartLook()
 			return
 		end
 		FemaleCore.Log("look chosen before the start:", name)
-		try("start look", function() FemaleCore.BecomeWoman(name) end)
+		try("start look", function() FemaleCore.BecomeWoman(name, nil, startHair[1], startHair[2]) end)
 	end
 	Script.SetTimer(FemaleCore.START_WAIT_MS, attempt)
 end
@@ -880,7 +934,7 @@ end
 function FemaleCore.FemaleCommand(line)
 	local list = words(line)
 	local noScreen = noScreenWord(list)
-	inGame("ml_ff_female", function() FemaleCore.BecomeWoman(list[1], noScreen) end)
+	inGame("ml_ff_female", function() FemaleCore.BecomeWoman(list[1], noScreen, list[2], list[3]) end)
 end
 
 function FemaleCore.LookCommand(line)
@@ -890,7 +944,8 @@ function FemaleCore.LookCommand(line)
 		FemaleCore.Log("ml_ff_look needs a look, like ml_ff_look woman_czech_2: ml_ff_looks lists them")
 		return
 	end
-	inGame("ml_ff_look", function() FemaleCore.SetLook(list[1], noScreen) end)
+	-- After the look, a hair as ml_ff_hair takes it: ml_ff_look woman_czech_2 5 blonde, or f_hair_005_blonde.
+	inGame("ml_ff_look", function() FemaleCore.SetLook(list[1], noScreen, list[2], list[3]) end)
 end
 
 function FemaleCore.RandomCommand(line)
@@ -919,5 +974,5 @@ function FemaleCore.StartCommand(line)
 		FemaleCore.Log("look for the next start of the game:", FemaleCore.startLook or "none")
 		return
 	end
-	FemaleCore.StartAs(list[1])
+	FemaleCore.StartAs(list[1], list[2], list[3])
 end

@@ -32,7 +32,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 |---|---|
 | Every face of the game | All 50 generic women's faces, young and old, and 5 named women of the story whose faces fit |
 | Women's clothes | The 315 women's garments of the shops, worn with their own condition. Shops keep the game's items |
-| Hair | 7 hair styles of the time and up to 9 colors, and never a beard: a beard on a woman's head crashes the game |
+| Hair | 7 hair styles of the time and up to 9 colors, and by command the hairs of four women of the story: Katherine, Rose, Miriam and the mother. Never a beard: a beard on a woman's head crashes the game. Braids keep still: the framework leaves out the bones that swing them |
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
 | Combat and riding | They work, because the character is still the game's player |
 | A new character of another mod | The same look on the playable character of KCD2 Life |
@@ -44,9 +44,9 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 |---|---|
 | `ml_ff_looks` | Lists every face: its name, its people, its age, its id and the characters of the game who wear it. [LOOKS.md](mod/kcd_female_framework/LOOKS.md) has the same list, and who wears what |
 | `ml_ff_female [name]` | Turns Henry into a woman, with that look or the first one. He keeps his story, his skills and his things |
-| `ml_ff_look <name>` | Changes the head and the body to that look, like `ml_ff_look woman_czech_2` or `ml_ff_look ml_ff_head_katherine`. From Henry, it turns him into a woman with it |
+| `ml_ff_look <name> [hair]` | Changes the head and the body to that look, like `ml_ff_look woman_czech_2` or `ml_ff_look ml_ff_head_katherine`, and the hair if given, like `ml_ff_look woman_czech_2 5 blonde`. From Henry, it turns him into a woman with it |
 | `ml_ff_random` | Gives her a look at random among all, with the hair it starts with. From Henry, it turns him into a woman with it |
-| `ml_ff_hair <style> <color>` | Changes her hair, like `ml_ff_hair 2 blonde` |
+| `ml_ff_hair <hair>` | Changes her hair, like `ml_ff_hair 2 blonde` or `ml_ff_hair f_hair_002_blonde`, or to the hair of `katherine`, `rose`, `mother` or `miriam`, which the barber does not have |
 | `ml_ff_henry` | Turns her back into Henry: his head, body and hair, with no beard |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show |
 | `ml_ff_start [look]` | The next game that starts or loads begins as a woman with that look: type it in the main menu before New Game |
