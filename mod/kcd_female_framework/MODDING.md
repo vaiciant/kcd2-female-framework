@@ -68,6 +68,8 @@ FemaleCore.SetLook("woman_romani_3")
 
 It changes the head and the body. Her hair stays until she visits a barber. From Henry, it turns him into a woman with that look, as `FemaleCore.BecomeWoman` does, so one command is enough, as with `ml_mf_look` of KCD2 Male Framework. `FemaleCore.API` is 5 from then on.
 
+A hair can follow the look, in `SetLook`, `BecomeWoman` and `StartAs`, as `SetHair` takes it: `FemaleCore.SetLook("woman_czech_2", false, 5, "blonde")`. `SetHair` also takes the game's name of a hair, `"f_hair_005_blonde"`, and the hairs of women of the story that the barber does not have: `"katherine"`, `"rose"`, `"mother"` and `"miriam"`. From 0.5.0, `FemaleCore.API` is 6.
+
 `ml_ff_random`, or `FemaleCore.SetRandomLook()`, gives her a look at random among all but hers, with the hair it starts with, and returns that look. From Henry, it turns him into a woman with it.
 
 ## Her hair

@@ -2,6 +2,19 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 0.5.0
+
+Her hair goes on with her face, from one command, and four hairs of women of the story join the seven of the barber. KCD2 Female Voice, a mod of its own, now gives her a woman's voice.
+
+### New
+
+- **A hair in `ml_ff_look`.** `ml_ff_look woman_czech_2 5 blonde` gives her that face and that hair at once. `ml_ff_female` and `ml_ff_start` take it too.
+- **Hairs of the story.** `ml_ff_hair katherine` gives her Katherine's hair, which the barber does not have; `rose`, `mother` and `miriam` work too. Their braids keep still.
+- **The game's names.** `ml_ff_hair f_hair_005_blonde` works, as LOOKS.md writes the hair of each character.
+- **LOOKS.md** has, for every character of the game, the command that gives the face with her hair.
+- **A woman's voice.** KCD2 Female Voice, a separate mod, gives her a woman's voice in every line of Henry.
+- **For modders:** `FemaleCore.SetLook`, `BecomeWoman` and `StartAs` take a hair after the look. `FemaleCore.API` is 6.
+
 ## 0.4.0
 
 It works on its own or with KCD2 Male Framework, and goes from one to the other directly. Her look now reaches the game's cutscenes.

@@ -5660,6 +5660,26 @@
 								<Hair Name="ml_ff_hair_007_dark_grey" Diffuse="#30251D" Paleness="Pale Ordinary Suntanned Cuman Roma" Age="Old" />
 							</DerivedComponents>
 						</Hair>
+						<Hair Name="ml_ff_hair_katherine" Diffuse="#1C0C05" FilePath="humans/female/hair/">
+							<Elements>
+								<SkinElement EquipmentPart="head" Model="../../ml_ff_woman/hair/f_hair_katherine/f_hair_katherine.skin" Material="hair_base/f_hair_katherine.mtl" />
+							</Elements>
+						</Hair>
+						<Hair Name="ml_ff_hair_rose" Diffuse="#260802" FilePath="humans/female/hair/">
+							<Elements>
+								<SkinElement EquipmentPart="head" Model="../../ml_ff_woman/hair/f_hair_rose/f_hair_rose.skin" Material="hair_base/f_hair_rose.mtl" />
+							</Elements>
+						</Hair>
+						<Hair Name="ml_ff_hair_mother" Diffuse="#60574D" FilePath="humans/female/hair/">
+							<Elements>
+								<SkinElement EquipmentPart="head" Model="../../ml_ff_woman/hair/f_hair_mother/f_hair_mother.skin" Material="f_hair_mother/f_hair_mother.mtl" />
+							</Elements>
+						</Hair>
+						<Hair Name="ml_ff_hair_miriam" Diffuse="#DBCFC2" FilePath="humans/female/hair/">
+							<Elements>
+								<SkinElement EquipmentPart="head" Model="../../ml_ff_woman/hair/f_hair_03/f_hair_03.skin" Material="f_hair_03/f_hair_03.mtl" />
+							</Elements>
+						</Hair>
 					</DerivedComponents>
 				</Hair>
 				<Body Name="Body" FilePath="humans/male/body/" SourceForUberlodPart="torso">

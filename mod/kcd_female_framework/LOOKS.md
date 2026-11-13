@@ -4,7 +4,7 @@
 
 The game gives each of its faces to several of its characters. Here are, for every look of the framework, the characters of the game with a name of their own who wear its face, as the game's appearance rules give it. `ml_ff_looks` writes the same names in the console, next to each look.
 
-`ml_ff_look <name>` puts on the face with the look's own hair, which may not be that character's. The second table has the hair each character wears in the game.
+`ml_ff_look <name>` puts on the face with the look's own hair, which may not be that character's. The second table has the hair each character wears in the game, and the command that puts on the face with them.
 
 The game's generic people, a peasant or a guard with no name of their own, wear these faces too and are not listed. A character may have more than one face: a quest can give another.
 
@@ -72,99 +72,99 @@ The game's generic people, a peasant or a guard with no name of their own, wear 
 
 | Character | Look | Her hair | In the console |
 |---|---|---|---|
-| Ada von Lippe | `woman_czech_37` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Adela | `woman_czech_3` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Adela of Mnischek | `woman_czech_2` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Adleta Mannlicher | `woman_hungarian_1` | `f_hair_004_light_brown` | `ml_ff_hair 4 light_brown` |
-| Adleta of Straz | `woman_czech_6` | `f_hair_007_dark_brown` | `ml_ff_hair 7 dark_brown` |
-| Agnes | `woman_czech_11` | `f_hair_002_blonde` | `ml_ff_hair 2 blonde` |
-| Anna of Waldstein | `woman_czech_6` | — | — |
-| Annie Vrtilka | `woman_czech_31` | `f_hair_001_dark_ginger` | `ml_ff_hair 1 dark_ginger` |
-| Aranka | `woman_romani_7` | `f_hair_004_black` | `ml_ff_hair 4 black` |
-| Bara | `woman_czech_10` | `f_hair_005_black` | `ml_ff_hair 5 black` |
-| Bathhouse Madam Beata | `woman_czech_11` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Bathhouse owner Betty | `woman_czech_23` | `f_hair_004_light_brown` | `ml_ff_hair 4 light_brown` |
-| Bathhouse owner Dorothy | `woman_czech_35` | `f_hair_005_dark_ginger` | `ml_ff_hair 5 dark_ginger` |
-| Bathhouse owner Milada | `woman_romani_7` | `f_hair_004_dark_brown` | `ml_ff_hair 4 dark_brown` |
-| Bathhouse Owner Smolka | `woman_czech_11` | `f_hair_005_dark_grey` | `ml_ff_hair 5 dark_grey` |
-| Bathwench Anna | `woman_czech_21` | `f_hair_003` | — |
-| Bathwench Dorothy | `woman_czech_3` | `f_hair_001_dark_brown` | `ml_ff_hair 1 dark_brown` |
-| Berchta von Kurzbach | `woman_czech_31` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Blacksmith's wife Martha | `woman_czech_23` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Bonnie | `woman_czech_15` | `f_hair_005_dark_brown` | `ml_ff_hair 5 dark_brown` |
-| Captain's wife Gerta | `woman_czech_29` | `f_hair_002_blonde` | `ml_ff_hair 2 blonde` |
-| Cat woman | `ml_ff_head_miriam` | `f_hair_miriam` | — |
-| Chatty Klara | `woman_romani_1` | `f_hair_007_black` | `ml_ff_hair 7 black` |
-| Cook Anna | `woman_hungarian_1` | `f_hair_005_black` | `ml_ff_hair 5 black` |
-| Cook Dorothy | `woman_czech_19` | — | — |
-| Cook Drahomira | `woman_czech_32` | `f_hair_002_dark_grey` | `ml_ff_hair 2 dark_grey` |
-| Cook Fanka | `woman_czech_35` | `f_hair_006_dark_grey` | `ml_ff_hair 6 dark_grey` |
-| Cook Madeleine | `woman_czech_19` | `f_hair_002_light_brown` | `ml_ff_hair 2 light_brown` |
-| Dancer | `woman_czech_22` | `f_hair_007_black` | `ml_ff_hair 7 black` |
-| Dorothy | `woman_czech_32` | `f_hair_002_light_brown` | `ml_ff_hair 2 light_brown` |
-| Doubravka | `woman_czech_10` | `f_hair_001_black` | `ml_ff_hair 1 black` |
-| Doubravka's mother | `woman_czech_26` | `f_hair_006_dark_grey` | `ml_ff_hair 6 dark_grey` |
-| Enneleyn | `woman_romani_1` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Esther | `woman_czech_13` | `f_hair_002_light_brown` | `ml_ff_hair 2 light_brown` |
-| Fiolka | `woman_czech_7` | `f_hair_002_blonde` | `ml_ff_hair 2 blonde` |
-| Gerda | `woman_romani_5` | `f_hair_006_light_brown` | `ml_ff_hair 6 light_brown` |
-| Hanka from Prague | `woman_hungarian_1` | `f_hair_007_light_brown` | `ml_ff_hair 7 light_brown` |
-| Helena of Dvoretz | `woman_romani_5` | `f_hair_005_black` | `ml_ff_hair 5 black` |
-| Herbwoman Vlasta | `woman_czech_32` | `f_hair_005_dark_grey` | `ml_ff_hair 5 dark_grey` |
-| Innkeeper Betty | `woman_czech_40` | `f_hair_002_black` | `ml_ff_hair 2 black` |
-| Innkeeper Helga Schelm | `woman_czech_19` | `f_hair_002_dark_ginger` | `ml_ff_hair 2 dark_ginger` |
-| Innkeeper Voyka | `woman_czech_19` | `f_hair_004_light_brown` | `ml_ff_hair 4 light_brown` |
-| Innkeeper Yarka | `woman_czech_17` | `f_hair_001_ginger` | `ml_ff_hair 1 ginger` |
-| Jitka of Kozle | `woman_czech_19` | `f_hair_002_dark_ginger` | `ml_ff_hair 2 dark_ginger` |
-| Katchka | `woman_hungarian_2` | `f_hair_004_dark_brown` | `ml_ff_hair 4 dark_brown` |
-| Kate of Hol | `woman_czech_17` | `f_hair_002_ginger` | `ml_ff_hair 2 ginger` |
-| Katherine | `ml_ff_head_katherine` | `f_hair_katherine` | — |
-| Klara | `woman_czech_18` | `f_hair_002_ginger` | `ml_ff_hair 2 ginger` |
-| Kona | `woman_czech_12` | `f_hair_002_light_brown` | `ml_ff_hair 2 light_brown` |
-| Kreyzl's wife Milada | `woman_czech_31` | `f_hair_007_dark_brown` | `ml_ff_hair 7 dark_brown` |
-| Kristyna of Nositz | `woman_czech_25` | `f_hair_005_light_brown` | `ml_ff_hair 5 light_brown` |
-| Lady Hedvika of Ujezd | `woman_czech_21` | `f_hair_002_black` | `ml_ff_hair 2 black` |
-| Lady Ofka | `woman_hungarian_1` | `f_hair_007_ginger` | `ml_ff_hair 7 ginger` |
-| Little Lida | `woman_czech_18` | `f_hair_003_ginger` | `ml_ff_hair 3 ginger` |
-| Lousy Mary | `woman_hungarian_1` | `f_hair_007_dark_ginger` | `ml_ff_hair 7 dark_ginger` |
-| Lousy Mary | `woman_czech_20` | `f_hair_005_grey` | `ml_ff_hair 5 grey` |
-| Magdalena | `ml_ff_head_magdalena` | `f_hair_007_black` | `ml_ff_hair 7 black` |
-| Maid Elishka | `woman_czech_3` | `f_hair_003` | — |
-| Maid Zuzana | `woman_romani_1` | `f_hair_004_dark_brown` | `ml_ff_hair 4 dark_brown` |
-| Mandelina von Grolle | `woman_czech_38` | `f_hair_001_dark_grey` | `ml_ff_hair 1 dark_grey` |
-| Manka | `woman_romani_5` | `f_hair_007_dark_brown` | `ml_ff_hair 7 dark_brown` |
-| Mareta of Bor | `woman_czech_31` | `f_hair_004_blonde` | `ml_ff_hair 4 blonde` |
-| Margaret | `woman_czech_16` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Marika | `woman_czech_7` | `f_hair_003_black` | `ml_ff_hair 3 black` |
-| Marushka | `woman_czech_34` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Matylda of Slawietitz | `woman_romani_8` | `f_hair_002` | — |
-| Meaty Mary | `woman_czech_34` | `f_hair_006_dark_ginger` | `ml_ff_hair 6 dark_ginger` |
-| Merry Elishka | `woman_czech_13` | `f_hair_003` | — |
-| Mikush's Vendula | `woman_czech_29` | `f_hair_003_blonde` | `ml_ff_hair 3 blonde` |
-| Mill maid | `woman_czech_16` | `f_hair_002_dark_brown` | `ml_ff_hair 2 dark_brown` |
-| Miller's wife Pavlena | `woman_czech_37` | `f_hair_002_light_brown` | `ml_ff_hair 2 light_brown` |
-| Minstrel Roxanne | `woman_czech_6` | `f_hair_001_black` | `ml_ff_hair 1 black` |
-| Mlada | `woman_czech_14` | `f_hair_003_dark_brown` | `ml_ff_hair 3 dark_brown` |
-| Mother | `ml_ff_head_mother` | `f_hair_mother` | — |
-| Myshka | `woman_czech_17` | `f_hair_003_dark_ginger` | `ml_ff_hair 3 dark_ginger` |
-| Olina | `woman_czech_18` | `f_hair_004` | — |
-| Pavlena | `woman_hungarian_1` | `f_hair_005_dark_brown` | `ml_ff_hair 5 dark_brown` |
-| Rachel | `woman_czech_22` | `f_hair_004_dark_ginger` | `ml_ff_hair 4 dark_ginger` |
-| Radovan's wife Milena | `woman_czech_31` | `f_hair_007_dark_brown` | `ml_ff_hair 7 dark_brown` |
-| Rat | `woman_czech_3` | `f_hair_007_light_brown` | `ml_ff_hair 7 light_brown` |
-| Rosa Ruthard | `ml_ff_head_rose` | `f_hair_rose` | — |
-| Sara | `woman_czech_12` | `f_hair_001_dark_brown` | `ml_ff_hair 1 dark_brown` |
-| Servant Dasha | `woman_czech_14` | `f_hair_002_dark_ginger` | `ml_ff_hair 2 dark_ginger` |
-| Sovka | `woman_czech_11` | `f_hair_003_blonde` | `ml_ff_hair 3 blonde` |
-| Svatava Mikush | `woman_czech_40` | `f_hair_006_grey` | `ml_ff_hair 6 grey` |
-| Ursula | `woman_hungarian_1` | `f_hair_004_dark_brown` | `ml_ff_hair 4 dark_brown` |
-| Valerie | `woman_czech_2` | `f_hair_007_blonde` | `ml_ff_hair 7 blonde` |
-| Vanka from the mill | `woman_czech_8` | `f_hair_003_blonde` | `ml_ff_hair 3 blonde` |
-| Victoria | `woman_czech_6` | `f_hair_004_dark_brown` | `ml_ff_hair 4 dark_brown` |
-| Widow Bolka | `woman_czech_35` | `f_hair_005_dark_grey` | `ml_ff_hair 5 dark_grey` |
-| Widow Johanka of Zhernov | `woman_czech_5` | `f_hair_001_black` | `ml_ff_hair 1 black` |
-| Widow Margaret | `woman_romani_8` | `f_hair_002_white` | `ml_ff_hair 2 white` |
-| Wild woman | `woman_hungarian_1` | `f_hair_003_ginger` | `ml_ff_hair 3 ginger` |
-| Young girl | `woman_czech_18` | `f_hair_007_black` | `ml_ff_hair 7 black` |
-| Zlata | `woman_czech_22` | `f_hair_002_blonde` | `ml_ff_hair 2 blonde` |
-| Zlata | `woman_czech_31` | `f_hair_004_light_brown` | `ml_ff_hair 4 light_brown` |
+| Ada von Lippe | `woman_czech_37` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_37 2 dark_brown` |
+| Adela | `woman_czech_3` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_3 2 dark_brown` |
+| Adela of Mnischek | `woman_czech_2` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_2 2 dark_brown` |
+| Adleta Mannlicher | `woman_hungarian_1` | `f_hair_004_light_brown` | `ml_ff_look woman_hungarian_1 4 light_brown` |
+| Adleta of Straz | `woman_czech_6` | `f_hair_007_dark_brown` | `ml_ff_look woman_czech_6 7 dark_brown` |
+| Agnes | `woman_czech_11` | `f_hair_002_blonde` | `ml_ff_look woman_czech_11 2 blonde` |
+| Anna of Waldstein | `woman_czech_6` | — | `ml_ff_look woman_czech_6` |
+| Annie Vrtilka | `woman_czech_31` | `f_hair_001_dark_ginger` | `ml_ff_look woman_czech_31 1 dark_ginger` |
+| Aranka | `woman_romani_7` | `f_hair_004_black` | `ml_ff_look woman_romani_7 4 black` |
+| Bara | `woman_czech_10` | `f_hair_005_black` | `ml_ff_look woman_czech_10 5 black` |
+| Bathhouse Madam Beata | `woman_czech_11` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_11 2 dark_brown` |
+| Bathhouse owner Betty | `woman_czech_23` | `f_hair_004_light_brown` | `ml_ff_look woman_czech_23 4 light_brown` |
+| Bathhouse owner Dorothy | `woman_czech_35` | `f_hair_005_dark_ginger` | `ml_ff_look woman_czech_35 5 dark_ginger` |
+| Bathhouse owner Milada | `woman_romani_7` | `f_hair_004_dark_brown` | `ml_ff_look woman_romani_7 4 dark_brown` |
+| Bathhouse Owner Smolka | `woman_czech_11` | `f_hair_005_dark_grey` | `ml_ff_look woman_czech_11 5 dark_grey` |
+| Bathwench Anna | `woman_czech_21` | `f_hair_003` | `ml_ff_look woman_czech_21` |
+| Bathwench Dorothy | `woman_czech_3` | `f_hair_001_dark_brown` | `ml_ff_look woman_czech_3 1 dark_brown` |
+| Berchta von Kurzbach | `woman_czech_31` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_31 2 dark_brown` |
+| Blacksmith's wife Martha | `woman_czech_23` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_23 2 dark_brown` |
+| Bonnie | `woman_czech_15` | `f_hair_005_dark_brown` | `ml_ff_look woman_czech_15 5 dark_brown` |
+| Captain's wife Gerta | `woman_czech_29` | `f_hair_002_blonde` | `ml_ff_look woman_czech_29 2 blonde` |
+| Cat woman | `ml_ff_head_miriam` | `f_hair_miriam` | `ml_ff_look ml_ff_head_miriam miriam` |
+| Chatty Klara | `woman_romani_1` | `f_hair_007_black` | `ml_ff_look woman_romani_1 7 black` |
+| Cook Anna | `woman_hungarian_1` | `f_hair_005_black` | `ml_ff_look woman_hungarian_1 5 black` |
+| Cook Dorothy | `woman_czech_19` | — | `ml_ff_look woman_czech_19` |
+| Cook Drahomira | `woman_czech_32` | `f_hair_002_dark_grey` | `ml_ff_look woman_czech_32 2 dark_grey` |
+| Cook Fanka | `woman_czech_35` | `f_hair_006_dark_grey` | `ml_ff_look woman_czech_35 6 dark_grey` |
+| Cook Madeleine | `woman_czech_19` | `f_hair_002_light_brown` | `ml_ff_look woman_czech_19 2 light_brown` |
+| Dancer | `woman_czech_22` | `f_hair_007_black` | `ml_ff_look woman_czech_22 7 black` |
+| Dorothy | `woman_czech_32` | `f_hair_002_light_brown` | `ml_ff_look woman_czech_32 2 light_brown` |
+| Doubravka | `woman_czech_10` | `f_hair_001_black` | `ml_ff_look woman_czech_10 1 black` |
+| Doubravka's mother | `woman_czech_26` | `f_hair_006_dark_grey` | `ml_ff_look woman_czech_26 6 dark_grey` |
+| Enneleyn | `woman_romani_1` | `f_hair_002_dark_brown` | `ml_ff_look woman_romani_1 2 dark_brown` |
+| Esther | `woman_czech_13` | `f_hair_002_light_brown` | `ml_ff_look woman_czech_13 2 light_brown` |
+| Fiolka | `woman_czech_7` | `f_hair_002_blonde` | `ml_ff_look woman_czech_7 2 blonde` |
+| Gerda | `woman_romani_5` | `f_hair_006_light_brown` | `ml_ff_look woman_romani_5 6 light_brown` |
+| Hanka from Prague | `woman_hungarian_1` | `f_hair_007_light_brown` | `ml_ff_look woman_hungarian_1 7 light_brown` |
+| Helena of Dvoretz | `woman_romani_5` | `f_hair_005_black` | `ml_ff_look woman_romani_5 5 black` |
+| Herbwoman Vlasta | `woman_czech_32` | `f_hair_005_dark_grey` | `ml_ff_look woman_czech_32 5 dark_grey` |
+| Innkeeper Betty | `woman_czech_40` | `f_hair_002_black` | `ml_ff_look woman_czech_40 2 black` |
+| Innkeeper Helga Schelm | `woman_czech_19` | `f_hair_002_dark_ginger` | `ml_ff_look woman_czech_19 2 dark_ginger` |
+| Innkeeper Voyka | `woman_czech_19` | `f_hair_004_light_brown` | `ml_ff_look woman_czech_19 4 light_brown` |
+| Innkeeper Yarka | `woman_czech_17` | `f_hair_001_ginger` | `ml_ff_look woman_czech_17 1 ginger` |
+| Jitka of Kozle | `woman_czech_19` | `f_hair_002_dark_ginger` | `ml_ff_look woman_czech_19 2 dark_ginger` |
+| Katchka | `woman_hungarian_2` | `f_hair_004_dark_brown` | `ml_ff_look woman_hungarian_2 4 dark_brown` |
+| Kate of Hol | `woman_czech_17` | `f_hair_002_ginger` | `ml_ff_look woman_czech_17 2 ginger` |
+| Katherine | `ml_ff_head_katherine` | `f_hair_katherine` | `ml_ff_look ml_ff_head_katherine katherine` |
+| Klara | `woman_czech_18` | `f_hair_002_ginger` | `ml_ff_look woman_czech_18 2 ginger` |
+| Kona | `woman_czech_12` | `f_hair_002_light_brown` | `ml_ff_look woman_czech_12 2 light_brown` |
+| Kreyzl's wife Milada | `woman_czech_31` | `f_hair_007_dark_brown` | `ml_ff_look woman_czech_31 7 dark_brown` |
+| Kristyna of Nositz | `woman_czech_25` | `f_hair_005_light_brown` | `ml_ff_look woman_czech_25 5 light_brown` |
+| Lady Hedvika of Ujezd | `woman_czech_21` | `f_hair_002_black` | `ml_ff_look woman_czech_21 2 black` |
+| Lady Ofka | `woman_hungarian_1` | `f_hair_007_ginger` | `ml_ff_look woman_hungarian_1 7 ginger` |
+| Little Lida | `woman_czech_18` | `f_hair_003_ginger` | `ml_ff_look woman_czech_18 3 ginger` |
+| Lousy Mary | `woman_hungarian_1` | `f_hair_007_dark_ginger` | `ml_ff_look woman_hungarian_1 7 dark_ginger` |
+| Lousy Mary | `woman_czech_20` | `f_hair_005_grey` | `ml_ff_look woman_czech_20 5 grey` |
+| Magdalena | `ml_ff_head_magdalena` | `f_hair_007_black` | `ml_ff_look ml_ff_head_magdalena 7 black` |
+| Maid Elishka | `woman_czech_3` | `f_hair_003` | `ml_ff_look woman_czech_3` |
+| Maid Zuzana | `woman_romani_1` | `f_hair_004_dark_brown` | `ml_ff_look woman_romani_1 4 dark_brown` |
+| Mandelina von Grolle | `woman_czech_38` | `f_hair_001_dark_grey` | `ml_ff_look woman_czech_38 1 dark_grey` |
+| Manka | `woman_romani_5` | `f_hair_007_dark_brown` | `ml_ff_look woman_romani_5 7 dark_brown` |
+| Mareta of Bor | `woman_czech_31` | `f_hair_004_blonde` | `ml_ff_look woman_czech_31 4 blonde` |
+| Margaret | `woman_czech_16` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_16 2 dark_brown` |
+| Marika | `woman_czech_7` | `f_hair_003_black` | `ml_ff_look woman_czech_7 3 black` |
+| Marushka | `woman_czech_34` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_34 2 dark_brown` |
+| Matylda of Slawietitz | `woman_romani_8` | `f_hair_002` | `ml_ff_look woman_romani_8` |
+| Meaty Mary | `woman_czech_34` | `f_hair_006_dark_ginger` | `ml_ff_look woman_czech_34 6 dark_ginger` |
+| Merry Elishka | `woman_czech_13` | `f_hair_003` | `ml_ff_look woman_czech_13` |
+| Mikush's Vendula | `woman_czech_29` | `f_hair_003_blonde` | `ml_ff_look woman_czech_29 3 blonde` |
+| Mill maid | `woman_czech_16` | `f_hair_002_dark_brown` | `ml_ff_look woman_czech_16 2 dark_brown` |
+| Miller's wife Pavlena | `woman_czech_37` | `f_hair_002_light_brown` | `ml_ff_look woman_czech_37 2 light_brown` |
+| Minstrel Roxanne | `woman_czech_6` | `f_hair_001_black` | `ml_ff_look woman_czech_6 1 black` |
+| Mlada | `woman_czech_14` | `f_hair_003_dark_brown` | `ml_ff_look woman_czech_14 3 dark_brown` |
+| Mother | `ml_ff_head_mother` | `f_hair_mother` | `ml_ff_look ml_ff_head_mother mother` |
+| Myshka | `woman_czech_17` | `f_hair_003_dark_ginger` | `ml_ff_look woman_czech_17 3 dark_ginger` |
+| Olina | `woman_czech_18` | `f_hair_004` | `ml_ff_look woman_czech_18` |
+| Pavlena | `woman_hungarian_1` | `f_hair_005_dark_brown` | `ml_ff_look woman_hungarian_1 5 dark_brown` |
+| Rachel | `woman_czech_22` | `f_hair_004_dark_ginger` | `ml_ff_look woman_czech_22 4 dark_ginger` |
+| Radovan's wife Milena | `woman_czech_31` | `f_hair_007_dark_brown` | `ml_ff_look woman_czech_31 7 dark_brown` |
+| Rat | `woman_czech_3` | `f_hair_007_light_brown` | `ml_ff_look woman_czech_3 7 light_brown` |
+| Rosa Ruthard | `ml_ff_head_rose` | `f_hair_rose` | `ml_ff_look ml_ff_head_rose rose` |
+| Sara | `woman_czech_12` | `f_hair_001_dark_brown` | `ml_ff_look woman_czech_12 1 dark_brown` |
+| Servant Dasha | `woman_czech_14` | `f_hair_002_dark_ginger` | `ml_ff_look woman_czech_14 2 dark_ginger` |
+| Sovka | `woman_czech_11` | `f_hair_003_blonde` | `ml_ff_look woman_czech_11 3 blonde` |
+| Svatava Mikush | `woman_czech_40` | `f_hair_006_grey` | `ml_ff_look woman_czech_40 6 grey` |
+| Ursula | `woman_hungarian_1` | `f_hair_004_dark_brown` | `ml_ff_look woman_hungarian_1 4 dark_brown` |
+| Valerie | `woman_czech_2` | `f_hair_007_blonde` | `ml_ff_look woman_czech_2 7 blonde` |
+| Vanka from the mill | `woman_czech_8` | `f_hair_003_blonde` | `ml_ff_look woman_czech_8 3 blonde` |
+| Victoria | `woman_czech_6` | `f_hair_004_dark_brown` | `ml_ff_look woman_czech_6 4 dark_brown` |
+| Widow Bolka | `woman_czech_35` | `f_hair_005_dark_grey` | `ml_ff_look woman_czech_35 5 dark_grey` |
+| Widow Johanka of Zhernov | `woman_czech_5` | `f_hair_001_black` | `ml_ff_look woman_czech_5 1 black` |
+| Widow Margaret | `woman_romani_8` | `f_hair_002_white` | `ml_ff_look woman_romani_8 2 white` |
+| Wild woman | `woman_hungarian_1` | `f_hair_003_ginger` | `ml_ff_look woman_hungarian_1 3 ginger` |
+| Young girl | `woman_czech_18` | `f_hair_007_black` | `ml_ff_look woman_czech_18 7 black` |
+| Zlata | `woman_czech_22` | `f_hair_002_blonde` | `ml_ff_look woman_czech_22 2 blonde` |
+| Zlata | `woman_czech_31` | `f_hair_004_light_brown` | `ml_ff_look woman_czech_31 4 light_brown` |

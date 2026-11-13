@@ -12,6 +12,7 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 - **Women's clothes.** Dresses, shoes, hoods and veils from any shop fit her, and keep their condition.
 - **Hats and helmets** sit right on her head.
 - **Her hair.** 7 styles of the time, in up to 9 colors.
+- **Her voice,** with KCD2 Female Voice, a separate mod: a woman's voice in every line of Henry, with the same acting and timing. It is on as soon as it is installed, and cannot be changed in game: turn it off to hear Henry's.
 - **The barber knows she is a woman.** Ask any barber for a haircut and she gets a woman's one. Pick the style and the color in the talk, and see each one on her before you take it. It costs the usual 50 groschen, or 5 with Realish Economy.
 - **First person** looks clean: you never see the inside of her face.
 - **Combat and riding** work as always.
@@ -25,7 +26,8 @@ Open the console with the key under Esc, and type:
 - `ml_ff_look woman_czech_2` to turn Henry into a woman with that face, or to change her face. `ml_ff_female` does the same with the first face.
 - `ml_ff_looks` to see every face, and which characters of the game wear it. [LOOKS.md](LOOKS.md) has the same list.
 - `ml_ff_random` for a face at random.
-- `ml_ff_hair 2 blonde` to change her hair, or just ask a barber for a haircut.
+- `ml_ff_hair 2 blonde` to change her hair, or just ask a barber for a haircut. `ml_ff_hair katherine` gives her Katherine's hair, which the barber does not have; `rose`, `mother` and `miriam` work too.
+- `ml_ff_look woman_czech_2 5 blonde` to give her a face and a hair at once. [LOOKS.md](LOOKS.md) has this command for every character of the game.
 - `ml_ff_henry` to turn her back into Henry, with his own face.
 - `ml_ff_start woman_czech_2` in the main menu, before New Game, to start the new game as a woman. She takes Henry's place once he rides out after the prologue with Godwin.
 

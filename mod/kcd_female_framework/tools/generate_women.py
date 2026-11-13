@@ -107,7 +107,10 @@ DRESS_GROUP = {"Name": f"{PREFIX}DressSkirt", "EquipmentPart": "legs", "Index": 
 # The faces and the bodies come from the framework catalog (tools/generate_models.py): each look, its copy.
 CATALOG = tomllib.loads(pathlib.Path(f"mod/{MOD}/looks.toml").read_text(encoding="utf-8"))["look"]
 HEADS = sorted({look["head"] for look in CATALOG})
-HAIRS = ["f_hair_001", "f_hair_002", "f_hair_003", "f_hair_004", "f_hair_005", "f_hair_006", "f_hair_007"]
+# The seven styles of the barber, and the hairs of women of the story, out of the barber: ml_ff_look and ml_ff_hair take
+# them by name (FemaleCore.NAMED_HAIRS).
+HAIRS = ["f_hair_001", "f_hair_002", "f_hair_003", "f_hair_004", "f_hair_005", "f_hair_006", "f_hair_007",
+         "f_hair_katherine", "f_hair_rose", "f_hair_mother", "f_hair_miriam"]
 BODIES = sorted({look["body"] for look in CATALOG})
 GAME_PATH = "objects/characters/humans/"
 # Above this height, head and hair are hidden in first person: group 0 is bit 0 of the alpha (12).

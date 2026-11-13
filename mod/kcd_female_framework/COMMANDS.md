@@ -9,13 +9,13 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 | Command | What it does | From Lua |
 |---|---|---|
 | `ml_ff_looks` | Writes every look in the console: its name, its people, its age, its id and the characters of the game with a name of their own who wear its face, as in [LOOKS.md](LOOKS.md) | `FemaleCore.ListLooks()` |
-| `ml_ff_female [look] [true]` | Turns Henry into a woman, with that look or the first one. He keeps his story, his skills and his things | `FemaleCore.BecomeWoman(look, noScreen)` |
-| `ml_ff_look <look> [true]` | Changes her head and her body to that look. Her hair stays. From Henry, it turns him into a woman with that look, as `ml_ff_female` does | `FemaleCore.SetLook(look, noScreen)` |
+| `ml_ff_female [look] [hair] [true]` | Turns Henry into a woman, with that look or the first one, and with a hair if given, as `ml_ff_hair` takes it. He keeps his story, his skills and his things | `FemaleCore.BecomeWoman(look, noScreen, style, color)` |
+| `ml_ff_look <look> [hair] [true]` | Changes her head and her body to that look. Her hair stays, unless a hair follows, as `ml_ff_hair` takes it: `ml_ff_look woman_czech_2 5 blonde`. [LOOKS.md](LOOKS.md) has this command for every character. From Henry, it turns him into a woman with that look, as `ml_ff_female` does | `FemaleCore.SetLook(look, noScreen, style, color)` |
 | `ml_ff_random [true]` | Gives her a look at random among all but hers, with the hair it starts with. From Henry, it turns him into a woman with it | `FemaleCore.SetRandomLook(noScreen)` |
-| `ml_ff_hair <style> <color>` | Gives her a hair style, from 1 to 7, and a color, by name or by number from 1 to 9, like `ml_ff_hair 2 blonde` | `FemaleCore.SetHair(style, color)` |
+| `ml_ff_hair <hair>` | Gives her a hair style, from 1 to 7, and a color, by name or by number from 1 to 9, like `ml_ff_hair 2 blonde`. Also the game's name of one, like `ml_ff_hair f_hair_002_blonde`, or the hair of a woman of the story that the barber does not have: `katherine`, `rose`, `mother` or `miriam` | `FemaleCore.SetHair(style, color)` |
 | `ml_ff_henry [true]` | Turns her back into Henry: his head, body and hair, with no beard. Her clothes come off, with a notice | `FemaleCore.Henry(noScreen, after)` |
 | `ml_ff_refresh` | Rebuilds the model, for when her look does not show | `FemaleCore.Refresh()` |
-| `ml_ff_start [look]` | The next game that starts or loads begins as a woman with that look. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `FemaleCore.StartAs(look)` |
+| `ml_ff_start [look] [hair]` | The next game that starts or loads begins as a woman with that look, and with a hair if given, as `ml_ff_hair` takes it. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `FemaleCore.StartAs(look, style, color)` |
 
 **Colors:** `dark_brown`, `black`, `light_brown`, `blonde`, `ginger`, `dark_ginger`, `dark_grey`, `grey` and `white`, numbered from 1 to 9 in that order. Style 3 has only the first six.
 
