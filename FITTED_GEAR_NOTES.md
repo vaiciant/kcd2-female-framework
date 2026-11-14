@@ -120,7 +120,7 @@ The base pieces are the most worth doing first: the short and long tunics, and t
    | `hood01` | 1 | 0.3 cm |
 
    Pushing the front of the cape out a little would fix it.
-2. **Legate's robe (`HabitLegate_m01`): a gap by the neck.** Your torso narrowed the shoulders, but the robe wears the game's arms (`tunicshortlegate_arms`), which stayed where they were: the seam between them opened 3 to 5 cm. Bergov's coat (`CoatBergov_m01`) is the same, with the game's arms of the short pourpoint. Until those arms are refitted, both go in the game's shape, as a man's piece. The robe hides nothing of her: it is loose, and hiding her chest left its inside empty, seen through the neckline. Both arms are in the list.
+2. **Legate's robe (`HabitLegate_m01`): a gap by the neck.** Your torso narrowed the shoulders, but the robe wears the game's arms (`tunicshortlegate_arms`), which stayed where they were: the seam between them opened 3 to 5 cm. Bergov's coat (`CoatBergov_m01`) is the same, with the game's arms of the short pourpoint. Until those arms are refitted, both go in the game's shape, as a man's piece. The robe hides nothing of her, and keeps her body under it: the game's robe takes the body away, since the legate wears it over his tunic, and its neckline showed the inside of the robe below her neck. Both arms are in the list.
 3. **Short pourpoint with a hood.** The padding at the front of the chest comes over the cape. Refitting the pourpoint fixes it, as with your other gambesons.
 4. **A little mixing towards the chest** with the base pieces. Refitting them fixes it.
 5. **Four boundary meshes are never seen.** A child's mesh replaces its parent's in that part, so the boundary meshes of the parent nodes never show. They don't need refitting:
