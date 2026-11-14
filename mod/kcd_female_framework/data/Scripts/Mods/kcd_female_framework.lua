@@ -17,12 +17,29 @@ if not (FemaleCore.BecomeWoman and FemaleCore.LOOKS and FemaleCore.CLOTHES and F
 	return
 end
 
--- The men's armour and clothes refitted for her (fitted_gear_data.lua) swap as her dresses do. A garment the framework
--- already has a copy of keeps it.
+-- The men's armour and clothes refitted for her (fitted_gear_data.lua) swap as her dresses do, and back to the game's
+-- piece for a man.
+local fitted = {}
 for from, to in pairs(FemaleCore.FITTED_GEAR or {}) do
-	FemaleCore.CLOTHES[from] = FemaleCore.CLOTHES[from] or to
+	local name = (FemaleCore.FITTED_GEAR_NAMES or {})[from]
+	fitted[#fitted + 1] = { original = from, copy = to, back = true, name = name, copy_name = name and name .. "_ff" }
+end
+FemaleCore.RegisterClothes(fitted, "fitted gear")
+
+-- Clothes for her from other mods (MAKING_CLOTHES.md): every Lua file of this folder, in any mod, registers its own with
+-- FemaleCore.RegisterClothes. The folder is read through the paks of all the mods, as the game reads Scripts/Mods.
+FemaleCore.CLOTHES_FOLDER = "Scripts/FemaleCore/Clothes"
+local scanned, files = pcall(System.ScanDirectory, FemaleCore.CLOTHES_FOLDER, SCANDIR_FILES)
+for _, file in ipairs(scanned and type(files) == "table" and files or {}) do
+	if string.lower(string.sub(file, -4)) == ".lua" then
+		Script.LoadScript(FemaleCore.CLOTHES_FOLDER .. "/" .. file)
+	end
 end
 
+System.AddCCommand("ml_developer", "FemaleCore.DeveloperCommand()", "Turns developer mode on until the game closes: the test commands of KCD2 Female Framework, and of KCD2 Life if it is there")
+if pcall(function() return System.IsDevModeEnable() end) and System.IsDevModeEnable() then
+	FemaleCore.Developer()
+end
 System.AddCCommand("ml_ff_looks", "FemaleCore.PrintLooks()", "Lists the women's looks of KCD2 Female Framework: name, people, age and id")
 System.AddCCommand("ml_ff_female", "FemaleCore.FemaleCommand(%line)", "Turns Henry into a woman, with a look or the first one, like ml_ff_female woman_czech_2, and a hair, as ml_ff_hair takes it. A last word true leaves out the black screen")
 System.AddCCommand("ml_ff_look", "FemaleCore.LookCommand(%line)", "Gives her the head and body of a look, by name or id, like ml_ff_look woman_romani_3, and a hair if given, like ml_ff_look woman_czech_2 5 blonde. Henry becomes a woman with it. A last word true leaves out the black screen")

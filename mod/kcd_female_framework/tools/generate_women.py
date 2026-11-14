@@ -104,6 +104,15 @@ ARMS_GROUP = {"Name": f"{PREFIX}Arms", "EquipmentPart": "arms", "Index": "5"}
 THIGHS_BIT, UNDER_WAIST_BIT = 4, 7
 THIGHS_GROUP = {"Name": f"{PREFIX}Thighs", "EquipmentPart": "legs", "Index": str(THIGHS_BIT)}
 DRESS_GROUP = {"Name": f"{PREFIX}DressSkirt", "EquipmentPart": "legs", "Index": str(DRESS_ONLY_BIT)}
+# A man's piece for the torso with no refitted copy is a man's mesh: her bust and the back of her waist come through it,
+# up to 2.7 cm outside the man's body, and so does her smock. Above this height she stays inside his outline. The copy of
+# that piece (fitted_gear.py) hides what of her torso and smock is below it, and the neck and the neckline stay as they
+# are. Bit 3 of torso, which LOD2_Body also uses: what it leaves under those garments is inside them too.
+UNDER_MEN_BIT, UNDER_MEN_HEIGHT = 3, 1.32
+UNDER_MEN_GROUP = {"Name": f"{PREFIX}UnderMen", "EquipmentPart": "torso", "Index": str(UNDER_MEN_BIT)}
+# Those same pieces switch on this morph. Every refitted mesh has it (fitted_gear.py), and with it the piece goes back
+# to the game's shape: with a man's piece on, she goes as a man, and her refitted pieces do not cross it.
+MEN_FIT_MORPH = f"#{PREFIX}men_fit"
 # The faces and the bodies come from the framework catalog (tools/generate_models.py): each look, its copy.
 CATALOG = tomllib.loads(pathlib.Path(f"mod/{MOD}/looks.toml").read_text(encoding="utf-8"))["look"]
 HEADS = sorted({look["head"] for look in CATALOG})
@@ -818,8 +827,9 @@ def compact(data, triangles):
     return rebuild(entries, chunk_bodies)
 
 
-def add_morph(data, name, move_vertex):
-    """Adds a morph to the whole mesh. move_vertex says how much each position moves.
+def add_morph(data, name, move_vertex, movements=None):
+    """Adds a morph to the whole mesh. move_vertex says how much each position moves, or movements, if given, how much
+    each vertex moves, in the order of the positions.
 
     The morphs chunk is the count and, one after another, each morph: header, name, ranges of external vertices and 3
     bytes per external vertex, x, y, z, between the minimum and the maximum of the box.
@@ -827,7 +837,8 @@ def add_morph(data, name, move_vertex):
     entries = chunks(data)
     positions, external_count, _ = read_streams(data)[STREAM_POSITION]
     internal_count = next((size - 32) // 64 for kind, _, _, size, _ in entries if kind == CHUNK_VERTICES)
-    movements = [move_vertex(struct.unpack_from("<3f", data, positions + i * 12)) for i in range(external_count)]
+    if movements is None:
+        movements = [move_vertex(struct.unpack_from("<3f", data, positions + i * 12)) for i in range(external_count)]
     minimum = [min(m[axis] for m in movements) for axis in range(3)]
     maximum = [max(max(m[axis] for m in movements), minimum[axis] + 1e-4) for axis in range(3)]
     max_length = max(sum(x * x for x in m) ** 0.5 for m in movements)
@@ -933,7 +944,10 @@ def split_mesh(data, per_vertex, order, choose=None):
     return {part: compact(data, part_triangles) for part, part_triangles in triangles.items()}
 
 
-def generate_meshes():
+def generate_meshes(extra=None, headgear=True):
+    """The fitted meshes of every piece in meshes. extra maps more files, by their lowercase path in the game, to files on
+    disk that come before the game's: the clothes of another mod (convert_clothes.py). headgear also writes the men's
+    headgear with its morph for her head."""
     index = {}
     paks = [*(GAME / "Data").glob("*Characters*.pak"), *(GAME / "Data").glob("*Heads*.pak")]
     for pak in sorted(paks):
@@ -942,9 +956,13 @@ def generate_meshes():
                 normalized = name.replace("\\", "/").lower()
                 if normalized.startswith(GAME_PATH) and normalized.endswith((".skin", ".chr", POSES)):
                     index[normalized] = (pak, name)
+    index.update(extra or {})
 
     def read(normalized):
-        pak, name = index[normalized]
+        found = index[normalized]
+        if isinstance(found, pathlib.Path):
+            return found.read_bytes()
+        pak, name = found
         with zipfile.ZipFile(pak) as archive:
             return archive.read(name)
 
@@ -978,6 +996,7 @@ def generate_meshes():
                 parts = split_mesh(fitted, parts_by_bone(fitted), list(BODY_PARTS))
                 for bit in (THIGHS_BIT, UNDER_WAIST_BIT):
                     parts["legs"] = mark_bit(parts["legs"], bit, lambda height: height >= THIGHS_HEIGHT)
+                parts["torso"] = mark_bit(parts["torso"], UNDER_MEN_BIT, lambda height: height >= UNDER_MEN_HEIGHT)
             elif mesh_stem == SMOCK:
                 body = read(GAME_PATH + BASE_BODY)
                 # The edge follows a line of the mesh: splitting by majority leaves it jagged.
@@ -986,6 +1005,7 @@ def generate_meshes():
                 for bit in SKIRT_BITS:
                     parts["skirt"] = mark_bit(parts["skirt"], bit, lambda height: True)
                 parts["skirt"] = mark_bit(parts["skirt"], MAIL_NECK_BIT, lambda height: False)
+                parts["top"] = mark_bit(parts["top"], UNDER_MEN_BIT, lambda height: height >= UNDER_MEN_HEIGHT)
                 braies = weight_like_skirt(fit_braies(read(f"{GAME_PATH}{BRAIES}{file_name[len(mesh_stem):]}")), man)
                 for bit in (DRESS_ONLY_BIT, MAIL_NECK_BIT):
                     braies = mark_bit(braies, bit, lambda height: False)
@@ -998,7 +1018,7 @@ def generate_meshes():
             for part, part_mesh in parts.items():
                 out_path.with_name(f"{mesh_stem}_{part}{file_name[len(mesh_stem):]}").write_bytes(part_mesh)
 
-    for normalized in sorted(index):
+    for normalized in sorted(index) if headgear else ():
         if HEADGEAR.fullmatch(normalized):
             out_path = OBJECTS / normalized[len("objects/"):]
             out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1038,9 +1058,10 @@ def write_detection():
     write_table(MOD_TABLES / f"rpg/buff__{MOD}.xml", "buffs", buffs)
     write_table(MOD_TABLES / f"rpg/buff_ai_tag__{MOD}.xml", "buff_ai_tags", ai_tags)
     write_table(MOD_TABLES / f"Character/ClothingHidingGroup__{MOD}.xml", "ClothingHidingGroups",
-                [ET.Element("HidingGroup", group) for group in (ARMS_GROUP, THIGHS_GROUP, DRESS_GROUP)], version=2)
+                [ET.Element("HidingGroup", group) for group in (ARMS_GROUP, THIGHS_GROUP, DRESS_GROUP, UNDER_MEN_GROUP)],
+                version=2)
     write_table(MOD_TABLES / f"Character/ClothingMorph__{MOD}.xml", "ClothingMorphs",
-                [ET.Element("Morph", {"Name": name}) for name in (HEAD_MORPH, DRESS_MORPH)])
+                [ET.Element("Morph", {"Name": name}) for name in (HEAD_MORPH, DRESS_MORPH, MEN_FIT_MORPH)])
 
 
 def main():
@@ -1074,4 +1095,6 @@ def main():
     generate_meshes()
 
 
-main()
+# convert_clothes.py imports this file for its functions, and runs none of it.
+if __name__ == "__main__":
+    main()

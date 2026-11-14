@@ -32,7 +32,8 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 |---|---|
 | Every face of the game | All 50 generic women's faces, young and old, and 5 named women of the story whose faces fit |
 | Women's clothes | The 315 women's garments of the shops, worn with their own condition. Shops keep the game's items |
-| Fitted gear | The men's armour and clothes of the game, 948 items with the story and DLC armour, refitted to her body by Cytyryz. They swap to their fitted copies as her dresses do: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
+| Fitted gear | The men's armour and clothes of the game, over 950 items with the story and DLC armour, refitted to her body by Cytyryz. The men's tunics, shirts and gambesons not refitted yet hide her torso under them, so it does not come through. They swap to their copies as her dresses do, and back to the game's piece for a man: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
+| Clothes of other mods | A mod registers its clothes for her with a file in `Scripts/FemaleCore/Clothes/`, and they swap as hers do. `tools/convert_clothes.py` makes it from a normal women's garment: [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) |
 | Hair | 7 hair styles of the time and up to 9 colors, and by command the hairs of four women of the story: Katherine, Rose, Miriam and the mother. Never a beard: a beard on a woman's head crashes the game. Braids keep still: the framework leaves out the bones that swing them |
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
 | Combat and riding | They work, because the character is still the game's player |
@@ -56,7 +57,7 @@ While the model changes, the screen goes black for a few seconds. A last `true` 
 
 ## For modders
 
-One call turns Henry into a woman: `ml_ff_female` in the console, or `FemaleCore.BecomeWoman()` from your mod. [MODDING.md](mod/kcd_female_framework/MODDING.md) shows how, in a few lines. The [developer guide](mod/kcd_female_framework/FRAMEWORK_DEVELOPER_GUIDE.md) explains the API, the Skald tokens and how each piece works.
+One call turns Henry into a woman: `ml_ff_female` in the console, or `FemaleCore.BecomeWoman()` from your mod. [MODDING.md](mod/kcd_female_framework/MODDING.md) shows how, in a few lines. Clothes for her from your own mod: make a normal women's garment and convert it with `tools/convert_clothes.py`, or make it by hand, as [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) explains. To refit the game's men's clothes to her body, [REFITTING.md](mod/kcd_female_framework/REFITTING.md). The [developer guide](mod/kcd_female_framework/FRAMEWORK_DEVELOPER_GUIDE.md) explains the API, the Skald tokens and how each piece works.
 
 ```lua
 -- In your OnGameplayStarted handler: the load order is not guaranteed.
@@ -90,6 +91,7 @@ The meshes derive from the game's files, so they are not in this repository. You
 python -I tools/extract_game.py
 python -I -X utf8 tools/generate_models.py
 python -I -X utf8 mod/kcd_female_framework/tools/generate_women.py
+python -I -X utf8 mod/kcd_female_framework/tools/fitted_gear.py
 python -I tools/install_mod.py mod/kcd_female_framework
 ```
 
@@ -98,6 +100,7 @@ python -I tools/install_mod.py mod/kcd_female_framework
 | `tools/extract_game.py` | The game tables that the tools read, from your game into `game_files/`. Once, and again after a game update |
 | `tools/generate_models.py` | The catalog of looks in `looks.toml` and `LOOKS.md`, the Skald graph, the tokens and the Lua data of both frameworks, and the game's barber dialog with its haircut for men only |
 | `tools/generate_women.py` | The meshes fitted to the male skeleton, their components, the copies of the women's garments and the headgear morphs |
+| `tools/fitted_gear.py` | The copies of the men's clothes for her, from the refitted meshes: their components, items and swap. After every change of meshes: [REFITTING.md](mod/kcd_female_framework/REFITTING.md) |
 | `tools/install_mod.py` | Packs the mod and copies it to the game. The game must be closed |
 
 Set `KCD2_GAME` to the game's folder if it is not in the default Steam library.

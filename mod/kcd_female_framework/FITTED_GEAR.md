@@ -13,17 +13,33 @@ The men's armour and clothes of the game, refitted to her body by **Cytyryz**. O
 - Long gambesons, caftans, coats, waffenrocks and habits
 - Hoods, which work with Hood On too, coifs and collars
 
-Story, reward and DLC armour too, like Zizka's, Capon's, Godwin's and the Brunswick set: 948 items in all. Helmets are not here: the framework already fits them.
+Story, reward and DLC armour too, like Zizka's, Capon's, Godwin's and the Brunswick set. Helmets are not here: the framework already fits them. Every copy is in the list at the end.
+
+## The rest of the men's clothes
+
+The men's tunics, shirts and gambesons that are not refitted yet keep the game's mesh, made for Henry, and her bust and the back of her waist came through it. They get a copy too, with the game's mesh. Where her torso or her smock would come through it, they are hidden below the chest. Under a loose piece, like Legate's robe, nothing is hidden, and her body stays under it to fill the neckline. Her neck and the neckline show as they are. In these she has a man's outline, since the mesh is a man's.
+
+A refitted piece and one of these did not go together: one came through the other, over it or under it. With one of these on, the refitted pieces she wears go back to the game's shape, so she goes as a man and nothing crosses. With her dresses or the refitted clothes alone, they stay as they were refitted.
+
+When one of them is refitted, its copy takes the refitted mesh and keeps its id, so a save keeps the item.
 
 ## How it works
 
-The game's items do not change, so NPCs look as always. Each one has a fitted copy with the same stats and the same name with `_ff` at the end. When she has the game's item in her inventory, it turns into the copy, as her dresses do. If it was equipped, put it on again. Armour you buy, loot or get from the story swaps too.
+The game's items do not change, so NPCs look as always. Each one has a copy with the same stats and the same name with `_ff` at the end. When she has the game's item in her inventory, it turns into the copy, as her dresses do. If it was equipped, put it on again. Armour you buy, loot or get from the story swaps too. A man gets the game's piece back: Henry after `ml_ff_henry`, or a man of KCD2 Life.
+
+To try them, `ml_developer` and then `ml_ff_fitted_give`, or `ml_ff_fitted_give cuirass` for the cuirasses alone.
 
 ## Known issues
+
 
 - The lacing at the top of the gambeson can poke through a coif a little without a cuirass.
 - Zizka's coif does not sit as cleanly as the others.
 - Kettle hats 04 and 05 push the coifs out a little without a cuirass: that is the game's own morph.
+- Legate's robe and Bergov's coat have their torso refitted but the game's arms. Until the arms are refitted, they go in the game's shape: refitted, the seam between torso and arms opened by the neck.
+
+## Refitting a piece
+
+For modellers: [REFITTING.md](REFITTING.md) explains how to refit a piece and add it here. You make the mesh, and a tool writes the rest.
 
 ## Spawning a copy
 
@@ -33,7 +49,9 @@ To get one at once, without waiting for the swap:
 wh_cheat_addItem Cuirass03_m03_A5_ff
 ```
 
-Every copy:
+<!-- The copies: written by tools/fitted_gear.py. -->
+
+**Refitted:** 962
 
 ```text
 ArmPlate01_m01_C2_ff
@@ -66,6 +84,7 @@ ArmPlate05_mAulitz_ff
 ArmPlate06_m01_A5_ff
 ArmPlateBergov_m01_ff
 ArmPlateBrunswig_m01_ff
+ArmPlateHanush_m01_ff
 Brigandine01_m01_D3_ff
 Brigandine01_m02_D3_ff
 Brigandine01_m03_D3_ff
@@ -250,8 +269,8 @@ Coat02_mPisek_D_ff
 Coat02_mPolner_D_ff
 Coat02_mRuthart_D_ff
 Coat02_mSemin_D_ff
-Coat02_mTeuton_ff
 Coat02_mTeuton02_ff
+Coat02_mTeuton_ff
 Coat02_mVavak_D_ff
 Coat03_m01_E_ff
 Coat03_m02_E_ff
@@ -377,8 +396,8 @@ CoifLarge01_mkhTournament_03_D2_ff
 CoifLarge01_mkhTournament_04_D2_ff
 CoifLarge01_mkhTournament_05_D2_ff
 CoifLarge01_mkhTournament_06_D2_ff
-CoifLarge01_mkhTournament_07_D2_ff
 CoifLarge01_mkhTournament_07_D2_Henry_ff
+CoifLarge01_mkhTournament_07_D2_ff
 CoifLarge02_m01_C3_ff
 CoifLarge02_m02_C3_ff
 CoifLarge02_m03_C3_ff
@@ -508,8 +527,8 @@ CuirassBrunswig_m01_ff
 CuirassCapon_m01_ff
 CuirassCapon_mRadzig_ff
 GambesonLong01_fnc_mAulitz_ff
-GambesonLong01_m01_C3_ff
 GambesonLong01_m01_C3_KHtournament_Henry_ff
+GambesonLong01_m01_C3_ff
 GambesonLong01_m02_C3_ff
 GambesonLong01_m03_C3_ff
 GambesonLong01_m04_C3_ff
@@ -852,6 +871,7 @@ LegsPadded03_m07_B2_ff
 LegsPadded03_m08_B2_ff
 LegsPadded03_m09_B2_ff
 LegsPadded03_m10_B2_ff
+LegsPadded03_mSamuel_ff
 LegsPadded05_m01_B1_ff
 LegsPadded05_m02_B1_ff
 LegsPadded05_m03_B1_ff
@@ -872,6 +892,9 @@ MailShort01_m04_C4_ff
 MailShort02_m01_C1_ff
 MailShort02_m02_C1_ff
 MailShort02_m03_C1_ff
+PourpointDevil01_m01_ff
+PourpointDevil01_mNoDaggerWithBags_ff
+PourpointDevil01_mNoDagger_ff
 Waffenrock01_m01_C_ff
 Waffenrock01_m02_C_ff
 Waffenrock01_m03_C_ff
@@ -980,8 +1003,234 @@ Waffenrock09_mSemin_B_ff
 Waffenrock09_mTeuton_ff
 Waffenrock09_mVavak_B_ff
 dvojityAgent_petrsCuirass_ff
+prop_Brigandine05_m03_back_ff
+prop_Brigandine05_m03_front_ff
+prop_Brigandine05_m03_shoulder_left_ff
+prop_Brigandine05_m03_shoulder_right_ff
+prop_Cuirass07_m02_back_ff
+prop_Cuirass07_m02_front_ff
+prop_Cuirass07_m02_shoulder_left_ff
+prop_Cuirass07_m02_shoulder_right_ff
+prop_GambesonLong01_mHenryTrailerDream_ff
 sedmStatecnych_ZizkaCoat_ff
 setkaniVRatbori1_cupbearerCoat_ff
 ztracenaCest_jezeksArms_ff
 ztracenaCest_jezeksCuirass_ff
 ```
+
+**With the game's mesh:** 210
+
+```text
+CoatZachary_m01_ff
+Cuirass10_m01_ff
+GambesonShort02_m01_E1_ff
+GambesonShort02_m02_E1_ff
+GambesonShort02_m03_E1_ff
+GambesonShort02_m04_E1_ff
+GambesonShort02_m05_E1_ff
+GambesonShort02_m06_E1_ff
+GambesonShort02_m07_E1_ff
+GambesonShort02_m08_E1_ff
+GambesonShort02_m09_E1_ff
+GambesonShort02_m10_E1_ff
+GambesonShort02_m11_E1_ff
+GambesonShort02_m12_E1_ff
+GambesonShort03_m01_A4_ff
+GambesonShort03_m02_A4_ff
+GambesonShort03_m03_A4_ff
+GambesonShort03_m04_A4_ff
+GambesonShort03_m05_A4_ff
+GambesonShort03_m06_A4_ff
+GambesonShort03_m07_A4_ff
+GambesonShort03_m08_A4_ff
+GambesonShort03_m09_A4_ff
+GambesonShort03_m10_A4_ff
+GambesonShort03_mBergovCaptured_A2_ff
+GambesonShort04_m01_C3_ff
+GambesonShort04_m02_C3_ff
+GambesonShort04_m03_C3_ff
+GambesonShort04_m04_C3_ff
+GambesonShort04_m05_C3_ff
+GambesonShort04_m06_C3_ff
+GambesonShort04_m07_C3_ff
+GambesonShort04_m08_C3_ff
+GambesonShort04_m09_C3_ff
+GambesonShort04_m10_C3_ff
+GambesonShort04_m11_C3_ff
+GambesonShort04_m12_C3_ff
+GambesonShortIstvan_m01_ff
+GambesonShortIstvan_mNoScabbard_ff
+GambesonShortKomar_m01_ff
+GambesonShortKomar_mNoBags_ff
+GambesonShortKubyenka_m01_ff
+GambesonShortKubyenka_mNoDagger_ff
+GambesonShortLichtenstein_m01_ff
+GambesonShortSamuel_m01_ff
+TorsoPainter_flipped_m01_ff
+TorsoPainter_m01_ff
+TorsoPainter_m02_ff
+TunicLong01_m01_C_ff
+TunicLong01_m02_C_ff
+TunicLong01_m03_C_ff
+TunicLong01_m04_C_ff
+TunicLong01_m05_C_ff
+TunicLong01_m06_C_ff
+TunicLong01_m07_C_ff
+TunicLong01_m08_C_ff
+TunicLong01_m09_C_ff
+TunicLong01_m10_C_ff
+TunicLong01_m11_C_ff
+TunicLong01_m12_C_ff
+TunicLong02_m01_C_ff
+TunicLong02_m02_C_ff
+TunicLong02_m03_C_ff
+TunicLong02_m04_C_ff
+TunicLong02_m05_C_ff
+TunicLong02_m06_C_ff
+TunicLong02_m07_C_ff
+TunicLong02_m08_C_ff
+TunicLong02_m09_C_ff
+TunicLong02_m10_C_ff
+TunicLong02_m11_C_ff
+TunicLong02_m12_C_ff
+TunicLong02_mPusko_NoVest_ff
+TunicLong02_mPusko_ff
+TunicLong03_m01_D_ff
+TunicLong03_m02_D_ff
+TunicLong03_m03_D_ff
+TunicLong03_m04_D_ff
+TunicLong03_m05_D_ff
+TunicLong03_m06_D_ff
+TunicLong03_m07_D_ff
+TunicLong03_m08_D_ff
+TunicLong03_m09_D_ff
+TunicLong03_m10_D_ff
+TunicLong03_mButcher01_D_ff
+TunicLong03_mButcher02_D_ff
+TunicLong03_mButcher03_D_ff
+TunicLong03_mButcher_D_ff
+TunicLong04_m01_D_ff
+TunicLong04_m02_D_ff
+TunicLong04_m03_D_ff
+TunicLong04_m04_D_ff
+TunicLong04_m05_D_ff
+TunicLong04_m06_D_ff
+TunicLong04_m07_D_ff
+TunicLong04_m08_D_ff
+TunicLong04_m09_D_ff
+TunicLong04_m10_D_ff
+TunicLong05_m01_E_ff
+TunicLong05_m02_E_ff
+TunicLong05_m03_E_ff
+TunicLong05_m04_E_ff
+TunicLong05_m05_E_ff
+TunicLong05_m06_E_ff
+TunicLong05_m07_E_ff
+TunicLong05_m08_E_ff
+TunicLong05_m09_E_ff
+TunicLong05_m10_E_ff
+TunicLong05_m11_E_ff
+TunicLong05_m12_E_ff
+TunicLongSigismund_m01_ff
+TunicShort01_m01_D_ff
+TunicShort01_m02_C_ff
+TunicShort01_m03_C_ff
+TunicShort01_m04_C_ff
+TunicShort01_m05_C_ff
+TunicShort01_m06_C_ff
+TunicShort01_m07_C_ff
+TunicShort01_m08_D_ff
+TunicShort01_m09_C_ff
+TunicShort01_m10_C_ff
+TunicShort01_m11_C_ff
+TunicShort01_m12_C_ff
+TunicShort01_mHenry_ff
+TunicShort02_m01_D_ff
+TunicShort02_m02_D_ff
+TunicShort02_m03_D_ff
+TunicShort02_m04_D_ff
+TunicShort02_m05_D_ff
+TunicShort02_m06_D_ff
+TunicShort02_m07_D_ff
+TunicShort02_m08_D_ff
+TunicShort02_m09_D_ff
+TunicShort02_m10_D_ff
+TunicShort03_m01_D_ff
+TunicShort03_m02_D_ff
+TunicShort03_m03_D_ff
+TunicShort03_m04_D_ff
+TunicShort03_m05_D_ff
+TunicShort03_m06_D_ff
+TunicShort03_m07_D_ff
+TunicShort03_m08_D_ff
+TunicShort03_m09_D_ff
+TunicShort03_m10_D_ff
+TunicShort03_m11_D_ff
+TunicShort03_m12_D_ff
+TunicShort04_m01_A_ff
+TunicShort04_m02_A_ff
+TunicShort04_m03_A_ff
+TunicShort04_m04_A_ff
+TunicShort04_m05_A_ff
+TunicShort04_m06_A_ff
+TunicShort04_m07_A_ff
+TunicShort04_m08_A_ff
+TunicShort04_m09_A_ff
+TunicShort04_m10_A_ff
+TunicShort04_mMurderer_ff
+TunicShort05_m01_D_ff
+TunicShort05_m02_D_ff
+TunicShort05_m03_D_ff
+TunicShort05_m04_D_ff
+TunicShort05_m05_D_ff
+TunicShort05_m06_D_ff
+TunicShort05_m07_D_ff
+TunicShort05_m08_D_ff
+TunicShort05_m09_D_ff
+TunicShort05_m10_D_ff
+TunicShort05_mButcher01_D_ff
+TunicShort05_mButcher02_D_ff
+TunicShort05_mButcher03_D_ff
+TunicShort05_mButcher_D_ff
+TunicShort05_mFather_cutscene_ff
+TunicShort05_mFather_ff
+TunicShort05_mHenrysYoungFather_ff
+TunicShort05_mPros_ff
+TunicShort06_m01_D_ff
+TunicShort06_m02_D_ff
+TunicShort06_m03_D_ff
+TunicShort06_m04_D_ff
+TunicShort06_m05_D_ff
+TunicShort06_m06_D_ff
+TunicShort06_m07_D_ff
+TunicShort06_m07_NoSpoon_D_ff
+TunicShort06_m08_D_ff
+TunicShort06_m09_D_ff
+TunicShort06_m10_D_ff
+TunicShort07_m01_E_ff
+TunicShort07_m02_E_ff
+TunicShort07_m03_E_ff
+TunicShort07_m04_E_ff
+TunicShort07_m05_E_ff
+TunicShort07_m06_E_ff
+TunicShort08_m01_C_ff
+TunicShort08_m02_C_ff
+TunicShort08_m03_C_ff
+TunicShort08_m04_C_ff
+TunicShort08_m05_C_ff
+TunicShort08_m06_C_ff
+TunicShort08_m07_C_ff
+TunicShort08_m08_C_ff
+TunicShort08_m09_C_ff
+TunicShort08_m10_C_ff
+TunicShort08_m11_C_ff
+TunicShortLegate_m01_NoHat_ff
+TunicShortLegate_m01_ff
+WaffenrockScaring_m01_ff
+podMostem_tunic_ff
+prop_TunicShort01_m01_D_ff
+zbranePanaSemina_sukGambeson_ff
+ztratyANalezy_tunic_ff
+```
+
+<!-- End of the copies. -->

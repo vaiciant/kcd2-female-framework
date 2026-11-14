@@ -13,7 +13,7 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 - **Back to Henry** whenever you like, in the same save, with his own face.
 - **Women's clothes.** Dresses, shoes, hoods and veils from any shop fit her, and keep their condition.
 - **Hats and helmets** sit right on her head.
-- **Armour that fits her.** The men's armour and clothes of the game, 948 items with the story and DLC armour, refitted to her body by Cytyryz: gambesons, mail, plate, coats and hoods sit on each other as they should.
+- **Armour that fits her.** The men's armour and clothes of the game, over 950 items with the story and DLC armour, refitted to her body by Cytyryz: gambesons, mail, plate, coats and hoods sit on each other as they should. The men's tunics, shirts and gambesons not refitted yet hide her body under them, so it does not come through.
 - **Her hair.** 7 styles of the time, in up to 9 colors.
 - **The barber knows she is a woman.** Ask any barber for a haircut and she gets a woman's one. Pick the style and the color in the talk, and see each one on her before you take it. It costs the usual 50 groschen, or 5 with Realish Economy.
 - **First person** looks clean: you never see the inside of her face.
@@ -58,6 +58,6 @@ Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods
 
 ## For mod makers
 
-Any mod can use it: one line of Lua turns Henry into a woman. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-female-framework).
+Any mod can use it: one line of Lua turns Henry into a woman. Clothing modders can make a normal women's garment and convert it for her with one tool. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-female-framework).
 
 *Works on its own or with KCD2 Male Framework. Required by KCD2 Life.*

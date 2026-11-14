@@ -19,6 +19,15 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 
 **Colors:** `dark_brown`, `black`, `light_brown`, `blonde`, `ginger`, `dark_ginger`, `dark_grey`, `grey` and `white`, numbered from 1 to 9 in that order. Style 3 has only the first six.
 
+## Developer mode
+
+`ml_developer` turns on the test commands of the framework until the game closes. KCD2 Life has the same command, and either one turns on both.
+
+| Command | What it does |
+|---|---|
+| `ml_ff_npc_dress <name>` | Puts an item on the nearest woman NPC, within 10 m, by its name in the item table, as `wh_cheat_addItem` takes it: `ml_ff_npc_dress Cuirass03_m03_A5`, or its copy for her, `Cuirass03_m03_A5_ff`. It knows the fitted gear and the clothes other mods register with their names; any other name says it cannot be put on |
+| `ml_ff_fitted_give [word] [copies]` | Gives the game's pieces of the fitted gear, refitted or not, which turn into her copies while she is a woman. A word gives only those whose name has it, like `ml_ff_fitted_give cuirass`. With `copies`, the copies themselves: a man gets the game's pieces back |
+
 ## Before the game starts
 
 `ml_ff_start` chooses her look before you play, and works in the main menu too: open the console there, type it, and start a new game.
