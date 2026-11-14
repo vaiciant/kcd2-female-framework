@@ -65,7 +65,7 @@ Run both again after a game update.
 
 ## Still to refit
 
-The game's meshes for her torso, arms, skirts, legs and neck that nobody has refitted yet, by garment, with the most worn first. The game's colours of a garment share its meshes, so each one here covers all of them. The tool keeps this list: a mesh leaves it when its refitted one is saved.
+The goal is every piece of the game covered for her. This is what is left for it: the game's meshes for her torso, arms, skirts, legs and neck that nobody has refitted yet, by garment, with the most worn first. The rest already fits her: hats, helmets and coifs take the framework's morph for her head, and gloves, boots, belts and scabbards go on her as on Henry. The game's colours of a garment share its meshes, so each one here covers all of them. The tool keeps this list: a mesh leaves it when its refitted one is saved.
 
 Until a piece is refitted, she goes as a man with it: it hides her torso below the chest, and the refitted pieces she wears with it go back to the game's shape. Once it is refitted, the whole outfit fits her.
 

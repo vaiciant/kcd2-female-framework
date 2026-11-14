@@ -33,7 +33,16 @@ So the outfits that mix work, but she looks like a man in them. The real fix is 
 
 ## What is still to refit
 
-The game's meshes for her torso, arms, skirts, legs and neck that are not refitted yet, by garment, with the most worn first. Hats, helmets and coifs are not here: the framework's own morph fits them to her head. Hands, feet, belts and scabbards are not either.
+The goal is every piece of the game covered for her, and this list is all that is left for it. The rest already fits: hats, helmets and coifs take the framework's own morph for her head, and gloves, boots, belts and scabbards go on her as on Henry.
+
+| Part | Garments | Meshes |
+|---|---|---|
+| Torso, arms and skirts | 31 | 74 |
+| Legs | 25 | 25 |
+| Neck | 3 | 3 |
+| **All** | **59** | **102** |
+
+They are worn by 428 items. Below, by garment, with the most worn first.
 
 The base pieces are the most worth doing first: the short and long tunics, and the short gambesons 02 to 04. Short pourpoint is `gambesonshort03`.
 
