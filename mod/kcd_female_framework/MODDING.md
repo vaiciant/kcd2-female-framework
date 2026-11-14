@@ -164,6 +164,29 @@ FemaleCore.KeepHenry()      -- when Henry gets his own face back: the framework 
 
 Both do nothing when they are not needed, so they are safe to call every time.
 
+## Clothes for her
+
+A mod registers its clothes for her with a Lua file in `Scripts/FemaleCore/Clothes/` of its own pak, with any name. The framework loads every file of that folder when the game starts, in all the mods:
+
+```lua
+FemaleCore.RegisterClothes({
+	{ original = "<id of the item>", copy = "<id of its copy for her>" },
+	{ original = "<id of a man's piece>", copy = "<id of it refitted for her>", back = true },
+}, "<your mod>")
+```
+
+She gets the copy of each original that reaches her inventory. With `back = true`, a man gets the original back. `tools/convert_clothes.py` writes the copies, their meshes and this file from a normal women's garment. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) explains both ways. `FemaleCore.API` is 7 from then on.
+
+## Dressing an NPC
+
+`FemaleCore.DressNpc(entity, classes)` puts items on an NPC, a companion of your mod for example: each item class of the list goes into its inventory and on it. It returns how many went on.
+
+```lua
+FemaleCore.DressNpc(companion, { "<item class id>", "<another>" })
+```
+
+The game's NPC tables are not changed: only the NPCs your mod dresses wear them. A man's piece on a woman of the game keeps the man's shape for now, since the fitted gear is made for the framework's woman, on Henry's skeleton.
+
 ## Credit
 
 Use it in any mod, closed or open. Asking for donations or Patreon support is fine, as long as nothing in your mod is only for those who pay: Warhorse's rules do not allow selling KCD2 mods. The only condition is a credit where people can see it, like a line in your mod's description: "Uses KCD2 Female Framework". See [LICENSE](LICENSE).

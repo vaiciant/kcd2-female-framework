@@ -10,8 +10,9 @@
 FemaleCore = FemaleCore or {}
 
 -- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new. 6: SetLook, BecomeWoman and
--- StartAs take a hair, and SetHair the game's names and the hairs of the women of the story.
-FemaleCore.API = 6
+-- StartAs take a hair, and SetHair the game's names and the hairs of the women of the story. 7: RegisterClothes,
+-- and the clothes of Scripts/FemaleCore/Clothes.
+FemaleCore.API = 7
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -321,6 +322,159 @@ local function changeClothes()
 	end
 end
 
+-- A man cannot keep what was refitted for her from a man's piece: the fitted gear (FITTED_GEAR.md) and the pieces other
+-- mods register with back. Each one that reaches his inventory turns back into the game's piece, with the same
+-- health. A copy of a woman's garment has no back: the rules of the graph take it off him.
+FemaleCore.BACK = FemaleCore.BACK or {}
+
+local function changeBack()
+	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
+		local item = ItemManager.GetItem(id)
+		local original = item and FemaleCore.BACK[item.class]
+		if original then
+			player.inventory:CreateItem(original, item.health or 1, 1)
+			player.inventory:DeleteItem(id, -1)
+			FemaleCore.Log("clothes changed back", item.class)
+		end
+	end
+end
+
+-- Developer mode: ml_developer registers the test commands of the framework until the game closes, as it does for
+-- KCD2 Life, which registers the same command. Both run both, so either one works alone or with the other.
+FemaleCore.DEVELOPER = {
+	{ "ml_ff_fitted_give", "FemaleCore.GiveFittedGear(%line)", "Test: gives the game's pieces of the fitted gear, which turn into her copies, or with copies the copies, for a man. A word gives only the pieces whose name has it, like ml_ff_fitted_give cuirass" },
+	{ "ml_ff_npc_dress", "FemaleCore.NpcDressCommand(%line)", "Test: puts an item on the nearest woman NPC, by its name, like ml_ff_npc_dress Cuirass03_m03_A5, or its copy for her, Cuirass03_m03_A5_ff. It knows the fitted gear and the clothes other mods register with their names" },
+}
+
+function FemaleCore.Developer()
+	if FemaleCore.developer then
+		return
+	end
+	FemaleCore.developer = true
+	for _, command in ipairs(FemaleCore.DEVELOPER) do
+		try("command " .. command[1], function() System.AddCCommand(command[1], command[2], command[3]) end)
+	end
+	FemaleCore.Log("developer mode on:", #FemaleCore.DEVELOPER, "test commands until the game closes")
+end
+
+function FemaleCore.DeveloperCommand()
+	FemaleCore.Developer()
+	if MedievalLife and MedievalLife.Commands and MedievalLife.Commands.Developer then
+		try("KCD2 Life developer mode", MedievalLife.Commands.Developer)
+	end
+end
+
+-- ml_ff_fitted_give [word] [copies]: the game's pieces of the fitted gear whose name has the word, or all, in the
+-- inventory, where the swap turns them into her copies while she is a woman. With copies, the copies themselves: a man
+-- gets the game's pieces back.
+function FemaleCore.GiveFittedGear(line)
+	local filter, copies = nil, false
+	for word in string.gmatch(string.lower(tostring(line or "")), "%S+") do
+		if word == "copies" then
+			copies = true
+		else
+			filter = word
+		end
+	end
+	local given = 0
+	for original, copy in pairs(FemaleCore.FITTED_GEAR or {}) do
+		local name = string.lower((FemaleCore.FITTED_GEAR_NAMES or {})[original] or "")
+		if not filter or string.find(name, filter, 1, true) then
+			try("give", function() player.inventory:CreateItem(copies and copy or original, 1, 1) end)
+			given = given + 1
+		end
+	end
+	FemaleCore.Log("fitted gear given:", given, copies and "copies" or "pieces of the game", filter and ("with " .. filter) or "")
+end
+
+-- Dresses an NPC, a companion of another mod for one: each item class of the list goes into its inventory and on it. Returns how many went on. Not for the player: her clothes swap on their own.
+function FemaleCore.DressNpc(entity, classes)
+	local dressed = 0
+	if not (entity and entity.inventory and entity.actor) then
+		FemaleCore.Log("dress npc: not an NPC")
+		return 0
+	end
+	for _, class in ipairs(type(classes) == "table" and classes or { classes }) do
+		local ok = try("dress npc", function()
+			local id = entity.inventory:CreateItem(class, 1, 1)
+			entity.actor:EquipInventoryItem(id)
+			return true
+		end)
+		dressed = dressed + (ok and 1 or 0)
+	end
+	FemaleCore.Log("dress npc", tostring(entity:GetName()), dressed, "of", #(type(classes) == "table" and classes or { classes }))
+	return dressed
+end
+
+FemaleCore.NPC_DRESS_RANGE = 10
+
+-- ml_ff_npc_dress <name>: the nearest woman NPC, within NPC_DRESS_RANGE metres, gets the item of that name, as the
+-- item table and wh_cheat_addItem name it. Lua cannot find an item by its name, so only the names the framework knows
+-- work (ITEM_NAMES): the pieces of the fitted gear and their copies, <name>_ff, and the clothes other mods register
+-- with their names. Any other name says it cannot be put on.
+function FemaleCore.NpcDressCommand(line)
+	local name = string.match(tostring(line or ""), "^%s*(%S+)")
+	if not name then
+		FemaleCore.Log("ml_ff_npc_dress needs the name of an item, like ml_ff_npc_dress Cuirass03_m03_A5")
+		return
+	end
+	local class = FemaleCore.ITEM_NAMES[string.lower(name)]
+	if not class then
+		FemaleCore.Log(name .. ": KCD2 Female Framework does not know an item of that name, so it cannot be put on. It knows "
+			.. "the fitted gear and the clothes other mods register with their names (MAKING_CLOTHES.md)")
+		return
+	end
+	local position, nearest, best = player:GetWorldPos(), nil, nil
+	for _, entity in pairs(System.GetEntitiesInSphereByClass(position, FemaleCore.NPC_DRESS_RANGE, "NPC_Female") or {}) do
+		local other = entity:GetWorldPos()
+		local distance = (other.x - position.x) ^ 2 + (other.y - position.y) ^ 2
+		if not best or distance < best then
+			nearest, best = entity, distance
+		end
+	end
+	if not nearest then
+		FemaleCore.Log("no woman NPC within", FemaleCore.NPC_DRESS_RANGE, "m")
+		return
+	end
+	FemaleCore.Log("dressing", tostring(nearest:GetName()), "with", name)
+	if FemaleCore.DressNpc(nearest, { class }) == 0 then
+		FemaleCore.Log(name .. ": it could not be put on " .. tostring(nearest:GetName()))
+	end
+end
+
+-- The item names the framework knows, in lower case, and their class: Lua cannot find an item by its name.
+FemaleCore.ITEM_NAMES = FemaleCore.ITEM_NAMES or {}
+
+local function knowName(name, class)
+	if type(name) == "string" and type(class) == "string" then
+		FemaleCore.ITEM_NAMES[string.lower(name)] = class
+	end
+end
+
+-- Clothes for her from other mods (MAKING_CLOTHES.md): each entry is the item of the game, or of the mod, and its copy
+-- that she can wear, { original = id, copy = id }, and name and copy_name, their item names, to find them by name. With
+-- back = true, the original is a man's piece, and a man gets it back. A garment that already has a copy keeps it.
+-- source names the mod in the log. Returns how many were taken.
+function FemaleCore.RegisterClothes(list, source)
+	FemaleCore.CLOTHES = FemaleCore.CLOTHES or {}
+	local count = 0
+	for _, entry in ipairs(type(list) == "table" and list or {}) do
+		local original, copy = entry.original, entry.copy
+		if type(original) == "string" and type(copy) == "string" then
+			-- name and copy_name, the item names of both, are optional: ml_ff_npc_dress finds them by those.
+			knowName(entry.name, original)
+			knowName(entry.copy_name, copy)
+			FemaleCore.CLOTHES[original] = FemaleCore.CLOTHES[original] or copy
+			if entry.back then
+				FemaleCore.BACK[copy] = original
+			end
+			count = count + 1
+		end
+	end
+	FemaleCore.Log("clothes of", tostring(source or "a mod") .. ":", count)
+	return count
+end
+
 -- No event is known for an item that arrives, so the inventory is looked at once a second.
 local tickGen = 0
 
@@ -347,6 +501,8 @@ local function tick(gen)
 	end
 	if womanInUse() then
 		try("clothes", changeClothes)
+	elseif next(FemaleCore.BACK) then
+		try("clothes back", changeBack)
 	end
 	-- The rules also take a woman's clothes off a man of KCD2 Life.
 	for class, text in pairs(FemaleCore.STRIPPED) do

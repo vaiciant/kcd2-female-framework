@@ -3,5 +3,6 @@
 	<ClothingMorphs version="1">
 		<Morph Name="#ml_ff_head" />
 		<Morph Name="#ml_ff_dress_fit" />
+		<Morph Name="#ml_ff_men_fit" />
 	</ClothingMorphs>
 </database>
