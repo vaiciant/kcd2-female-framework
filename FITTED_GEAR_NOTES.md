@@ -24,7 +24,7 @@ Your refitted armour is now part of KCD2 Female Framework, and it works: the cui
 
 A refitted piece is made for her body, and the game's piece for Henry's. Worn together, over or under each other, one came through the other: her chest through the man's tunic, the man's tunic through your cuirass, his shoulders through your hood. Until every piece is refitted, the framework does this:
 
-- **The men's pieces that are not refitted** have a copy too, with the game's mesh. It hides her torso and her smock below the chest (1.32 m), where she is wider than the man.
+- **The men's pieces that are not refitted** have a copy too, with the game's mesh. If her torso or her smock comes through it, the copy hides them below the chest (1.32 m), where she is wider than the man. Under a loose piece nothing is hidden.
 - **With one of them on,** everything refitted that she wears goes back to the game's shape: a morph made from your mesh and the game's. The whole outfit goes as a man's, and nothing crosses.
 - **Without them,** with her dresses or only refitted pieces, everything stays as you refitted it.
 - **Hoods** also get the game's widening for padded clothes (`#extend_hood_cloth_padded`). The short pourpoint (`GambesonShort03`) lost it in the game's own tables.
@@ -120,7 +120,7 @@ The base pieces are the most worth doing first: the short and long tunics, and t
    | `hood01` | 1 | 0.3 cm |
 
    Pushing the front of the cape out a little would fix it.
-2. **Legate's robe (`HabitLegate_m01`): a gap by the neck.** Your torso narrowed the shoulders, but the robe wears the game's arms (`tunicshortlegate_arms`), which stayed where they were: the seam between them opened 3 to 5 cm. Bergov's coat (`CoatBergov_m01`) is the same, with the game's arms of the short pourpoint. Until those arms are refitted, both go in the game's shape, as a man's piece. Both arms are in the list.
+2. **Legate's robe (`HabitLegate_m01`): a gap by the neck.** Your torso narrowed the shoulders, but the robe wears the game's arms (`tunicshortlegate_arms`), which stayed where they were: the seam between them opened 3 to 5 cm. Bergov's coat (`CoatBergov_m01`) is the same, with the game's arms of the short pourpoint. Until those arms are refitted, both go in the game's shape, as a man's piece. The robe hides nothing of her: it is loose, and hiding her chest left its inside empty, seen through the neckline. Both arms are in the list.
 3. **Short pourpoint with a hood.** The padding at the front of the chest comes over the cape. Refitting the pourpoint fixes it, as with your other gambesons.
 4. **A little mixing towards the chest** with the base pieces. Refitting them fixes it.
 5. **Four boundary meshes are never seen.** A child's mesh replaces its parent's in that part, so the boundary meshes of the parent nodes never show. They don't need refitting:
