@@ -4,6 +4,8 @@
 
 Turn Henry into a woman with one console command, or start a woman's life of your own with KCD2 Life. She gets a woman's face, body and hair, wears women's clothes, and fights and rides just like Henry.
 
+*Her voice: [KCD2 Female Voice](https://www.nexusmods.com/kingdomcomedeliverance2/mods/4006), a separate mod, gives her a woman's voice in every line of Henry, with the same acting and timing. It is on as soon as it is installed, and cannot be changed in game.*
+
 ## What you get
 
 - **55 faces.** Every common woman's face of the game, young and old, and a few women of the story.
@@ -11,8 +13,8 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 - **Back to Henry** whenever you like, in the same save, with his own face.
 - **Women's clothes.** Dresses, shoes, hoods and veils from any shop fit her, and keep their condition.
 - **Hats and helmets** sit right on her head.
+- **Armour that fits her.** The men's armour and clothes of the game, 948 items with the story and DLC armour, refitted to her body by Cytyryz: gambesons, mail, plate, coats and hoods sit on each other as they should.
 - **Her hair.** 7 styles of the time, in up to 9 colors.
-- **Her voice,** with KCD2 Female Voice, a separate mod: a woman's voice in every line of Henry, with the same acting and timing. It is on as soon as it is installed, and cannot be changed in game: turn it off to hear Henry's.
 - **The barber knows she is a woman.** Ask any barber for a haircut and she gets a woman's one. Pick the style and the color in the talk, and see each one on her before you take it. It costs the usual 50 groschen, or 5 with Realish Economy.
 - **First person** looks clean: you never see the inside of her face.
 - **Combat and riding** work as always.

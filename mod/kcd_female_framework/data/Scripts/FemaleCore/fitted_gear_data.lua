@@ -1,16 +1,8 @@
--- Fitted Gear for the Female Framework, by Cytyryz
---
--- This swaps the normal armor and clothes in her inventory for the fitted copies.
--- The framework already does the swapping for its dresses so I just hand it my list
--- (FemaleCore.CLOTHES), all this has to do is make sure the list stays in there.
---
--- Console: cyt_gear_log
-
-CytGear = CytGear or {}
-local G = CytGear
-
--- original item id = fitted copy id
-G.SWAP = {
+-- The men's armour and clothes of the game, refitted to her body by Cytyryz (FITTED_GEAR.md): each item of the game
+-- and its fitted copy, with the same stats and _ff at the end of its name. The loader adds them to FemaleCore.CLOTHES,
+-- so they swap as her dresses do. Their meshes and tables are item__kcd_female_framework_fitted.xml and
+-- CharacterComponent__kcd_female_framework_fitted.xml.
+FemaleCore.FITTED_GEAR = {
 	["3f5dc1aa-ae52-4760-a466-0ebac0d483ed"] = "d51e7a81-25ce-55b8-ab7d-26ddd0b6d6ca", -- ArmPlate01_m01_C2
 	["951c694f-0067-4456-b182-16b9938bbab9"] = "aad0653c-0195-5bab-8a5f-178bc0a34ffa", -- ArmPlate01_m02_C2
 	["a3c3146a-84a7-4c98-a7a9-eb27d547e547"] = "5d2a948d-9cd9-5984-bbbb-827916633b64", -- ArmPlate01_m03_C2
@@ -960,48 +952,3 @@ G.SWAP = {
 	["7b6a90fc-06f4-4618-8900-c0693c29d540"] = "48de5e1c-8798-53ab-9747-3caf8cb531f3", -- ztracenaCest_jezeksArms
 	["d9f33173-7f4c-4c75-a871-43d52fc0e35a"] = "e4f01bfd-9e99-5f1d-8cce-a8f73a741ba0", -- ztracenaCest_jezeksCuirass
 }
-
-local function say(msg)
-	System.LogAlways("[CytGear] " .. msg)
-end
-
-local function addToFramework()
-	local fc = rawget(_G, "FemaleCore")
-	if not fc or type(fc.CLOTHES) ~= "table" then
-		return false
-	end
-	for from, to in pairs(G.SWAP) do
-		fc.CLOTHES[from] = to
-	end
-	return true
-end
-
--- timers from game start dont survive loading a save and the framework loads after this,
--- so the list gets added every time a save starts and keeps getting topped up
-G.run = (G.run or 0) + 1
-
-local function keepAdding(run)
-	if run ~= G.run then return end
-	pcall(addToFramework)
-	Script.SetTimer(3000, function() keepAdding(run) end)
-end
-
-function G:OnGameplayStarted()
-	G.run = G.run + 1
-	say("save loaded, list added: " .. tostring(addToFramework()))
-	local run = G.run
-	Script.SetTimer(1000, function() keepAdding(run) end)
-end
-
-function G.Log()
-	local n = 0
-	for _ in pairs(G.SWAP) do n = n + 1 end
-	local fc = rawget(_G, "FemaleCore")
-	local woman = fc and fc.WomanInUse and fc.WomanInUse()
-	say(n .. " items, list in framework: " .. tostring(addToFramework()) .. ", woman: " .. tostring(woman))
-end
-
-pcall(addToFramework)
-pcall(function() UIAction.RegisterEventSystemListener(G, "System", "OnGameplayStarted", "OnGameplayStarted") end)
-System.AddCCommand("cyt_gear_log", "CytGear.Log()", "Fitted Gear: how many items and if the swap list is in")
-say("loaded")

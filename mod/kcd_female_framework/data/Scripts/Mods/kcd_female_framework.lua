@@ -8,12 +8,19 @@ FemaleCore.LOADED = true
 Script.LoadScript("Scripts/FemaleCore/female_core.lua")
 Script.LoadScript("Scripts/FemaleCore/looks_data.lua")
 Script.LoadScript("Scripts/FemaleCore/clothes_data.lua")
+Script.LoadScript("Scripts/FemaleCore/fitted_gear_data.lua")
 Script.LoadScript("Scripts/FemaleCore/barber.lua")
 Script.LoadScript("Scripts/FemaleCore/cutscene_doubles.lua")
 
 if not (FemaleCore.BecomeWoman and FemaleCore.LOOKS and FemaleCore.CLOTHES and FemaleCore.Barber and FemaleCore.CutsceneDoubles) then
 	System.LogAlways("[ML_FF] ERROR a file did not load")
 	return
+end
+
+-- The men's armour and clothes refitted for her (fitted_gear_data.lua) swap as her dresses do. A garment the framework
+-- already has a copy of keeps it.
+for from, to in pairs(FemaleCore.FITTED_GEAR or {}) do
+	FemaleCore.CLOTHES[from] = FemaleCore.CLOTHES[from] or to
 end
 
 System.AddCCommand("ml_ff_looks", "FemaleCore.PrintLooks()", "Lists the women's looks of KCD2 Female Framework: name, people, age and id")

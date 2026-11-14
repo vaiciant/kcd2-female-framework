@@ -32,6 +32,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 |---|---|
 | Every face of the game | All 50 generic women's faces, young and old, and 5 named women of the story whose faces fit |
 | Women's clothes | The 315 women's garments of the shops, worn with their own condition. Shops keep the game's items |
+| Fitted gear | The men's armour and clothes of the game, 948 items with the story and DLC armour, refitted to her body by Cytyryz. They swap to their fitted copies as her dresses do: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
 | Hair | 7 hair styles of the time and up to 9 colors, and by command the hairs of four women of the story: Katherine, Rose, Miriam and the mother. Never a beard: a beard on a woman's head crashes the game. Braids keep still: the framework leaves out the bones that swing them |
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
 | Combat and riding | They work, because the character is still the game's player |

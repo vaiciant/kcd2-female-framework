@@ -1,8 +1,41 @@
-Fitted Gear - spawn list
+# KCD2 Female Framework: fitted gear
 
-If you want one straight away instead of waiting for the swap, spawn the copy:
-wh_cheat_addItem <name>
+The men's armour and clothes of the game, refitted to her body by **Cytyryz**. On her, the game's armour kept Henry's proportions: the shoulders were too wide, it was baggy at the waist and stood off her back, the pauldrons floated, and coifs and mail sat high off the plate. These copies fit her, and their layers sit on each other: gambeson, then mail, then plate, then coats and waffenrocks on top.
 
+## What is refitted
+
+- Short gambeson, slimmed down: everything else is fitted around it
+- Padded hose, sitting back where it should, with narrower hips
+- Arm armour, plate and brigandine
+- Cuirasses, in their usual shape, made her size. The chest stays flat: plate would press it, so anything else would not be realistic
+- Brigandines
+- Mail shirts, short and long
+- Long gambesons, caftans, coats, waffenrocks and habits
+- Hoods, which work with Hood On too, coifs and collars
+
+Story, reward and DLC armour too, like Zizka's, Capon's, Godwin's and the Brunswick set: 948 items in all. Helmets are not here: the framework already fits them.
+
+## How it works
+
+The game's items do not change, so NPCs look as always. Each one has a fitted copy with the same stats and the same name with `_ff` at the end. When she has the game's item in her inventory, it turns into the copy, as her dresses do. If it was equipped, put it on again. Armour you buy, loot or get from the story swaps too.
+
+## Known issues
+
+- The lacing at the top of the gambeson can poke through a coif a little without a cuirass.
+- Zizka's coif does not sit as cleanly as the others.
+- Kettle hats 04 and 05 push the coifs out a little without a cuirass: that is the game's own morph.
+
+## Spawning a copy
+
+To get one at once, without waiting for the swap:
+
+```text
+wh_cheat_addItem Cuirass03_m03_A5_ff
+```
+
+Every copy:
+
+```text
 ArmPlate01_m01_C2_ff
 ArmPlate01_m02_C2_ff
 ArmPlate01_m03_C2_ff
@@ -951,3 +984,4 @@ sedmStatecnych_ZizkaCoat_ff
 setkaniVRatbori1_cupbearerCoat_ff
 ztracenaCest_jezeksArms_ff
 ztracenaCest_jezeksCuirass_ff
+```
