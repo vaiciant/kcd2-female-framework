@@ -33,6 +33,7 @@ Usage, from the root of the framework's repository, with the game's tables extra
     python -I -X utf8 mod/kcd_female_framework/tools/fitted_gear.py --check
 """
 import copy
+import html
 import functools
 import math
 import pathlib
@@ -55,6 +56,11 @@ DOC = DATA.parent / "FITTED_GEAR.md"
 # The list of copies in FITTED_GEAR.md goes between these lines; the rest of the page is written by hand.
 LIST_START, LIST_END = "<!-- The copies: written by tools/fitted_gear.py. -->", "<!-- End of the copies. -->"
 GUIDE = DATA.parent / "REFITTING.md"
+# Each copy has a name of its own: the game's, with (Women's) after it, so the shops and the chests tell the two apart.
+# One file per language of the game, in that language's pak; the languages without a word of their own keep the game's
+# name, so that no key shows.
+NAMES = DATA.parent / "localization" / "{language}" / "text_ui_items__kcd_female_framework_fitted.xml"
+NAME_MARKS = {"English_xml": " (Women's)", "Spanish_xml": " (de mujer)"}
 TODO_START, TODO_END = "<!-- Still to refit: written by tools/fitted_gear.py. -->", "<!-- End of the list. -->"
 # The parts whose meshes she needs refitted, and the title of each in the list. Hats, helmets and coifs on the head
 # take the framework's own morph for her head; her hands and feet sit where Henry's do; belts and scabbards hang.
@@ -340,7 +346,8 @@ def the_copy(node, refits):
 def item_copy(row, guid):
     attributes = {}
     for key, value in row.attrib.items():
-        attributes[key] = {"Clothing": value + SUFFIX, "Id": guid, "Name": row.get("Name") + SUFFIX}.get(key, value)
+        attributes[key] = {"Clothing": value + SUFFIX, "Id": guid, "Name": row.get("Name") + SUFFIX,
+                           "UIName": value.strip() + SUFFIX}.get(key, value)
     out = ET.Element(row.tag, attributes)
     out.extend(copy.deepcopy(child) for child in row)
     return out
@@ -379,6 +386,23 @@ def item_table(rows):
     ET.SubElement(base, "ItemClasses", {"version": "8"}).extend(rows)
     ET.indent(base, "\t")
     return '<?xml version="1.0" encoding="us-ascii"?>\n' + ET.tostring(base, encoding="unicode") + "\n"
+
+
+def name_tables(rows):
+    """The name of each copy in every language of the game: the game's text of its UIName, and the mark of the language."""
+    keys = sorted({row.get("UIName")[:-len(SUFFIX)] for row in rows if row.get("UIName")})
+    files = {}
+    for pak in sorted((gw.GAME / "Localization").glob("*_xml.pak")):
+        with zipfile.ZipFile(pak) as z:
+            text = z.read("text_ui_items.xml").decode("utf-8", errors="replace")
+        names = {key.strip().lower(): name for key, _, name in re.findall(r"<Row><Cell>([^<]*)</Cell><Cell>([^<]*)</Cell><Cell>([^<]*)</Cell>", text)}
+        mark = html.escape(NAME_MARKS.get(pak.stem, ""), quote=False)
+        lines = [f"  <Row><Cell>{key}{SUFFIX}</Cell><Cell>{key}{SUFFIX}</Cell><Cell>{names[key.lower()]}{mark}</Cell></Row>"
+                 for key in keys if names.get(key.lower())]
+        files[pathlib.Path(str(NAMES).format(language=pak.stem))] = "<Table>\n" + "\n".join(lines) + "\n</Table>\n"
+    if not files:
+        raise SystemExit(f"No localization paks in {gw.GAME / 'Localization'}")
+    return files
 
 
 def lua_data(entries):
@@ -487,7 +511,10 @@ def build():
         if kind is None:
             print(f"Dropped {row.get('Name')}: its piece is not in the game's tables, or has nothing to copy")
             continue
-        rows.append(copy.deepcopy(row))
+        row = copy.deepcopy(row)
+        if row.get("UIName") and not row.get("UIName").endswith(SUFFIX):
+            row.set("UIName", row.get("UIName").strip() + SUFFIX)
+        rows.append(row)
         original = originals[row.get("Id")]
         entries.append((original, row.get("Id"), old_names.get(original, row.get("Name")[:-len(SUFFIX)]), kind))
         kept += 1
@@ -495,6 +522,7 @@ def build():
     unused = sorted(refit for original, refit in refits.items() if worn(refit).lower() not in used)
     files = {COMPONENTS: component_table(copies), ITEMS: item_table(rows), LUA: lua_data(entries), DOC: doc_with_list(entries),
              GUIDE: guide_with_list(missing)}
+    files.update(name_tables(rows))
     files.update(men_fit_meshes(refits))
     summary = {kind: sum(1 for _, _, _, k in entries if k == kind) for kind in ("refitted", "game")}
     pieces = {kind: sum(1 for k in kinds.values() if k == kind) for kind in ("refitted", "game")}
@@ -517,6 +545,7 @@ def main():
             print(f"Not up to date: {path}. Run the tool without --check.")
         return 1 if stale else 0
     for path in stale:
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(files[path])
         print(f"Written: {path}")
     return 0
