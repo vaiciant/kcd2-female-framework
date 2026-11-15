@@ -124,6 +124,18 @@ BODIES = sorted({look["body"] for look in CATALOG})
 GAME_PATH = "objects/characters/humans/"
 # Above this height, head and hair are hidden in first person: group 0 is bit 0 of the alpha (12).
 HIDDEN_HEIGHT = 1.50
+# Under a hood her hair hangs out through the cape. The hood copies (fitted_gear.py) activate the game's CoifHairCap,
+# group 4 of the head, and it hides what of the hair hangs below the hood: at the back from 1.52 down, at the front
+# from 1.45, the fringe and the strands by the face, eased over 5 cm between them.
+HAIR_TUCK_BIT = 4
+HAIR_TUCK_BACK, HAIR_TUCK_FRONT, HAIR_TUCK_EASE = 1.52, 1.45, 0.05
+
+
+def under_hood(position):
+    _, y, z = position
+    t = min(1.0, max(0.0, y / HAIR_TUCK_EASE))
+    t = t * t * (3 - 2 * t)
+    return z < HAIR_TUCK_BACK + (HAIR_TUCK_FRONT - HAIR_TUCK_BACK) * t
 # The headgear pieces are men's meshes shared by the NPCs: the woman's head lacks 3 cm of crown, and her nape sits
 # 1.5 cm further back. Each mesh gets its own morph that moves it whole, and only that head activates it, like
 # #morph_henry. The LODs of these meshes have no morphs.
@@ -690,15 +702,16 @@ def without_cloth(data, body, man):
     return rebuild(entries, chunk_bodies)
 
 
-def mark_bit(data, bit, is_off):
-    """Sets the alpha bit of each vertex, off depending on its height."""
+def mark_bit(data, bit, is_off, by_position=False):
+    """Sets the alpha bit of each vertex, off depending on its height (or on its whole position)."""
     out = bytearray(data)
     streams = read_streams(data)
     colors, count, _ = streams[STREAM_COLOR]
     positions = streams[STREAM_POSITION][0]
     for i in range(count):
         index = colors + i * 4 + 3
-        if is_off(struct.unpack_from("<f", data, positions + i * 12 + 8)[0]):
+        position = struct.unpack_from("<3f", data, positions + i * 12)
+        if is_off(position if by_position else position[2]):
             out[index] &= ~(1 << bit) & 0xFF
         else:
             out[index] |= 1 << bit
@@ -1013,6 +1026,8 @@ def generate_meshes(extra=None, headgear=True):
             else:
                 if "_waist" in file_name and any(name.startswith(CLOTH_BONE) for name, _, _ in bones(fitted)):
                     fitted = without_cloth(fitted, read(GAME_PATH + BASE_BODY), man)
+                if kind == "hair":
+                    fitted = mark_bit(fitted, HAIR_TUCK_BIT, under_hood, by_position=True)
                 out_path.write_bytes(fitted)
                 continue
             for part, part_mesh in parts.items():

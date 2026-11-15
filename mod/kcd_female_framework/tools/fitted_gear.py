@@ -83,6 +83,10 @@ MEN_FIT = "_ffmen"
 # without it, like the short pourpoint (GambesonShort03). The hood in the game's shape crossed their shoulders, up to
 # 7 cm; with it, in 2 or 3 points of the shoulders. Their copies switch it on again.
 HOOD_PADDED = "#extend_hood_cloth_padded"
+# The hoods and the plague suit take the game's CoifHairCap: it hides her hair that hangs below the hood, which the
+# hair meshes mark (generate_women.py, HAIR_TUCK_BIT). Only these copies have it, and only she wears them.
+HAIR_TUCK = "CoifHairCap"
+HAIR_TUCK_PIECES = ("hood", "plaguesuit")
 LOD = re.compile(r"(.+)_(?:fffit|ffslim)(_lod\d)\.skin", re.IGNORECASE)
 
 
@@ -314,6 +318,10 @@ def the_copy(node, refits):
         if HOOD_PADDED in family and HOOD_PADDED not in morphs:
             morphs.append(HOOD_PADDED)
         attributes["Morphs"] = " ".join(morphs + [gw.MEN_FIT_MORPH])
+    if node.get("Name").lower().startswith(HAIR_TUCK_PIECES):
+        groups = (attributes.get("HidingGroups") or inherited(node, "HidingGroups") or "").split()
+        if HAIR_TUCK not in groups:
+            attributes["HidingGroups"] = " ".join(groups + [HAIR_TUCK])
     out = ET.Element("Clothing", attributes)
     if keeps_body:
         meshes["torso"].set("KeepBodyLayer", "true")
