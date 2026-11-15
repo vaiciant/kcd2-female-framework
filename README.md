@@ -8,6 +8,15 @@ A library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that makes p
 > into him. Removing the mod from a save where he was ever a woman is not supported, so keep a save from before if you
 > may want to.
 
+## Collaborators
+
+- **vaiciant** ([GitHub](https://github.com/vaiciant)): the framework and its tools.
+- **Cytyryz** ([Nexus Mods](https://www.nexusmods.com/profile/Cytyryz?gameId=7286), [GitHub](https://github.com/Beachom)): the fitted gear, every man's armour and piece of clothing of the game refitted to her body ([FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md)).
+
+Everyone with a commit in this repository:
+
+[![Collaborators](https://contrib.rocks/image?repo=vaiciant/kcd2-female-framework)](https://github.com/vaiciant/kcd2-female-framework/graphs/contributors)
+
 ## How it works
 
 The game only knows how to play a man. Combat, riding, alchemy and the rest expect the male player and its skeleton, and nothing can select the female player class. A mod that swaps in a woman's model breaks them.
@@ -32,9 +41,9 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 |---|---|
 | Every face of the game | All 50 generic women's faces, young and old, and 5 named women of the story whose faces fit |
 | Women's clothes | The 315 women's garments of the shops, worn with their own condition. Shops keep the game's items |
-| Fitted gear | The men's armour and clothes of the game, over 950 items with the story and DLC armour, refitted to her body by Cytyryz. The men's tunics, shirts and gambesons not refitted yet hide her torso under them, so it does not come through. They swap to their copies as her dresses do, and back to the game's piece for a man: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
-| Fitted gear in shops | Optional, a mod of its own: `kcd_female_framework_shops`. The shops stock the fitted copies, named "(Women's)", next to the game's pieces, so the shop preview shows them on her. NPCs are not affected |
+| Fitted gear | The men's armour and clothes of the game, over 1,350 items with the story and DLC armour, refitted to her body by Cytyryz: every man's piece of the game for her torso, arms, legs and neck. They swap to their copies as her dresses do, and back to the game's piece for a man: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
 | Clothes of other mods | A mod registers its clothes for her with a file in `Scripts/FemaleCore/Clothes/`, and they swap as hers do. `tools/convert_clothes.py` makes it from a normal women's garment: [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) |
+| Faces of other mods | A mod adds faces of its own, with the framework's heads or a head of its own, from one file: `tools/make_face_pack.py` writes the rest. [MAKING_FACES.md](mod/kcd_female_framework/MAKING_FACES.md) |
 | Hair | 7 hair styles of the time and up to 9 colors, and by command the hairs of four women of the story: Katherine, Rose, Miriam and the mother. Never a beard: a beard on a woman's head crashes the game. Braids keep still: the framework leaves out the bones that swing them |
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
 | Combat and riding | They work, because the character is still the game's player |
@@ -58,7 +67,7 @@ While the model changes, the screen goes black for a few seconds. A last `true` 
 
 ## For modders
 
-One call turns Henry into a woman: `ml_ff_female` in the console, or `FemaleCore.BecomeWoman()` from your mod. [MODDING.md](mod/kcd_female_framework/MODDING.md) shows how, in a few lines. Clothes for her from your own mod: make a normal women's garment and convert it with `tools/convert_clothes.py`, or make it by hand, as [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) explains. To refit the game's men's clothes to her body, [REFITTING.md](mod/kcd_female_framework/REFITTING.md). The [developer guide](mod/kcd_female_framework/FRAMEWORK_DEVELOPER_GUIDE.md) explains the API, the Skald tokens and how each piece works.
+One call turns Henry into a woman: `ml_ff_female` in the console, or `FemaleCore.BecomeWoman()` from your mod. [MODDING.md](mod/kcd_female_framework/MODDING.md) shows how, in a few lines. Your mod can add faces of its own, with the framework's heads or heads you made: [MAKING_FACES.md](mod/kcd_female_framework/MAKING_FACES.md). Clothes for her from your own mod: make a normal women's garment and convert it with `tools/convert_clothes.py`, or make it by hand, as [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) explains. [`examples/template_mod`](mod/kcd_female_framework/examples/template_mod) is a mod to copy, with a face and a woman it plays from the start. To refit the game's men's clothes to her body, [REFITTING.md](mod/kcd_female_framework/REFITTING.md). The [developer guide](mod/kcd_female_framework/FRAMEWORK_DEVELOPER_GUIDE.md) explains the API, the Skald tokens and how each piece works.
 
 ```lua
 -- In your OnGameplayStarted handler: the load order is not guaranteed.
@@ -94,7 +103,6 @@ python -I -X utf8 tools/generate_models.py
 python -I -X utf8 mod/kcd_female_framework/tools/generate_women.py
 python -I -X utf8 mod/kcd_female_framework/tools/fitted_gear.py
 python -I tools/install_mod.py mod/kcd_female_framework
-python -I tools/install_mod.py mod/kcd_female_framework_shops   # optional: the fitted gear in shops
 ```
 
 | Tool | What it writes |
@@ -102,18 +110,11 @@ python -I tools/install_mod.py mod/kcd_female_framework_shops   # optional: the 
 | `tools/extract_game.py` | The game tables that the tools read, from your game into `game_files/`. Once, and again after a game update |
 | `tools/generate_models.py` | The catalog of looks in `looks.toml` and `LOOKS.md`, the Skald graph, the tokens and the Lua data of both frameworks, and the game's barber dialog with its haircut for men only |
 | `tools/generate_women.py` | The meshes fitted to the male skeleton, their components, the copies of the women's garments and the headgear morphs |
-| `tools/fitted_gear.py` | The copies of the men's clothes for her, from the refitted meshes: their components, items and swap. After every change of meshes: [REFITTING.md](mod/kcd_female_framework/REFITTING.md) |
+| `tools/fitted_gear.py` | The copies of the men's clothes for her, from the refitted meshes: their components, items, names and swap. After every change of meshes: [REFITTING.md](mod/kcd_female_framework/REFITTING.md) |
+| `tools/make_face_pack.py` | A face pack in another mod, from its `faces.toml`: [MAKING_FACES.md](mod/kcd_female_framework/MAKING_FACES.md) |
 | `tools/install_mod.py` | Packs the mod and copies it to the game. The game must be closed |
 
 Set `KCD2_GAME` to the game's folder if it is not in the default Steam library.
-
-## Roadmap to 1.0.0
-
-Plans, not promises.
-
-- ~~**Speech:** a mouth that moves with the lines, as a man's does.~~ Done in 0.2.0.
-- ~~**A way back to Henry,** with his own face, in the same save.~~ Done in 0.2.0.
-- **Clothes from other mods:** tested with clothing mods, and a clear pipeline to fit their garments to her, as the tools do for the game's. Loose jackets and cloaks over her body go with it.
 
 ## License
 

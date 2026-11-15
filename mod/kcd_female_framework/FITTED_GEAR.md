@@ -1,41 +1,44 @@
 # KCD2 Female Framework: fitted gear
 
-The men's armour and clothes of the game, refitted to her body by **Cytyryz**. On her, the game's armour kept Henry's proportions: the shoulders were too wide, it was baggy at the waist and stood off her back, the pauldrons floated, and coifs and mail sat high off the plate. These copies fit her, and their layers sit on each other: gambeson, then mail, then plate, then coats and waffenrocks on top.
+The men's armour and clothes of the game, refitted to her body by **[Cytyryz](https://www.nexusmods.com/profile/Cytyryz?gameId=7286)**. On her, the game's armour kept Henry's proportions: the shoulders were too wide, it was baggy at the waist and stood off her back, the pauldrons floated, and coifs and mail sat high off the plate. These copies fit her, and their layers sit on each other: gambeson, then mail, then plate, then coats and waffenrocks on top.
 
 ## What is refitted
 
-- Short gambeson, slimmed down: everything else is fitted around it
-- Padded hose, sitting back where it should, with narrower hips
+- Short gambesons, slimmed down: everything else is fitted around them
+- Tunics, short and long, and pourpoints
+- Hose and padded hose, sitting back where they should, with narrower hips
+- Leg armour, plate and brigandine
 - Arm armour, plate and brigandine
 - Cuirasses, in their usual shape, made her size. The chest stays flat: plate would press it, so anything else would not be realistic
 - Brigandines
 - Mail shirts, short and long
 - Long gambesons, caftans, coats, waffenrocks and habits
-- Hoods, which work with Hood On too, coifs and collars
+- Hoods, which work with Hood On too, coifs and collars. Under a hood, or the plague suit's, her hair tucks in: what would hang out through the cape is hidden. It tucks under the game's coif caps and Zizka's bascinet too, which hide a man's hair the same way
+- Necklaces
 
-Story, reward and DLC armour too, like Zizka's, Capon's, Godwin's and the Brunswick set. Helmets are not here: the framework already fits them. Every copy is in the list at the end.
+Story, reward and DLC armour too, like Zizka's, Capon's, Godwin's and the Brunswick set. Every copy is in the list at the end.
 
-## The rest of the men's clothes
+## All the men's clothes of the game
 
-The men's tunics, shirts and gambesons that are not refitted yet keep the game's mesh, made for Henry, and her bust and the back of her waist came through it. They get a copy too, with the game's mesh. Where her torso or her smock would come through it, they are hidden below the chest. Under a loose piece, like Legate's robe, nothing is hidden, and her body stays under it to fill the neckline. Her neck and the neckline show as they are. In these she has a man's outline, since the mesh is a man's.
+Every man's piece of the game for her torso, arms, legs and neck is refitted, so the whole outfit fits her, whatever she puts together. The rest goes on her as it is: hats, helmets and coifs take the framework's own morph for her head, and gloves, boots, belts and scabbards go on her as on Henry.
 
-A refitted piece and one of these did not go together: one came through the other, over it or under it. With one of these on, the refitted pieces she wears go back to the game's shape, so she goes as a man and nothing crosses. With her dresses or the refitted clothes alone, they stay as they were refitted.
-
-When one of them is refitted, its copy takes the refitted mesh and keeps its id, so a save keeps the item.
+A man's piece from another mod has no copy, and goes on her with its man's mesh. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) explains how to make it fit her.
 
 ## How it works
 
-The game's items do not change, so NPCs look as always. Each one has a copy with the same stats and the same name with `_ff` at the end. When she has the game's item in her inventory, it turns into the copy, as her dresses do. If it was equipped, put it on again. Armour you buy, loot or get from the story swaps too. A man gets the game's piece back: Henry after `ml_ff_henry`, or a man of KCD2 Life.
+The game's items do not change, so NPCs look as always. Each one has a copy with the same stats and the same name, which has `_ff` at the end in the tables. It is the same garment, made for her body: whoever has it gets the version of their body. When she has the game's item in her inventory, it turns into the copy, as her dresses do. If it was equipped, put it on again. At the start of a game as a woman (`ml_ff_start`), what Henry wears turns into her copies and stays on. Armour you buy, loot or get from the story swaps too. A man gets the game's piece back: Henry after `ml_ff_henry`, or a man of KCD2 Life.
 
-To try them, `ml_developer` and then `ml_ff_fitted_give`, or `ml_ff_fitted_give cuirass` for the cuirasses alone.
+The swap waits while the inventory or the console is open, since the game stops then. A game's piece put on before it swaps comes off when it does, and its copy goes into the bag.
+
+To try them, `ml_developer` and then `ml_ff_fitted_give`, or `ml_ff_fitted_give cuirass` for the cuirasses alone. `ml_ff_fitted_test` gives a few pieces to try them with, and `ml_ff_fitted_showcase` each kind of garment in three colours. Those two give her the copies at once.
 
 ## Known issues
-
 
 - The lacing at the top of the gambeson can poke through a coif a little without a cuirass.
 - Zizka's coif does not sit as cleanly as the others.
 - Kettle hats 04 and 05 push the coifs out a little without a cuirass: that is the game's own morph.
-- Legate's robe and Bergov's coat have their torso refitted but the game's arms. Until the arms are refitted, they go in the game's shape: refitted, the seam between torso and arms opened by the neck.
+- A collar over her bare skin, with nothing under it, can look off: it sits right over a shirt or a gambeson.
+- In the prologue, Henry's gear belongs to the quest: it looks for it for the training with Hans and takes it away at the ambush, so it does not swap. Once she has full control, after the ride and the talk with the guard, she gets her own version of each piece, weightless as the quest's, and it goes on in its place, with a notice. The quest's pieces stay in the bag, and when the story takes them away, hers go too. In the scene where she takes off her armour before the ambush, she shows the game's pieces, which the scene puts on.
 
 ## Refitting a piece
 
@@ -51,7 +54,7 @@ wh_cheat_addItem Cuirass03_m03_A5_ff
 
 <!-- The copies: written by tools/fitted_gear.py. -->
 
-**Refitted:** 962
+**Refitted:** 1384
 
 ```text
 ArmPlate01_m01_C2_ff
@@ -380,6 +383,7 @@ CoatRuthard_m01_ff
 CoatRuthard_mArmor_ff
 CoatSigismund_m01_ff
 CoatVavak_m01_ff
+CoatZachary_m01_ff
 CoatZizkaSword_m01_ff
 CoatZizkaSwordless_m01_ff
 CoifLarge01_m01_D2_ff
@@ -523,6 +527,7 @@ Cuirass09_m04_B4_ff
 Cuirass09_m05_B4_ff
 Cuirass09_m06_B4_ff
 Cuirass09_m07_B4_ff
+Cuirass10_m01_ff
 CuirassBrunswig_m01_ff
 CuirassCapon_m01_ff
 CuirassCapon_mRadzig_ff
@@ -598,6 +603,49 @@ GambesonShort01_m09_D2_ff
 GambesonShort01_m10_D2_ff
 GambesonShort01_m11_B2_ff
 GambesonShort01_m12_B2_ff
+GambesonShort02_m01_E1_ff
+GambesonShort02_m02_E1_ff
+GambesonShort02_m03_E1_ff
+GambesonShort02_m04_E1_ff
+GambesonShort02_m05_E1_ff
+GambesonShort02_m06_E1_ff
+GambesonShort02_m07_E1_ff
+GambesonShort02_m08_E1_ff
+GambesonShort02_m09_E1_ff
+GambesonShort02_m10_E1_ff
+GambesonShort02_m11_E1_ff
+GambesonShort02_m12_E1_ff
+GambesonShort03_m01_A4_ff
+GambesonShort03_m02_A4_ff
+GambesonShort03_m03_A4_ff
+GambesonShort03_m04_A4_ff
+GambesonShort03_m05_A4_ff
+GambesonShort03_m06_A4_ff
+GambesonShort03_m07_A4_ff
+GambesonShort03_m08_A4_ff
+GambesonShort03_m09_A4_ff
+GambesonShort03_m10_A4_ff
+GambesonShort03_mBergovCaptured_A2_ff
+GambesonShort04_m01_C3_ff
+GambesonShort04_m02_C3_ff
+GambesonShort04_m03_C3_ff
+GambesonShort04_m04_C3_ff
+GambesonShort04_m05_C3_ff
+GambesonShort04_m06_C3_ff
+GambesonShort04_m07_C3_ff
+GambesonShort04_m08_C3_ff
+GambesonShort04_m09_C3_ff
+GambesonShort04_m10_C3_ff
+GambesonShort04_m11_C3_ff
+GambesonShort04_m12_C3_ff
+GambesonShortIstvan_m01_ff
+GambesonShortIstvan_mNoScabbard_ff
+GambesonShortKomar_m01_ff
+GambesonShortKomar_mNoBags_ff
+GambesonShortKubyenka_m01_ff
+GambesonShortKubyenka_mNoDagger_ff
+GambesonShortLichtenstein_m01_ff
+GambesonShortSamuel_m01_ff
 Habit01_m01_C_ff
 Habit01_m02_C_ff
 Habit01_m03_C_ff
@@ -836,6 +884,167 @@ HoodLegate_m01_ff
 HoodRabi_m01_ff
 HoodSemin_m01_ff
 HoodSigismund_m01_ff
+HoseJoined01_m01_C_ff
+HoseJoined01_m03_C_ff
+HoseJoined01_m04_C_ff
+HoseJoined01_m05_C_ff
+HoseJoined01_m06_C_ff
+HoseJoined01_m07_C_ff
+HoseJoined01_m08_C_ff
+HoseJoined01_m09_C_ff
+HoseJoined01_m10_C_ff
+HoseJoined01_m11_C_ff
+HoseJoined01_m12_C_ff
+HoseJoined01_m13_C_ff
+HoseJoined01_m14_C_ff
+HoseJoined01_m15_C_ff
+HoseJoined01_mdrowner_ff
+HoseJoined02_m01_B_ff
+HoseJoined02_m02_B_ff
+HoseJoined02_m03_B_ff
+HoseJoined02_m04_B_ff
+HoseJoined02_m05_B_ff
+HoseJoined02_m06_B_ff
+HoseJoined02_m07_B_ff
+HoseJoined02_m08_B_ff
+HoseJoined02_m09_B_ff
+HoseJoined02_m10_B_ff
+HoseJoined02_m11_B_ff
+HoseJoined02_m12_B_ff
+HoseJoined02_m13_B_ff
+HoseJoined02_m14_B_ff
+HoseJoined02_m15_B_ff
+HoseJoined02_m16_B_ff
+HoseJoined02_m17_B_ff
+HoseJoined02_m18_B_ff
+HoseJoined02_m19_B_ff
+HoseJoined02_m20_B_ff
+HoseJoined02_m21_B_ff
+HoseJoined02_mBergovCaptured_ff
+HoseJoined02_mGottfried_ff
+HoseJoined02_mJobst_B_ff
+HoseJoined02_mKomar_ff
+HoseJoined02_mLegate_ff
+HoseJoined02_mOderin_B_ff
+HoseJoined02_mPainter_ff
+HoseJoined02_mPattern01_B_ff
+HoseJoined02_mPattern01_m01_B_ff
+HoseJoined02_mPattern02_B_ff
+HoseJoined02_mPattern03_B_ff
+HoseJoined02_mPisek_B_ff
+HoseJoined02_mSamuel_ff
+HoseJoined02_mTwitch_B_ff
+HoseJoinedCapon_m01_ff
+HoseJoinedDevil_m01_ff
+HoseJoinedSigismund_m01_ff
+HoseLoose01_m01_C_ff
+HoseLoose01_m02_C_ff
+HoseLoose01_m03_C_ff
+HoseLoose01_m04_C_ff
+HoseLoose01_m05_C_ff
+HoseLoose01_m06_C_ff
+HoseLoose01_m07_C_ff
+HoseLoose01_m08_C_ff
+HoseLoose01_m09_C_ff
+HoseLoose01_m10_C_ff
+HoseLoose01_mUher_C_ff
+HoseSeparate01_m01_D_ff
+HoseSeparate01_m01_E_ff
+HoseSeparate01_m02_D_ff
+HoseSeparate01_m03_D_ff
+HoseSeparate01_m03_E_ff
+HoseSeparate01_m04_D_ff
+HoseSeparate01_m05_D_ff
+HoseSeparate01_m06_D_ff
+HoseSeparate01_m07_D_ff
+HoseSeparate01_m08_D_ff
+HoseSeparate01_m09_D_ff
+HoseSeparate01_m10_D_ff
+HoseSeparate01_m11_D_ff
+HoseSeparate01_m12_D_ff
+HoseSeparate01_m13_D_ff
+HoseSeparate01_m14_D_ff
+HoseSeparate01_m15_D_ff
+HoseSeparate01_m16_D_ff
+HoseSeparate01_m17_D_ff
+HoseSeparate01_m18_D_ff
+HoseSeparate01_m19_D_ff
+HoseSeparate01_m20_D_ff
+HoseSeparate01_m21_D_ff
+HoseSeparate01_mBrabant_ff
+HoseSeparate01_mHanush_ff
+HoseSeparate01_mPattern01_D_ff
+HoseSeparate01_mPattern01_m01_D_ff
+HoseSeparate01_mPattern02_D_ff
+HoseSeparate01_mPattern02_m01_D_ff
+HoseSeparate01_mPattern03_D_ff
+HoseSeparate01_mPattern03_m01_D_ff
+HoseSeparate01_mPattern03_m02_D_ff
+HoseSeparate04_m01_E_ff
+HoseSeparate04_m02_E_ff
+HoseSeparate04_m03_E_ff
+HoseSeparate04_m04_E_ff
+HoseSeparate04_m05_E_ff
+HoseSeparate04_m06_E_ff
+HoseSeparate04_m07_E_ff
+HoseSeparate04_m08_E_ff
+HoseSeparate04_m09_E_ff
+HoseSeparate04_m10_E_ff
+HoseSeparate04_m11_E_ff
+HoseSeparate04_m12_E_ff
+HoseSeparate04_m13_E_ff
+HoseSeparate04_m14_E_ff
+HoseSeparate05_m01_D_ff
+HoseSeparate05_m02_D_ff
+HoseSeparate05_m03_D_ff
+HoseSeparate05_m04_D_ff
+HoseSeparate05_m05_D_ff
+HoseSeparate05_m06_D_ff
+HoseSeparate05_m07_D_ff
+HoseSeparate05_m08_D_ff
+HoseSeparate05_m09_D_ff
+HoseSeparate05_m10_D_ff
+HoseSeparate05_m11_D_ff
+HoseSeparate05_m12_D_ff
+HoseSeparate05_m13_D_ff
+HoseSeparate05_m14_D_ff
+HoseSeparate05_mBurned_ff
+LegsBrigandine01_m01_D2_ff
+LegsBrigandine01_m02_D2_ff
+LegsBrigandine01_m03_D2_ff
+LegsBrigandine01_m04_D2_ff
+LegsBrigandine01_m05_D2_ff
+LegsBrigandine01_m06_D2_ff
+LegsBrigandine01_m07_D2_ff
+LegsBrigandine01_m08_D2_ff
+LegsBrigandine01_mMarkvartDream_ff
+LegsBrigandine03_m01_B4_ff
+LegsBrigandine03_m02_B4_ff
+LegsBrigandine03_m03_B4_ff
+LegsBrigandine03_m04_B4_ff
+LegsBrigandine03_m05_B4_ff
+LegsBrigandine03_m06_B4_ff
+LegsBrigandine03_m07_B4_ff
+LegsBrigandine03_m08_B4_ff
+LegsBrigandine03_m09_B4_ff
+LegsBrigandine03_m10_B4_ff
+LegsBrigandine03_m11_B4_ff
+LegsBrigandine03_m12_B4_ff
+LegsBrigandine03_mSamuel_ff
+LegsBrigandine03_mTwitch_ff
+LegsBrigandine04_m01_A5_ff
+LegsBrigandine04_m02_A5_ff
+LegsBrigandine04_m03_A5_ff
+LegsBrigandine04_m04_A5_ff
+LegsBrigandine04_m05_A5_ff
+LegsBrigandine04_m06_A5_ff
+LegsBrigandine04_m07_A5_ff
+LegsBrigandine04_m08_A5_ff
+LegsBrigandine04_m09_A5_ff
+LegsBrigandine04_m10_A5_ff
+LegsBrigandine04_mErik_ff
+LegsBrigandine04_mOderin_A5_ff
+LegsBrigandine04_mRuthard_A5_ff
 LegsPadded01_m01_C3_ff
 LegsPadded01_m02_C3_ff
 LegsPadded01_m03_C3_ff
@@ -877,6 +1086,47 @@ LegsPadded05_m02_B1_ff
 LegsPadded05_m03_B1_ff
 LegsPadded05_m04_B1_ff
 LegsPadded05_m05_B1_ff
+LegsPaddedGodwin_m01_ff
+LegsPlate01_m01_C3_ff
+LegsPlate01_m02_C3_ff
+LegsPlate01_m03_C3_ff
+LegsPlate01_mAlberich_ff
+LegsPlate01_mIstvan_ff
+LegsPlate02_m01_B4_ff
+LegsPlate02_m02_B4_ff
+LegsPlate02_m03_B4_ff
+LegsPlate02_m04_B4_ff
+LegsPlate03_m01_A5_ff
+LegsPlate03_m02_A5_ff
+LegsPlate03_m03_A5_ff
+LegsPlate03_m04_A5_ff
+LegsPlate03_m05_A5_ff
+LegsPlate03_mAulitz_ff
+LegsPlate03_mBergov_ff
+LegsPlate04_m01_D1_ff
+LegsPlate04_m02_D1_ff
+LegsPlate04_m03_D1_ff
+LegsPlate04_m04_D1_ff
+LegsPlate04_m05_D1_ff
+LegsPlate05_m01_C3_ff
+LegsPlate05_m02_C3_ff
+LegsPlate05_m03_C3_ff
+LegsPlate05_m04_C3_ff
+LegsPlate05_m05_C3_ff
+LegsPlate05_m06_C3_ff
+LegsPlate05_m07_C3_ff
+LegsPlate05_m08_C3_ff
+LegsPlate05_mRadzig_C3_ff
+LegsPlate06_m01_D1_ff
+LegsPlate06_m02_D1_ff
+LegsPlate06_m03_D1_ff
+LegsPlate07_m01_E1_ff
+LegsPlate07_m02_E1_ff
+LegsPlate07_m03_E1_ff
+LegsPlate08_m01_A5_ff
+LegsPlateBrunswig_m01_ff
+LegsPlateCapon_m01_ff
+LegsPlateZizka_m01_ff
 MailLong01_m01_C5_ff
 MailLong01_m01_mCapon_NoBags_ff
 MailLong01_m02_C5_ff
@@ -892,180 +1142,12 @@ MailShort01_m04_C4_ff
 MailShort02_m01_C1_ff
 MailShort02_m02_C1_ff
 MailShort02_m03_C1_ff
+Necklace01_mVajda_ff
+Noose_mHangman_ff
+PlagueSuit_m01_ff
 PourpointDevil01_m01_ff
 PourpointDevil01_mNoDaggerWithBags_ff
 PourpointDevil01_mNoDagger_ff
-Waffenrock01_m01_C_ff
-Waffenrock01_m02_C_ff
-Waffenrock01_m03_C_ff
-Waffenrock01_mBergov_C_ff
-Waffenrock01_mCimburk_C_ff
-Waffenrock01_mKrizovnik01_C_ff
-Waffenrock01_mKrizovnik02_C_ff
-Waffenrock01_mKrizovnik03_C_ff
-Waffenrock01_mMagyar01_C_ff
-Waffenrock01_mMagyar_C_ff
-Waffenrock01_mNebak_C_ff
-Waffenrock01_mPisek_C_ff
-Waffenrock01_mPolner_ff
-Waffenrock01_mPrague01_C_ff
-Waffenrock01_mPrague02_C_ff
-Waffenrock01_mRuthart_C_ff
-Waffenrock01_mSemin_C_ff
-Waffenrock01_mTeuton_ff
-Waffenrock01_mTwitch_ff
-Waffenrock01_mZavis_ff
-Waffenrock02_m01_D_ff
-Waffenrock02_m02_D_ff
-Waffenrock02_m03_D_ff
-Waffenrock02_m04_D_ff
-Waffenrock02_m05_D_ff
-Waffenrock02_mBergov_D_ff
-Waffenrock02_mKuttenberg01_D_ff
-Waffenrock02_mKuttenberg02_D_ff
-Waffenrock02_mKuttenberg03_D_ff
-Waffenrock02_mKuttenberg_D_ff
-Waffenrock02_mNebak_D_ff
-Waffenrock02_mRuthart01_D_ff
-Waffenrock02_mRuthart_D_ff
-Waffenrock02_mSemin_D_ff
-Waffenrock03_m01_A_ff
-Waffenrock03_m02_A_ff
-Waffenrock03_m03_A_ff
-Waffenrock03_m04_A_ff
-Waffenrock03_mKuttenberg01_A_ff
-Waffenrock03_mKuttenberg02_A_ff
-Waffenrock03_mKuttenberg03_A_ff
-Waffenrock03_mKuttenberg_A_ff
-Waffenrock03_mLeipa_A_ff
-Waffenrock03_mPrague_A_ff
-Waffenrock04_m01_A_ff
-Waffenrock04_m02_A_ff
-Waffenrock04_m03_A_ff
-Waffenrock04_m04_A_ff
-Waffenrock04_m05_A_ff
-Waffenrock04_mBergov_A_ff
-Waffenrock04_mPapal_A_ff
-Waffenrock04_mTeuton_ff
-Waffenrock08_m01_B_ff
-Waffenrock08_m02_B_ff
-Waffenrock08_m03_B_ff
-Waffenrock08_m04_B_ff
-Waffenrock08_m05_B_ff
-Waffenrock08_m06_B_ff
-Waffenrock08_m07_B_ff
-Waffenrock08_m08_B_ff
-Waffenrock08_m09_B_ff
-Waffenrock08_m10_B_ff
-Waffenrock08_m11_D_ff
-Waffenrock08_m12_B_ff
-Waffenrock08_m13_B_ff
-Waffenrock08_m14_B_ff
-Waffenrock08_m15_B_ff
-Waffenrock08_mBergov_B_ff
-Waffenrock08_mKrizovnik01_B_ff
-Waffenrock08_mKrizovnik02_B_ff
-Waffenrock08_mKuttenberg01_B_ff
-Waffenrock08_mKuttenberg02_B_ff
-Waffenrock08_mKuttenberg03_B_ff
-Waffenrock08_mKuttenberg_B_ff
-Waffenrock08_mPapal_B_ff
-Waffenrock08_mPisek_B_ff
-Waffenrock08_mPrague_B_ff
-Waffenrock08_mSemin_B_ff
-Waffenrock08_mkhTournament_01_B_ff
-Waffenrock08_mkhTournament_02_B_ff
-Waffenrock08_mkhTournament_03_B_ff
-Waffenrock08_mkhTournament_04_B_ff
-Waffenrock08_mkhTournament_05_B_Henry_ff
-Waffenrock08_mkhTournament_06_B_ff
-Waffenrock08_mkhTournament_07_B_ff
-Waffenrock09_m01_B_ff
-Waffenrock09_m02_B_ff
-Waffenrock09_m03_B_ff
-Waffenrock09_m04_B_ff
-Waffenrock09_m05_B_ff
-Waffenrock09_m06_B_ff
-Waffenrock09_mBergov_B_ff
-Waffenrock09_mDesert_B_ff
-Waffenrock09_mKuttenberg01_B_ff
-Waffenrock09_mKuttenberg02_B_ff
-Waffenrock09_mKuttenberg03_B_ff
-Waffenrock09_mKuttenberg04_B_ff
-Waffenrock09_mKuttenberg05_B_ff
-Waffenrock09_mKuttenberg_B_ff
-Waffenrock09_mLeipa_B_ff
-Waffenrock09_mNebak01_B_ff
-Waffenrock09_mNebak_B_ff
-Waffenrock09_mPisek_B_ff
-Waffenrock09_mPros_ff
-Waffenrock09_mSemin_B_ff
-Waffenrock09_mTeuton_ff
-Waffenrock09_mVavak_B_ff
-dvojityAgent_petrsCuirass_ff
-prop_Brigandine05_m03_back_ff
-prop_Brigandine05_m03_front_ff
-prop_Brigandine05_m03_shoulder_left_ff
-prop_Brigandine05_m03_shoulder_right_ff
-prop_Cuirass07_m02_back_ff
-prop_Cuirass07_m02_front_ff
-prop_Cuirass07_m02_shoulder_left_ff
-prop_Cuirass07_m02_shoulder_right_ff
-prop_GambesonLong01_mHenryTrailerDream_ff
-sedmStatecnych_ZizkaCoat_ff
-setkaniVRatbori1_cupbearerCoat_ff
-ztracenaCest_jezeksArms_ff
-ztracenaCest_jezeksCuirass_ff
-```
-
-**With the game's mesh:** 210
-
-```text
-CoatZachary_m01_ff
-Cuirass10_m01_ff
-GambesonShort02_m01_E1_ff
-GambesonShort02_m02_E1_ff
-GambesonShort02_m03_E1_ff
-GambesonShort02_m04_E1_ff
-GambesonShort02_m05_E1_ff
-GambesonShort02_m06_E1_ff
-GambesonShort02_m07_E1_ff
-GambesonShort02_m08_E1_ff
-GambesonShort02_m09_E1_ff
-GambesonShort02_m10_E1_ff
-GambesonShort02_m11_E1_ff
-GambesonShort02_m12_E1_ff
-GambesonShort03_m01_A4_ff
-GambesonShort03_m02_A4_ff
-GambesonShort03_m03_A4_ff
-GambesonShort03_m04_A4_ff
-GambesonShort03_m05_A4_ff
-GambesonShort03_m06_A4_ff
-GambesonShort03_m07_A4_ff
-GambesonShort03_m08_A4_ff
-GambesonShort03_m09_A4_ff
-GambesonShort03_m10_A4_ff
-GambesonShort03_mBergovCaptured_A2_ff
-GambesonShort04_m01_C3_ff
-GambesonShort04_m02_C3_ff
-GambesonShort04_m03_C3_ff
-GambesonShort04_m04_C3_ff
-GambesonShort04_m05_C3_ff
-GambesonShort04_m06_C3_ff
-GambesonShort04_m07_C3_ff
-GambesonShort04_m08_C3_ff
-GambesonShort04_m09_C3_ff
-GambesonShort04_m10_C3_ff
-GambesonShort04_m11_C3_ff
-GambesonShort04_m12_C3_ff
-GambesonShortIstvan_m01_ff
-GambesonShortIstvan_mNoScabbard_ff
-GambesonShortKomar_m01_ff
-GambesonShortKomar_mNoBags_ff
-GambesonShortKubyenka_m01_ff
-GambesonShortKubyenka_mNoDagger_ff
-GambesonShortLichtenstein_m01_ff
-GambesonShortSamuel_m01_ff
 TorsoPainter_flipped_m01_ff
 TorsoPainter_m01_ff
 TorsoPainter_m02_ff
@@ -1226,10 +1308,138 @@ TunicShort08_m10_C_ff
 TunicShort08_m11_C_ff
 TunicShortLegate_m01_NoHat_ff
 TunicShortLegate_m01_ff
+Waffenrock01_m01_C_ff
+Waffenrock01_m02_C_ff
+Waffenrock01_m03_C_ff
+Waffenrock01_mBergov_C_ff
+Waffenrock01_mCimburk_C_ff
+Waffenrock01_mKrizovnik01_C_ff
+Waffenrock01_mKrizovnik02_C_ff
+Waffenrock01_mKrizovnik03_C_ff
+Waffenrock01_mMagyar01_C_ff
+Waffenrock01_mMagyar_C_ff
+Waffenrock01_mNebak_C_ff
+Waffenrock01_mPisek_C_ff
+Waffenrock01_mPolner_ff
+Waffenrock01_mPrague01_C_ff
+Waffenrock01_mPrague02_C_ff
+Waffenrock01_mRuthart_C_ff
+Waffenrock01_mSemin_C_ff
+Waffenrock01_mTeuton_ff
+Waffenrock01_mTwitch_ff
+Waffenrock01_mZavis_ff
+Waffenrock02_m01_D_ff
+Waffenrock02_m02_D_ff
+Waffenrock02_m03_D_ff
+Waffenrock02_m04_D_ff
+Waffenrock02_m05_D_ff
+Waffenrock02_mBergov_D_ff
+Waffenrock02_mKuttenberg01_D_ff
+Waffenrock02_mKuttenberg02_D_ff
+Waffenrock02_mKuttenberg03_D_ff
+Waffenrock02_mKuttenberg_D_ff
+Waffenrock02_mNebak_D_ff
+Waffenrock02_mRuthart01_D_ff
+Waffenrock02_mRuthart_D_ff
+Waffenrock02_mSemin_D_ff
+Waffenrock03_m01_A_ff
+Waffenrock03_m02_A_ff
+Waffenrock03_m03_A_ff
+Waffenrock03_m04_A_ff
+Waffenrock03_mKuttenberg01_A_ff
+Waffenrock03_mKuttenberg02_A_ff
+Waffenrock03_mKuttenberg03_A_ff
+Waffenrock03_mKuttenberg_A_ff
+Waffenrock03_mLeipa_A_ff
+Waffenrock03_mPrague_A_ff
+Waffenrock04_m01_A_ff
+Waffenrock04_m02_A_ff
+Waffenrock04_m03_A_ff
+Waffenrock04_m04_A_ff
+Waffenrock04_m05_A_ff
+Waffenrock04_mBergov_A_ff
+Waffenrock04_mPapal_A_ff
+Waffenrock04_mTeuton_ff
+Waffenrock08_m01_B_ff
+Waffenrock08_m02_B_ff
+Waffenrock08_m03_B_ff
+Waffenrock08_m04_B_ff
+Waffenrock08_m05_B_ff
+Waffenrock08_m06_B_ff
+Waffenrock08_m07_B_ff
+Waffenrock08_m08_B_ff
+Waffenrock08_m09_B_ff
+Waffenrock08_m10_B_ff
+Waffenrock08_m11_D_ff
+Waffenrock08_m12_B_ff
+Waffenrock08_m13_B_ff
+Waffenrock08_m14_B_ff
+Waffenrock08_m15_B_ff
+Waffenrock08_mBergov_B_ff
+Waffenrock08_mKrizovnik01_B_ff
+Waffenrock08_mKrizovnik02_B_ff
+Waffenrock08_mKuttenberg01_B_ff
+Waffenrock08_mKuttenberg02_B_ff
+Waffenrock08_mKuttenberg03_B_ff
+Waffenrock08_mKuttenberg_B_ff
+Waffenrock08_mPapal_B_ff
+Waffenrock08_mPisek_B_ff
+Waffenrock08_mPrague_B_ff
+Waffenrock08_mSemin_B_ff
+Waffenrock08_mkhTournament_01_B_ff
+Waffenrock08_mkhTournament_02_B_ff
+Waffenrock08_mkhTournament_03_B_ff
+Waffenrock08_mkhTournament_04_B_ff
+Waffenrock08_mkhTournament_05_B_Henry_ff
+Waffenrock08_mkhTournament_06_B_ff
+Waffenrock08_mkhTournament_07_B_ff
+Waffenrock09_m01_B_ff
+Waffenrock09_m02_B_ff
+Waffenrock09_m03_B_ff
+Waffenrock09_m04_B_ff
+Waffenrock09_m05_B_ff
+Waffenrock09_m06_B_ff
+Waffenrock09_mBergov_B_ff
+Waffenrock09_mDesert_B_ff
+Waffenrock09_mKuttenberg01_B_ff
+Waffenrock09_mKuttenberg02_B_ff
+Waffenrock09_mKuttenberg03_B_ff
+Waffenrock09_mKuttenberg04_B_ff
+Waffenrock09_mKuttenberg05_B_ff
+Waffenrock09_mKuttenberg_B_ff
+Waffenrock09_mLeipa_B_ff
+Waffenrock09_mNebak01_B_ff
+Waffenrock09_mNebak_B_ff
+Waffenrock09_mPisek_B_ff
+Waffenrock09_mPros_ff
+Waffenrock09_mSemin_B_ff
+Waffenrock09_mTeuton_ff
+Waffenrock09_mVavak_B_ff
 WaffenrockScaring_m01_ff
+dvojityAgent_petrsCuirass_ff
+kocovnickaCest_amulet_ff
+kovaniKatuvSleh_fakeGamblerNoose_ff
 podMostem_tunic_ff
+poi_vodnik_vodnikovyKalhoty_ff
+prepadeni_henryWetBreeches_ff
+prop_Brigandine05_m03_back_ff
+prop_Brigandine05_m03_front_ff
+prop_Brigandine05_m03_shoulder_left_ff
+prop_Brigandine05_m03_shoulder_right_ff
+prop_Cuirass07_m02_back_ff
+prop_Cuirass07_m02_front_ff
+prop_Cuirass07_m02_shoulder_left_ff
+prop_Cuirass07_m02_shoulder_right_ff
+prop_GambesonLong01_mHenryTrailerDream_ff
 prop_TunicShort01_m01_D_ff
+sedmStatecnych_ZizkaCoat_ff
+setkaniVRatbori1_cupbearerCoat_ff
+setkaniVRatbori1_cupbearerPants_ff
 zbranePanaSemina_sukGambeson_ff
+ztracenaCest_jezeksArms_ff
+ztracenaCest_jezeksCuirass_ff
+ztracenaCest_jezeksLegs_ff
+ztratyANalezy_hose_ff
 ztratyANalezy_tunic_ff
 ```
 

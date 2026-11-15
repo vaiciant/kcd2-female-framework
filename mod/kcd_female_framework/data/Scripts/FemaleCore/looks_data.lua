@@ -4,6 +4,8 @@ FemaleCore.RESET_TOKEN = "8cfa0695-dd99-502c-a3de-e8ae4e4b057d"
 FemaleCore.HENRY_TOKEN = "6f5cb3b6-3075-5da4-a3cf-af1059a332ae"
 FemaleCore.ASK_TOKEN = "80273b76-b1dc-5037-a03f-3b43e5799575"
 FemaleCore.ANSWER_ITEM = "66726bee-c42a-53d9-851f-9bb07d8bc27f"
+-- Sent with the token of a look of another mod (RegisterLooks): it makes her a woman as a look of the framework does.
+FemaleCore.OUTSIDE_TOKEN = "56a7f7a7-af52-5bc0-8461-50fe84fcae2e"
 -- Added to the id of the look in the answer: Henry's head and body kept on, and that he was a woman in this save.
 FemaleCore.HENRY_KEPT_ANSWER = 500
 FemaleCore.WAS_WOMAN_ANSWER = 1000

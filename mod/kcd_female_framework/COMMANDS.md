@@ -21,12 +21,16 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 
 ## Developer mode
 
-`ml_developer` turns on the test commands of the framework until the game closes. KCD2 Life has the same command, and either one turns on both.
+`ml_developer` turns on the test commands of the framework until the game closes. KCD2 Male Framework and KCD2 Life have the same command, and any of them turns on the test commands of all three.
 
 | Command | What it does |
 |---|---|
 | `ml_ff_npc_dress <name>` | Puts an item on the nearest woman NPC, within 10 m, by its name in the item table, as `wh_cheat_addItem` takes it: `ml_ff_npc_dress Cuirass03_m03_A5`, or its copy for her, `Cuirass03_m03_A5_ff`. It knows the fitted gear and the clothes other mods register with their names; any other name says it cannot be put on |
 | `ml_ff_fitted_give [word] [copies]` | Gives the game's pieces of the fitted gear, refitted or not, which turn into her copies while she is a woman. A word gives only those whose name has it, like `ml_ff_fitted_give cuirass`. With `copies`, the copies themselves: a man gets the game's pieces back |
+| `ml_ff_start_character <look> [hair] [color]` | A start character, as a mod registers it with `FemaleCore.RegisterStartCharacter`: her look at every start of the game, new or loaded, like `ml_ff_start_character woman_czech_2 5 blonde`. Type it in the main menu, before New Game |
+| `ml_ff_inventory` | Writes in `kcd.log` each item of the inventory that the framework sees, by its id, and whether it has a copy for her or is one. For a piece that does not change |
+| `ml_ff_fitted_test` | Gives the pieces to try the fitted gear with: two tunics, hose, a short pourpoint, a hood, leg plates, a cuirass, Legate's robe, Bergov's coat and the jester's coat. A woman gets her copies at once, a man the game's pieces |
+| `ml_ff_fitted_showcase [colours]` | Gives each kind of garment of the fitted gear in three colours, to show them: tunics, gambesons, caftan, coat, waffenrock, habit, mail, brigandine, cuirass, arm and leg armour, hose, hoods, coifs and a collar. A number gives that many colours of each, like `ml_ff_fitted_showcase 5`. A woman gets her copies at once, a man the game's pieces |
 
 ## Before the game starts
 
@@ -36,7 +40,7 @@ A look is its name or its id: `woman_czech_2` or `4`. `ml_ff_looks` lists them a
 ml_ff_start woman_czech_2
 ```
 
-The game does not tell a new game from a loaded one, so the look goes on at the next start of the game, new or loaded, a few seconds after you have control, under the black screen. A new game begins with Godwin: the look waits for Henry's part, and for the end of the cutscene that starts it, so it goes on once he rides. It goes on once: `ml_ff_start none` cancels it before that. From Lua, `FemaleCore.StartAs(look)` does the same, and `FemaleCore.StartLook()` says which look waits.
+The game does not tell a new game from a loaded one, so the look goes on at the next start of the game, new or loaded, a few seconds after you have control, under the black screen. A new game begins with Godwin: the look waits for Henry's part, and for the end of the cutscene that starts it, so it goes on once he rides. It goes on once: `ml_ff_start none` cancels it before that. The clothes and armour Henry wears turn into her copies and stay on, so she is dressed in the next cutscene. From Lua, `FemaleCore.StartAs(look)` does the same, and `FemaleCore.StartLook()` says which look waits.
 
 ## The black screen
 

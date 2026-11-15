@@ -36,6 +36,16 @@ for _, file in ipairs(scanned and type(files) == "table" and files or {}) do
 	end
 end
 
+-- Faces from other mods (MAKING_FACES.md): every Lua file of this folder, in any mod, registers a face pack with
+-- FemaleCore.RegisterLooks, after the framework's own looks.
+FemaleCore.LOOKS_FOLDER = "Scripts/FemaleCore/Looks"
+local scannedLooks, lookFiles = pcall(System.ScanDirectory, FemaleCore.LOOKS_FOLDER, SCANDIR_FILES)
+for _, file in ipairs(scannedLooks and type(lookFiles) == "table" and lookFiles or {}) do
+	if string.lower(string.sub(file, -4)) == ".lua" then
+		Script.LoadScript(FemaleCore.LOOKS_FOLDER .. "/" .. file)
+	end
+end
+
 System.AddCCommand("ml_developer", "FemaleCore.DeveloperCommand()", "Turns developer mode on until the game closes: the test commands of KCD2 Female Framework, and of KCD2 Life if it is there")
 if pcall(function() return System.IsDevModeEnable() end) and System.IsDevModeEnable() then
 	FemaleCore.Developer()

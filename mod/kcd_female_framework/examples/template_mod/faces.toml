@@ -1,0 +1,29 @@
+# The faces of your mod (MAKING_FACES.md). From the root of the framework's repository, after every change:
+#     python -I -X utf8 mod/kcd_female_framework/tools/make_face_pack.py path/to/your_mod
+
+[pack]
+id = "template_mod"              # the id of your mod, the same as in mod.manifest: lowercase letters, digits and _
+name = "Template Mod"
+description = "A template mod for KCD2 Female Framework"
+author = "Your name"
+version = "0.1.0"
+# block = 7                      # optional: your ids are 200 + 10 x block, from 0 to 29
+
+[[face]]
+name = "template_heroine"        # the name players type, as ml_ff_look template_heroine
+head = "ml_ff_head_016"          # a head of the framework: LOOKS.md lists them
+body = "ml_ff_body_tan_03"       # a body of the framework: ml_ff_body_*
+hair = 3                         # the hair she starts with: a style from 1 to 7
+color = "dark_brown"             # and its color: dark_brown, black, light_brown, blonde, ginger, dark_ginger,
+                                 # dark_grey, grey or white (style 3 has only the first six)
+age = "young"                    # optional: young or old
+
+# A head of your own: in place of head, its mesh and its material, with its LODs and its poses next to it
+# (MAKING_FACES.md, "A head of your own").
+# [[face]]
+# name = "template_own_head"
+# head_mesh = "source/my_head/my_head.skin"
+# material = "source/my_head/my_head.mtl"
+# body = "ml_ff_body_tan_03"
+# hair = 3
+# color = "dark_brown"

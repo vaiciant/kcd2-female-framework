@@ -33,7 +33,6 @@ Usage, from the root of the framework's repository, with the game's tables extra
     python -I -X utf8 mod/kcd_female_framework/tools/fitted_gear.py --check
 """
 import copy
-import html
 import functools
 import math
 import pathlib
@@ -56,16 +55,8 @@ DOC = DATA.parent / "FITTED_GEAR.md"
 # The list of copies in FITTED_GEAR.md goes between these lines; the rest of the page is written by hand.
 LIST_START, LIST_END = "<!-- The copies: written by tools/fitted_gear.py. -->", "<!-- End of the copies. -->"
 GUIDE = DATA.parent / "REFITTING.md"
-# Each copy has a name of its own: the game's, with (Women's) after it, so the shops and the chests tell the two apart.
-# One file per language of the game, in that language's pak; the languages without a word of their own keep the game's
-# name, so that no key shows.
-NAMES = DATA.parent / "localization" / "{language}" / "text_ui_items__kcd_female_framework_fitted.xml"
-NAME_MARKS = {"English_xml": " (Women's)", "Spanish_xml": " (de mujer)"}
-# Optional: a mod of its own, kcd_female_framework_shops, has the shops stock the copies next to the game's pieces, so
-# the preview in a shop shows them on her. It only adds: each preset of a shop that lists a piece gets its copy with the
-# same amount, chance and quality, and the game's pieces stay (a preset that set them to 0 failed to load the tables).
-# A preset declared again keeps the game's attributes. NPC outfits come from clothing presets, which it does not touch.
-SHOPS = pathlib.Path(f"mod/{gw.MOD}_shops/data/Libs/Tables/item/InventoryPreset__{gw.MOD}_shops.xml")
+# A copy keeps the game's name (UIName): it is the same garment, made for her body. A name of its own, "(Women's)", came
+# with the PR #6 and went out: whoever has it gets the version of their body, so there is one item.
 TODO_START, TODO_END = "<!-- Still to refit: written by tools/fitted_gear.py. -->", "<!-- End of the list. -->"
 # The parts whose meshes she needs refitted, and the title of each in the list. Hats, helmets and coifs on the head
 # take the framework's own morph for her head; her hands and feet sit where Henry's do; belts and scabbards hang.
@@ -88,7 +79,7 @@ COMES_THROUGH, HER_FROM = 0.005, 0.95
 CELL_HEIGHT, CELL_ANGLE = 0.01, 0.06
 NO_MESH = ("", "dummy")
 # The copy of each refitted mesh with the morph back to the game's shape, for when she wears a man's piece that is not
-# refitted (U429 for the hoods, U431 for all).
+# refitted: first for the hoods, then for every refitted mesh.
 MEN_FIT = "_ffmen"
 # The game widens the hoods over padded clothes with this morph, but some pieces of that family declare their own morphs
 # without it, like the short pourpoint (GambesonShort03). The hood in the game's shape crossed their shoulders, up to
@@ -98,6 +89,15 @@ HOOD_PADDED = "#extend_hood_cloth_padded"
 # hair meshes mark (generate_women.py, HAIR_TUCK_BIT). Only these copies have it, and only she wears them.
 HAIR_TUCK = "CoifHairCap"
 HAIR_TUCK_PIECES = ("hood", "plaguesuit")
+# Pieces the game puts over a garment of their own, which fills what they leave open. The legate wears his robe over his
+# tunic, and the robe has nothing at the shoulders: on her alone, they showed empty. Their copies keep her body under
+# them, and hide it below the chest, where the refitted piece is narrower than her. Above it she stays inside the robe,
+# and fills the shoulders. The top of her shoulders went with her arms, which the sleeves take away: now it goes
+# with her torso (generate_women.py, shoulders_in_torso).
+OVER_A_GARMENT = ("HabitLegate",)
+# Her pieces of the story's gear (quest_aliases) defend as the quest's: the quest's showed 42, 38 and 127 where hers
+# showed 31, 28 and 96 in the inventory (mail collar, long gambeson, brigandine), about 1.35 times.
+STORY_DEFENSE, STORY_DEFENSE_STATS = 1.35, ("DefenseStab", "DefenseSlash", "DefenseSmash")
 LOD = re.compile(r"(.+)_(?:fffit|ffslim)(_lod\d)\.skin", re.IGNORECASE)
 
 
@@ -173,7 +173,8 @@ def current_files():
     game's tables (the hoods up, from a newer version of the game), which are kept as they are."""
     ids, places, rows, pairs, names = {}, {}, [], {}, {}
     if ITEMS.exists():
-        rows = [row for row in ET.parse(ITEMS).getroot().iter() if row.get("Id") and row.get("Name")]
+        # Her aliases of the story's gear are written anew from the game's aliases (quest_aliases).
+        rows = [row for row in ET.parse(ITEMS).getroot().iter() if row.get("Id") and row.get("Name") and row.get("Clothing")]
         ids = {row.get("Name"): row.get("Id") for row in rows}
     if COMPONENTS.exists():
         table = ET.parse(COMPONENTS).getroot().find("CharacterComponents")
@@ -186,7 +187,7 @@ def current_files():
         for top in table:
             walk(top, [])
     if LUA.exists():
-        text = LUA.read_text(encoding="utf-8")
+        text = LUA.read_text(encoding="utf-8").split("FemaleCore.FITTED_ALIASES")[0]
         pairs = dict(re.findall(r'\["([0-9a-f-]{36})"\] = "([0-9a-f-]{36})"', text))
         names = dict(re.findall(r'\["([0-9a-f-]{36})"\] = "([^"]+)",\n', text))
     return ids, places, rows, pairs, names
@@ -301,12 +302,42 @@ def game_items():
     return rows
 
 
+def quest_aliases(copies, copy_rows):
+    """The game's aliases of the pieces with a copy: quest items that the story gives and takes away, like Henry's gear in
+    the prologue (alias_prepadeni_*). The quest looks for them in the inventory for the training with Hans and takes them
+    at the ambush, so the swap leaves them there. Each one gets a piece of her own: her copy, weightless as the
+    game's alias, since the real pieces weigh 79 kg, and with no price. An alias of hers did not work: Lua made none. Once she has full control, the framework puts hers on, and takes them away with the quest's.
+    Returns {game alias id: (name, her row)}."""
+    found = {}
+    for table in sorted((gw.TABLES / "item").glob("item*.xml")):
+        if table.name in SKIPPED_ITEM_TABLES:
+            continue
+        for row in ET.parse(table).getroot().iter("ItemAlias"):
+            source = row.get("SourceItemId")
+            if row.get("Id") and source in copies and copies[source] in copy_rows and row.get("Id") not in found:
+                name = row.get("Name") + SUFFIX
+                guid = str(uuid.uuid5(uuid.NAMESPACE_URL, f"{GUID_NAMESPACE}/story/{name}"))
+                mine = copy.deepcopy(copy_rows[copies[source]])
+                mine.set("Id", guid)
+                mine.set("Name", name)
+                mine.set("Weight", "0")
+                mine.set("Price", "0")
+                # Lua makes an item at the lowest quality, and the quest makes its own higher: hers defended about 74 %
+                # of the quest's. Only these pieces of the prologue: the game's items and her copies stay as they are.
+                for stat in STORY_DEFENSE_STATS:
+                    if mine.get(stat):
+                        mine.set(stat, str(round(float(mine.get(stat)) * STORY_DEFENSE)))
+                found[row.get("Id")] = (row.get("Name"), mine)
+    return found
+
+
 def the_copy(node, refits):
     """The copy of a piece, or None if she needs none: what is refitted takes the refitted mesh, and a man's mesh over her
     torso hides her under it. A refitted piece that keeps a man's mesh on her body goes as a man's too: Legate's robe has
     a refitted torso with the game's arms, and the seam opened 3 to 5 cm by the neck. Under a man's piece her body
     does not come through, her torso stays: the game's robe takes the body away under it, since the legate wears it over
-    his tunic, and its neckline showed the inside of the robe below her neck."""
+    his tunic, and its neckline showed the inside of the robe below her neck. Refitted, the robe still leaves the
+    shoulders open, so its copy keeps her body too, hidden below the chest (OVER_A_GARMENT)."""
     meshes, joints = resolved(node)
     real = {part for part, mesh in meshes.items() if (mesh.get("Model") or "").lower() not in NO_MESH}
     refitted = {part for part, mesh in meshes.items() if (mesh.get("Model") or "").lower() in refits}
@@ -329,6 +360,10 @@ def the_copy(node, refits):
         if HOOD_PADDED in family and HOOD_PADDED not in morphs:
             morphs.append(HOOD_PADDED)
         attributes["Morphs"] = " ".join(morphs + [gw.MEN_FIT_MORPH])
+    elif "torso" in real and any(node.get("Name").startswith(name) for name in OVER_A_GARMENT):
+        groups = (inherited(node, "HidingGroups") or "").split()
+        attributes["HidingGroups"] = " ".join(groups + [HIDE])
+        keeps_body = True
     if node.get("Name").lower().startswith(HAIR_TUCK_PIECES):
         groups = (attributes.get("HidingGroups") or inherited(node, "HidingGroups") or "").split()
         if HAIR_TUCK not in groups:
@@ -351,8 +386,7 @@ def the_copy(node, refits):
 def item_copy(row, guid):
     attributes = {}
     for key, value in row.attrib.items():
-        attributes[key] = {"Clothing": value + SUFFIX, "Id": guid, "Name": row.get("Name") + SUFFIX,
-                           "UIName": value.strip() + SUFFIX}.get(key, value)
+        attributes[key] = {"Clothing": value + SUFFIX, "Id": guid, "Name": row.get("Name") + SUFFIX}.get(key, value)
     out = ET.Element(row.tag, attributes)
     out.extend(copy.deepcopy(child) for child in row)
     return out
@@ -393,70 +427,7 @@ def item_table(rows):
     return '<?xml version="1.0" encoding="us-ascii"?>\n' + ET.tostring(base, encoding="unicode") + "\n"
 
 
-def name_tables(rows):
-    """The name of each copy in every language of the game: the game's text of its UIName, and the mark of the language."""
-    keys = sorted({row.get("UIName")[:-len(SUFFIX)] for row in rows if row.get("UIName")})
-    files = {}
-    for pak in sorted((gw.GAME / "Localization").glob("*_xml.pak")):
-        with zipfile.ZipFile(pak) as z:
-            text = z.read("text_ui_items.xml").decode("utf-8", errors="replace")
-        names = {key.strip().lower(): name for key, _, name in re.findall(r"<Row><Cell>([^<]*)</Cell><Cell>([^<]*)</Cell><Cell>([^<]*)</Cell>", text)}
-        mark = html.escape(NAME_MARKS.get(pak.stem, ""), quote=False)
-        lines = [f"  <Row><Cell>{key}{SUFFIX}</Cell><Cell>{key}{SUFFIX}</Cell><Cell>{names[key.lower()]}{mark}</Cell></Row>"
-                 for key in keys if names.get(key.lower())]
-        files[pathlib.Path(str(NAMES).format(language=pak.stem))] = "<Table>\n" + "\n".join(lines) + "\n</Table>\n"
-    if not files:
-        raise SystemExit(f"No localization paks in {gw.GAME / 'Localization'}")
-    return files
-
-
-def read_table(path):
-    """A table of the game; a few have Czech comments in Windows-1250."""
-    data = path.read_bytes()
-    try:
-        return ET.fromstring(data)
-    except ET.ParseError:
-        return ET.fromstring(re.sub(r"^<\?xml[^>]*\?>", "", data.decode("cp1250", errors="replace").lstrip("\ufeff")))
-
-
-def shop_table(names):
-    presets = {}
-    for table in sorted((gw.TABLES / "item").glob("InventoryPreset*.xml")):
-        for preset in read_table(table).iter("InventoryPreset"):
-            presets.setdefault(preset.get("Name"), preset)
-    reached = set()
-
-    def reach(name):
-        if name in presets and name not in reached:
-            reached.add(name)
-            for child in presets[name]:
-                if child.tag == "InventoryPresetRef":
-                    reach(child.get("Name"))
-
-    for name in list(presets):
-        if "shop" in name.lower():
-            reach(name)
-    base = ET.Element("database", {"xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", "name": "barbora",
-                                   "xsi:noNamespaceSchemaLocation": "InventoryPreset.xsd"})
-    base.append(ET.Comment(" Generated by mod/kcd_female_framework/tools/fitted_gear.py: the fitted copies next to the "
-                           "game's pieces, in the presets of the shops. "))
-    table = ET.SubElement(base, "InventoryPresets", {"version": "2"})
-    added = 0
-    for name in sorted(reached):
-        items, seen = [], set()
-        for child in presets[name]:
-            if child.tag == "PresetItem" and child.get("Name") in names and child.get("Name") not in seen:
-                seen.add(child.get("Name"))
-                items.append(ET.Element("PresetItem", {**child.attrib, "Name": child.get("Name") + SUFFIX}))
-        if items:
-            ET.SubElement(table, "InventoryPreset", dict(presets[name].attrib)).extend(items)
-            added += len(items)
-    print(f"Shops: {added} copies in {len(table)} presets")
-    ET.indent(base, "\t")
-    return '<?xml version="1.0" encoding="us-ascii"?>\n' + ET.tostring(base, encoding="unicode") + "\n"
-
-
-def lua_data(entries):
+def lua_data(entries, aliases):
     lines = [
         "-- Generated by tools/fitted_gear.py from the game's tables and the refitted meshes (FITTED_GEAR.md): run it",
         "-- again, do not edit this file. Each item of the game and its copy for her, with the same stats and _ff at the",
@@ -468,6 +439,10 @@ def lua_data(entries):
     lines += [f'\t["{original}"] = "{guid}", -- {name} ({kind})' for original, guid, name, kind in entries]
     lines += ["}", "-- The name of each piece of the game, for ml_ff_fitted_give and ml_ff_npc_dress.", "FemaleCore.FITTED_GEAR_NAMES = {"]
     lines += [f'\t["{original}"] = "{name}",' for original, guid, name, kind in entries]
+    lines += ["}", "-- The game's aliases of those pieces, quest items that the story gives and takes away, and her piece for each:",
+              "-- her copy, weightless as the alias. She wears hers, and the quest keeps its own (quest_aliases).",
+              "FemaleCore.FITTED_ALIASES = {"]
+    lines += [f'\t["{alias}"] = "{row.get("Id")}", -- {name}' for alias, (name, row) in sorted(aliases.items(), key=lambda pair: pair[1][0])]
     lines += ["}"]
     return "\n".join(lines) + "\n"
 
@@ -480,6 +455,8 @@ def doc_with_list(entries):
     blocks = []
     for kind, title in (("refitted", "Refitted"), ("game", "With the game's mesh")):
         names = sorted(f"{name}{SUFFIX}" for _, _, name, k in entries if k == kind)
+        if not names and kind == "game":
+            continue
         blocks.append(f"**{title}:** {len(names)}\n\n```text\n" + "\n".join(names) + "\n```")
     head, rest = text.split(LIST_START, 1)
     return head + LIST_START + "\n\n" + "\n\n".join(blocks) + "\n\n" + LIST_END + rest.split(LIST_END, 1)[1]
@@ -504,7 +481,8 @@ def guide_with_list(missing):
     for name, garment in garments.items():
         sections.setdefault(TODO_PARTS[list(TODO_PARTS)[min(garment["meshes"])[0]]], []).append((name, garment))
     items = set().union(*(garment["items"] for garment in garments.values())) if garments else set()
-    blocks = [f"{len(missing)} meshes of {len(garments)} garments, worn by {len(items)} items."]
+    blocks = [f"{len(missing)} meshes of {len(garments)} garments, worn by {len(items)} items." if missing else
+              "Nothing: every piece of the game is refitted. If an update of the game brings new ones, they come here."]
     for title in dict.fromkeys(TODO_PARTS.values()):
         listed = sorted(sections.get(title, []), key=lambda entry: (-len(entry[1]["items"]), entry[0]))
         if not listed:
@@ -563,18 +541,19 @@ def build():
             print(f"Dropped {row.get('Name')}: its piece is not in the game's tables, or has nothing to copy")
             continue
         row = copy.deepcopy(row)
-        if row.get("UIName") and not row.get("UIName").endswith(SUFFIX):
-            row.set("UIName", row.get("UIName").strip() + SUFFIX)
+        # The game's name, also in a row kept from the time of "(Women's)".
+        if row.get("UIName", "").endswith(SUFFIX):
+            row.set("UIName", row.get("UIName")[:-len(SUFFIX)])
         rows.append(row)
         original = originals[row.get("Id")]
         entries.append((original, row.get("Id"), old_names.get(original, row.get("Name")[:-len(SUFFIX)]), kind))
         kept += 1
 
     unused = sorted(refit for original, refit in refits.items() if worn(refit).lower() not in used)
-    files = {COMPONENTS: component_table(copies), ITEMS: item_table(rows), LUA: lua_data(entries), DOC: doc_with_list(entries),
+    aliases = quest_aliases({original: guid for original, guid, _, _ in entries}, {row.get("Id"): row for row in rows})
+    rows += [row for _, (_, row) in sorted(aliases.items(), key=lambda pair: pair[1][0])]
+    files = {COMPONENTS: component_table(copies), ITEMS: item_table(rows), LUA: lua_data(entries, aliases), DOC: doc_with_list(entries),
              GUIDE: guide_with_list(missing)}
-    files.update(name_tables(rows))
-    files[SHOPS] = shop_table({name for _, _, name, _ in entries})
     files.update(men_fit_meshes(refits))
     summary = {kind: sum(1 for _, _, _, k in entries if k == kind) for kind in ("refitted", "game")}
     pieces = {kind: sum(1 for k in kinds.values() if k == kind) for kind in ("refitted", "game")}

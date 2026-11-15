@@ -2,6 +2,30 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 1.0.0
+
+Every man's armour and piece of clothing of the game fits her now, refitted by Cytyryz, who joins the framework. Other mods can add faces of their own, dress her, and play a woman of their own from the start.
+
+### New
+
+- **The fitted gear, by [Cytyryz](https://www.nexusmods.com/profile/Cytyryz?gameId=7286).** Over 1,350 items of the game, with the story and DLC armour, refitted to her body: tunics, hose, gambesons, mail, plate, coats, hoods, collars and necklaces sit on each other as they should. Each one turns into her copy as her dresses do, and back to the game's piece for a man. [FITTED_GEAR.md](FITTED_GEAR.md) lists them.
+- **Her hair under the hoods.** What would hang out through the cape is hidden.
+- **Dressed from the start.** At the start of a game as a woman, what Henry wears turns into her copies and stays on.
+- **The prologue.** Henry's gear there belongs to the quest. Once she has full control, she gets her own version of each piece, and it goes away with the quest's at the ambush.
+- **A character of your mod.** `FemaleCore.RegisterStartCharacter` makes a look the start of every game, new or loaded, with no command.
+- **Faces from other mods,** with the framework's heads or a woman's head of your own: `tools/make_face_pack.py` writes them from one file. [MAKING_FACES.md](MAKING_FACES.md) explains it.
+- **Clothes from other mods.** A normal women's garment of your mod, converted for her with `tools/convert_clothes.py`, swaps as her dresses do. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) explains it.
+- **A template mod,** `examples/template_mod`: a face of its own and a woman it plays from the start, with the steps to make it yours.
+- **A companion's clothes.** `FemaleCore.DressNpc` puts a piece on a woman NPC, and `ml_ff_npc_dress` tries one.
+- **Developer mode:** `ml_ff_fitted_give`, `ml_ff_fitted_test`, `ml_ff_fitted_showcase`, `ml_ff_start_character` and `ml_ff_inventory`, to try all this.
+- **For modders:** `FemaleCore.RegisterClothes`, `RegisterLooks` and `RegisterStartCharacter`. `FemaleCore.API` is 9.
+
+### Fixes
+
+- **Legate's robe** shows her chest and shoulders.
+- **Her thighs** no longer disappear under a tunic when she wears no shift.
+- **Hoods** no longer go into her chest.
+
 ## 0.5.0
 
 Her hair goes on with her face, from one command, and four hairs of women of the story join the seven of the barber. KCD2 Female Voice, a mod of its own, now gives her a woman's voice.

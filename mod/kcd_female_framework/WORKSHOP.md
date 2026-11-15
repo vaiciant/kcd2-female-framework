@@ -13,7 +13,7 @@ Turn Henry into a woman with one console command, or start a woman's life of you
 - **Back to Henry** whenever you like, in the same save, with his own face.
 - **Women's clothes.** Dresses, shoes, hoods and veils from any shop fit her, and keep their condition.
 - **Hats and helmets** sit right on her head.
-- **Armour that fits her.** The men's armour and clothes of the game, over 950 items with the story and DLC armour, refitted to her body by Cytyryz: gambesons, mail, plate, coats and hoods sit on each other as they should. The men's tunics, shirts and gambesons not refitted yet hide her body under them, so it does not come through.
+- **Armour that fits her.** The men's armour and clothes of the game, over 1,350 items with the story and DLC armour, refitted to her body by Cytyryz: tunics, hose, gambesons, mail, plate, coats and hoods sit on each other as they should. Every man's piece of the game fits her, and her hair tucks under the hoods.
 - **Her hair.** 7 styles of the time, in up to 9 colors.
 - **The barber knows she is a woman.** Ask any barber for a haircut and she gets a woman's one. Pick the style and the color in the talk, and see each one on her before you take it. It costs the usual 50 groschen, or 5 with Realish Economy.
 - **First person** looks clean: you never see the inside of her face.
@@ -44,13 +44,9 @@ The screen goes dark for a few seconds while she changes. Type the commands in t
 - Mods that change the barber's talk, or the scenes where Henry is wet or wounded, can clash with it.
 - Mods that replace the models of hats and helmets can make them sit oddly on her.
 
-## Roadmap to 1.0.0
+## Who we are
 
-Plans, not promises.
-
-- ~~**A mouth that moves** when she speaks, as a man's does.~~ Done in 0.2.0.
-- ~~**Back to Henry:** a woman can become Henry again, in the same save.~~ Done in 0.2.0.
-- **Clothes from other mods:** tested with clothing mods, with clear steps to make their clothes fit her.
+We are two now. **vaiciant** makes the framework, and **[Cytyryz](https://www.nexusmods.com/profile/Cytyryz?gameId=7286)** refitted every man's armour and piece of clothing of the game to her body: the fitted gear is his work.
 
 ## Installing
 
@@ -58,6 +54,12 @@ Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods
 
 ## For mod makers
 
-Any mod can use it: one line of Lua turns Henry into a woman. Clothing modders can make a normal women's garment and convert it for her with one tool. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-female-framework).
+Any mod can use it, closed or open, as long as you credit it where people can see it. The source and the guides for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-female-framework).
+
+- **One line of Lua** turns Henry into a woman, or back.
+- **New faces.** Your mod can add faces of its own: a head of the framework, or a woman's head you made. You write one small file, and a tool writes the rest. Players use them like any other face.
+- **Your own character.** One call makes one of your faces the start of every game, new or loaded.
+- **Clothes for her.** Make a normal women's garment and convert it for her with one tool.
+- **A template mod**, with a face and a character, ready to copy.
 
 *Works on its own or with KCD2 Male Framework. Required by KCD2 Life.*
