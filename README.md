@@ -33,6 +33,7 @@ So the player stays a male soul on the male skeleton, and wears a woman's parts:
 | Every face of the game | All 50 generic women's faces, young and old, and 5 named women of the story whose faces fit |
 | Women's clothes | The 315 women's garments of the shops, worn with their own condition. Shops keep the game's items |
 | Fitted gear | The men's armour and clothes of the game, over 950 items with the story and DLC armour, refitted to her body by Cytyryz. The men's tunics, shirts and gambesons not refitted yet hide her torso under them, so it does not come through. They swap to their copies as her dresses do, and back to the game's piece for a man: [FITTED_GEAR.md](mod/kcd_female_framework/FITTED_GEAR.md) |
+| Fitted gear in shops | Optional, a mod of its own: `kcd_female_framework_shops`. The shops stock the fitted copies, named "(Women's)", next to the game's pieces, so the shop preview shows them on her. NPCs are not affected |
 | Clothes of other mods | A mod registers its clothes for her with a file in `Scripts/FemaleCore/Clothes/`, and they swap as hers do. `tools/convert_clothes.py` makes it from a normal women's garment: [MAKING_CLOTHES.md](mod/kcd_female_framework/MAKING_CLOTHES.md) |
 | Hair | 7 hair styles of the time and up to 9 colors, and by command the hairs of four women of the story: Katherine, Rose, Miriam and the mother. Never a beard: a beard on a woman's head crashes the game. Braids keep still: the framework leaves out the bones that swing them |
 | Her haircut | At any barber of the game, her haircut is a woman's, in place of the game's. The style and the color are chosen in the talk and tried on at once, for the game's price: 50 groschen, or 5 with Realish Economy |
@@ -93,6 +94,7 @@ python -I -X utf8 tools/generate_models.py
 python -I -X utf8 mod/kcd_female_framework/tools/generate_women.py
 python -I -X utf8 mod/kcd_female_framework/tools/fitted_gear.py
 python -I tools/install_mod.py mod/kcd_female_framework
+python -I tools/install_mod.py mod/kcd_female_framework_shops   # optional: the fitted gear in shops
 ```
 
 | Tool | What it writes |
