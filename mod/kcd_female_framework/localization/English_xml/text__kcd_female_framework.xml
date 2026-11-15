@@ -10,6 +10,7 @@
   <Row><Cell>ml_ff_stripped_shoes</Cell><Cell>ml_ff_stripped_shoes</Cell><Cell>Women's shoes taken off: they don't go with men's clothes. Men's shoes do.</Cell></Row>
   <Row><Cell>ml_ff_stripped_cap</Cell><Cell>ml_ff_stripped_cap</Cell><Cell>Women's headwear taken off: it doesn't go with men's clothes. Men's headgear does.</Cell></Row>
   <Row><Cell>ml_ff_stripped_not_men</Cell><Cell>ml_ff_stripped_not_men</Cell><Cell>Women's clothes taken off: a man can't wear dresses, women's shoes or women's headwear.</Cell></Row>
+  <Row><Cell>ml_ff_quest_gear</Cell><Cell>ml_ff_quest_gear</Cell><Cell>Her version of the story's gear is on. The quest keeps its own pieces in the bag, and when the story takes them away, hers go too.</Cell></Row>
   <Row><Cell>ml_ff_barber_no_money</Cell><Cell>ml_ff_barber_no_money</Cell><Cell>You don't have enough coin for that.</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_style</Cell><Cell>ui_ml_ff_hair_select_style</Cell><Cell>Select hairstyle</Cell></Row>
   <Row><Cell>ui_ml_ff_hair_select_color</Cell><Cell>ui_ml_ff_hair_select_color</Cell><Cell>Select color</Cell></Row>

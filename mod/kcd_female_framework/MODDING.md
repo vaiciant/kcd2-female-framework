@@ -2,6 +2,8 @@
 
 This is the short guide: how to turn Henry into a woman in your story or your mod, with one command and nothing to set up. It works in the game with no other mod. The [developer guide](FRAMEWORK_DEVELOPER_GUIDE.md) explains how it works inside.
 
+To start from a mod that already works, copy [`examples/template_mod`](examples/template_mod): a face of its own and a woman it plays from the start, with the steps to make it yours. KCD2 Male Framework has the same for a man, in its [`examples/template_mod`](https://github.com/vaiciant/kcd2-male-framework/blob/main/mod/kcd_male_framework/examples/template_mod).
+
 ## One command
 
 From the console:
@@ -41,6 +43,26 @@ FemaleCore.StartAs("woman_czech_2")   -- or nil to cancel it
 ```
 
 The game does not tell a new game from a loaded one, so the look goes on at the next start of the game, new or loaded, once the framework knows her state, a few seconds after the player has control. In a new game it waits for Henry's part, after the prologue with Godwin (the first day of the world), and for the end of any cutscene. It goes on once. Call it when your mod knows a game is about to start, for example from a choice in the main menu. `FemaleCore.StartLook()` says which look waits. In the console it is `ml_ff_start`.
+
+## A character of your mod
+
+If your mod plays a woman of its own, register her look once, when your mod loads. Then nobody needs a command:
+
+```lua
+FemaleCore.RegisterStartCharacter({
+    name = "Heidi",           -- optional, for the log
+    look = "woman_czech_2",   -- her face: a look, by name or id, as LOOKS.md lists them
+    hair = 5,                 -- optional: a style, or a name like "katherine"
+    color = "blonde",         -- optional: the color of that style
+})
+```
+
+- **Her look** goes on at every start of the game, new or loaded, as `StartAs` does, if she does not have it yet. A new game waits for Henry's part, after the prologue with Godwin.
+- **Only her look:** her face, her hair and its color. Her clothes are the ones Henry has, changed for hers as always.
+- **Several mods:** the last one that registers wins, and the log says which. A man of KCD2 Male Framework registered after her takes her place, and so does she after him.
+- `nil` drops her: `FemaleCore.RegisterStartCharacter(nil)`.
+
+Call it once `FemaleCore` is there (see "Before you call it"), and before the game starts: from your mod's own start, or when it loads. `FemaleCore.API` is 8 from then on. To try it without a mod, `ml_developer` and then, in the console of the main menu, `ml_ff_start_character woman_czech_2 5 blonde`.
 
 ## Back to Henry
 
@@ -111,7 +133,9 @@ Use `look.villager` and `look.age` to offer only the faces that suit your story,
 
 ## Adding faces
 
-Every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, and its people. To add a face, even one from another mod:
+From your own mod, without changing the framework: a face pack, written by a tool from one file, with the framework's heads or a head of your own. [MAKING_FACES.md](MAKING_FACES.md) explains it. `FemaleCore.API` is 9 from then on.
+
+In the framework itself, every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, and its people. To add a face, even one from another mod:
 
 1. Add an entry with the next `id` and the name of its head. Without `ethnicity`, it shows with its internal name.
 2. Run `tools/generate_models.py` and then `tools/generate_women.py`, from the root of the repository. They write the rest: the model, the token, the copy of the head fitted to the player's skeleton, with its face poses.
@@ -163,6 +187,29 @@ FemaleCore.KeepHenry()      -- when Henry gets his own face back: the framework 
 ```
 
 Both do nothing when they are not needed, so they are safe to call every time.
+
+## Clothes for her
+
+A mod registers its clothes for her with a Lua file in `Scripts/FemaleCore/Clothes/` of its own pak, with any name. The framework loads every file of that folder when the game starts, in all the mods:
+
+```lua
+FemaleCore.RegisterClothes({
+	{ original = "<id of the item>", copy = "<id of its copy for her>" },
+	{ original = "<id of a man's piece>", copy = "<id of it refitted for her>", back = true },
+}, "<your mod>")
+```
+
+She gets the copy of each original that reaches her inventory. With `back = true`, a man gets the original back. `tools/convert_clothes.py` writes the copies, their meshes and this file from a normal women's garment. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) explains both ways. `FemaleCore.API` is 7 from then on.
+
+## Dressing an NPC
+
+`FemaleCore.DressNpc(entity, classes)` puts items on an NPC, a companion of your mod for example: each item class of the list goes into its inventory and on it. It returns how many went on.
+
+```lua
+FemaleCore.DressNpc(companion, { "<item class id>", "<another>" })
+```
+
+The game's NPC tables are not changed: only the NPCs your mod dresses wear them. A man's piece on a woman of the game keeps the man's shape for now, since the fitted gear is made for the framework's woman, on Henry's skeleton.
 
 ## Credit
 

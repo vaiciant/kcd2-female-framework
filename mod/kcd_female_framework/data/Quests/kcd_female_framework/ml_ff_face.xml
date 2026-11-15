@@ -2492,6 +2492,15 @@
 					<Edge From="henry_descriptor.ItemDescriptor" To="ItemDescriptor" />
 					<Edge From="always_on.State" To="IsActive" />
 				</ItemDescriptorTrigger>
+				<Function Name="outside_descriptor" PositionY="-900" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="56a7f7a7-af52-5bc0-8461-50fe84fcae2e" />
+					<Constant Name="Amount" Value="1" />
+				</Function>
+				<ItemDescriptorTrigger Name="outside_token" PositionY="-900" PositionX="-600">
+					<Edge From="henry.Inventory" To="Inventory" />
+					<Edge From="outside_descriptor.ItemDescriptor" To="ItemDescriptor" />
+					<Edge From="always_on.State" To="IsActive" />
+				</ItemDescriptorTrigger>
 				<State Name="henry_face" PositionY="-450" PositionX="-300" TypeT="bool">
 					<Constant Name="DefaultValue" Value="false" />
 					<Edge From="henry_token.OnAcquire" To="SetTrue" />
@@ -2551,6 +2560,7 @@
 					<Edge From="set_token_126.OnAcquire" To="SetFalse" />
 					<Edge From="set_token_127.OnAcquire" To="SetFalse" />
 					<Edge From="set_token_128.OnAcquire" To="SetFalse" />
+					<Edge From="outside_token.OnAcquire" To="SetFalse" />
 				</State>
 				<State Name="was_woman" PositionY="-675" PositionX="-300" TypeT="bool">
 					<Constant Name="DefaultValue" Value="false" />
@@ -2609,6 +2619,7 @@
 					<Edge From="set_token_126.OnAcquire" To="SetTrue" />
 					<Edge From="set_token_127.OnAcquire" To="SetTrue" />
 					<Edge From="set_token_128.OnAcquire" To="SetTrue" />
+					<Edge From="outside_token.OnAcquire" To="SetTrue" />
 					<Edge From="henry_token.OnAcquire" To="SetTrue" />
 				</State>
 				<If Name="answer_if_henry_face" PositionY="-450" PositionX="300">
@@ -2716,6 +2727,7 @@
 					<Edge From="set_token_126.OnAcquire" To="SetTrue" />
 					<Edge From="set_token_127.OnAcquire" To="SetTrue" />
 					<Edge From="set_token_128.OnAcquire" To="SetTrue" />
+					<Edge From="outside_token.OnAcquire" To="SetTrue" />
 					<Edge From="henry_token.OnAcquire" To="SetFalse" />
 					<Edge From="reset_token.OnAcquire" To="SetFalse" />
 				</State>
@@ -2794,6 +2806,7 @@
 					<Edge From="set_token_126.OnAcquire" To="SetRunning" />
 					<Edge From="set_token_127.OnAcquire" To="SetRunning" />
 					<Edge From="set_token_128.OnAcquire" To="SetRunning" />
+					<Edge From="outside_token.OnAcquire" To="SetRunning" />
 					<Edge From="watch.OnFinished" To="SetRunning" />
 				</Timer>
 				<!-- Lua cannot read what Henry wears, so Skald looks once per second: the clothes of a woman give a buff when equipped, and

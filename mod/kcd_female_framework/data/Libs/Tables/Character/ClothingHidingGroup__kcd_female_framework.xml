@@ -4,5 +4,6 @@
 		<HidingGroup Name="ml_ff_Arms" EquipmentPart="arms" Index="5" />
 		<HidingGroup Name="ml_ff_Thighs" EquipmentPart="legs" Index="4" />
 		<HidingGroup Name="ml_ff_DressSkirt" EquipmentPart="legs" Index="3" />
+		<HidingGroup Name="ml_ff_UnderMen" EquipmentPart="torso" Index="3" />
 	</ClothingHidingGroups>
 </database>

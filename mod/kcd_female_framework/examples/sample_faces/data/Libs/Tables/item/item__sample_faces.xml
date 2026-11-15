@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="item.xsd">
+	<ItemClasses version="8">
+		<!-- Written by make_face_pack.py of KCD2 Female Framework: the token of each face. -->
+		<MiscItem Type="5" SubType="0" IsDivisible="true" IconId="loot_sackOfNails" UIInfo="ui_in_ml_ff_state" UIName="ui_nm_ml_ff_state" Model="manmade/common_furniture/sacks/sack_items/sack_items.cgf" Weight="0" Price="0" FadeCoef="1" VisibilityCoef="1" Id="96a54674-f44e-5d8e-8a8d-93a62acdde55" Name="sample_faces_face_320" />
+		<MiscItem Type="5" SubType="0" IsDivisible="true" IconId="loot_sackOfNails" UIInfo="ui_in_ml_ff_state" UIName="ui_nm_ml_ff_state" Model="manmade/common_furniture/sacks/sack_items/sack_items.cgf" Weight="0" Price="0" FadeCoef="1" VisibilityCoef="1" Id="542c20cc-ae85-5703-9587-1647dd946b9b" Name="sample_faces_face_321" />
+	</ItemClasses>
+</database>

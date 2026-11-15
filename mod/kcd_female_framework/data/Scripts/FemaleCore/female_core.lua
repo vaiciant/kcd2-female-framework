@@ -10,8 +10,10 @@
 FemaleCore = FemaleCore or {}
 
 -- 2 since 0.2.0: Henry() works, and TakeOffHenry(), KeepHenry() and HenryKept() are new. 6: SetLook, BecomeWoman and
--- StartAs take a hair, and SetHair the game's names and the hairs of the women of the story.
-FemaleCore.API = 6
+-- StartAs take a hair, and SetHair the game's names and the hairs of the women of the story. 7: RegisterClothes,
+-- and the clothes of Scripts/FemaleCore/Clothes. 8: RegisterStartCharacter. 9: RegisterLooks, and the faces of
+-- Scripts/FemaleCore/Looks.
+FemaleCore.API = 9
 FemaleCore.MAN = 1
 FemaleCore.WOMAN = 2
 FemaleCore.TOKEN_MS = 1000
@@ -74,6 +76,15 @@ local function sendToken(guid)
 	Script.SetTimer(FemaleCore.TOKEN_MS, function()
 		try("token", function() player.inventory:DeleteItemOfClass(guid, 1) end)
 	end)
+end
+
+-- The token of a look. A look of another mod (RegisterLooks) has its own project, and the framework's needs this one too,
+-- to make her a woman as its own looks do (MAKING_FACES.md).
+local function sendLookToken(look)
+	sendToken(look.token)
+	if look.outside and FemaleCore.OUTSIDE_TOKEN then
+		sendToken(FemaleCore.OUTSIDE_TOKEN)
+	end
 end
 
 local function takeToken(class)
@@ -307,18 +318,440 @@ local function showNotice()
 	end
 end
 
+-- A copy is another item, so a piece that was on comes off when it changes. When the look chosen before the start goes
+-- on, everything Henry has on him is what he wears: then each copy goes on as it is made, or she would be naked in the
+-- first cutscene. Later the change cannot know what was on, since Lua does not read what is equipped: the item has
+-- only health, amount, id, class and entity, and UnequipInventoryItem returns nothing, on or off.
+FemaleCore.wearChanges = false
+
+local function inventoryIds()
+	local ids = {}
+	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
+		ids[tostring(id)] = id
+	end
+	return ids
+end
+
 -- Henry's soul is a man's, which cannot wear the F_* items of the game, so each one that reaches her inventory changes
 -- for its copy, with the same health. Shops keep their items.
 local function changeClothes()
+	local wear = FemaleCore.wearChanges
+	FemaleCore.wearChanges = false
+	local seen, changed, quest = 0, 0, 0
 	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
 		local item = ItemManager.GetItem(id)
 		local copy = item and FemaleCore.CLOTHES[item.class]
+		seen = seen + 1
+		if item and not copy and (FemaleCore.FITTED_ALIASES or {})[tostring(item.class)] then
+			quest = quest + 1
+		end
 		if copy then
+			changed = changed + 1
+			local before = wear and inventoryIds()
 			player.inventory:CreateItem(copy, item.health or 1, 1)
+			if wear then
+				for key, made in pairs(inventoryIds()) do
+					if not before[key] then
+						try("wear copy", function() player.actor:EquipInventoryItem(made) end)
+						break
+					end
+				end
+			end
 			player.inventory:DeleteItem(id, -1)
-			FemaleCore.Log("clothes changed", item.class)
+			FemaleCore.Log("clothes changed", item.class, wear and "and put on" or "")
 		end
 	end
+	-- At the start of a game as a woman, what Lua saw: in the prologue Henry's gear did not change.
+	if wear then
+		FemaleCore.Log("clothes at the start:", seen, "items in the inventory,", changed, "with a copy for her,", quest,
+			"of the story")
+	end
+end
+
+-- Henry's gear in the prologue is the quest's own: aliases of the game's pieces, weightless, which the quest looks for in
+-- the inventory and takes away at the ambush. Swapped, the quest would lose them. She gets an alias of her own
+-- for each one, weightless too, with her copy as its source (FITTED_ALIASES, fitted_gear.py), and it goes on over the
+-- quest's, which stays in the bag. Only once she has full control: no cutscene, no dialogue and no horse for
+-- STORY_GEAR_SETTLE ticks, as the cutscenes of the start would show her changing. When the quest takes its alias, hers
+-- goes too; a man has no use for hers.
+FemaleCore.QUEST_GEAR_TEXT = "@ml_ff_quest_gear"
+FemaleCore.STORY_GEAR_SETTLE = 5
+local controlTicks = 0
+local ridingLogged = false
+
+-- IsOnHorse is not a Lua call: on human and on actor it failed. player.human:GetHorse gives her horse, ridden or
+-- not: it said riding all the game. She rides it when she is on it: within RIDING_REACH of its position, across.
+-- Standing by its side she is further, past the half of its body and hers. The log says it, with how far across and how
+-- much higher she is, each time it changes, to set the reach from the game.
+FemaleCore.RIDING_REACH = 0.5
+
+local function riding()
+	local ok, horse = pcall(function()
+		local id = player.human:GetHorse()
+		return id and System.GetEntity(id)
+	end)
+	local on, across, up = false, nil, nil
+	if ok and horse and horse.GetWorldPos then
+		-- Read each one at once: the engine may give the same table to both calls.
+		local a = horse:GetWorldPos()
+		local hx, hy, hz = a.x, a.y, a.z
+		local b = player:GetWorldPos()
+		across = math.sqrt((hx - b.x) ^ 2 + (hy - b.y) ^ 2)
+		up = b.z - hz
+		on = across < FemaleCore.RIDING_REACH
+	end
+	if not ridingLogged or on ~= ridingLogged.on then
+		ridingLogged = { on = on }
+		FemaleCore.Log("horse check:", ok and (horse and "her horse" or "no horse") or tostring(horse), "- across",
+			across and string.format("%.2f", across) or "-", "up", up and string.format("%.2f", up) or "-", "- riding:", on)
+	end
+	return on
+end
+
+-- The same cvar as inCutscene below, which the start of a game waits for (CUTSCENE_CVAR).
+local function inCutsceneNow()
+	local value = try("cutscene", System.GetCVar, FemaleCore.CUTSCENE_CVAR)
+	return tonumber(value) == 1
+end
+
+local function fullControl()
+	local talking = try("story gear dialog", function() return player.human:IsInDialog() end)
+	return not inCutsceneNow() and not talking and not riding()
+end
+
+local function storyGear(woman)
+	local aliases = FemaleCore.FITTED_ALIASES or {}
+	local quest, mine = {}, {}
+	local ours = {}
+	for questAlias, herAlias in pairs(aliases) do
+		ours[herAlias] = questAlias
+	end
+	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
+		local item = ItemManager.GetItem(id)
+		local class = item and tostring(item.class)
+		if class and aliases[class] then
+			quest[class] = item
+		elseif class and ours[class] then
+			mine[class] = id
+		end
+	end
+	-- Hers go with the quest's, and off a man.
+	for class, id in pairs(mine) do
+		if not woman or not quest[ours[class]] then
+			try("story gear", function() player.inventory:DeleteItem(id, -1) end)
+			FemaleCore.Log("story gear taken back:", class)
+			mine[class] = nil
+		end
+	end
+	local missing = {}
+	for class, item in pairs(quest) do
+		if woman and not mine[aliases[class]] then
+			missing[#missing + 1] = item
+		end
+	end
+	if #missing == 0 or FemaleCore.storyGearFailed then
+		controlTicks = 0
+		return
+	end
+	controlTicks = fullControl() and controlTicks + 1 or 0
+	if controlTicks < FemaleCore.STORY_GEAR_SETTLE then
+		return
+	end
+	controlTicks = 0
+	-- As the swap does: hers goes on, and the quest's comes off its slot; it stays in the bag.
+	local made = 0
+	for _, item in ipairs(missing) do
+		local before = inventoryIds()
+		try("story gear", function() player.inventory:CreateItem(aliases[tostring(item.class)], item.health or 1, 1) end)
+		for key, id in pairs(inventoryIds()) do
+			if not before[key] then
+				made = made + 1
+				try("wear story gear", function() player.actor:EquipInventoryItem(id) end)
+				break
+			end
+		end
+	end
+	FemaleCore.Log("story gear: hers made and put on, over the quest's:", made, "of", #missing)
+	if made == 0 then
+		-- Nothing came: no use trying again every few seconds.
+		FemaleCore.storyGearFailed = true
+		return
+	end
+	if not FemaleCore.questGearTold then
+		FemaleCore.questGearTold = true
+		notices[#notices + 1] = FemaleCore.QUEST_GEAR_TEXT
+	end
+end
+
+-- A man cannot keep what was refitted for her from a man's piece: the fitted gear (FITTED_GEAR.md) and the pieces other
+-- mods register with back. Each one that reaches his inventory turns back into the game's piece, with the same
+-- health. A copy of a woman's garment has no back: the rules of the graph take it off him.
+FemaleCore.BACK = FemaleCore.BACK or {}
+
+local function changeBack()
+	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
+		local item = ItemManager.GetItem(id)
+		local original = item and FemaleCore.BACK[item.class]
+		if original then
+			player.inventory:CreateItem(original, item.health or 1, 1)
+			player.inventory:DeleteItem(id, -1)
+			FemaleCore.Log("clothes changed back", item.class)
+		end
+	end
+end
+
+-- Developer mode: ml_developer registers the test commands of the framework until the game closes, as it does for
+-- KCD2 Life and KCD2 Male Framework, which register the same command. Each one turns on all three, so any works
+-- alone or with the others.
+FemaleCore.DEVELOPER = {
+	{ "ml_ff_fitted_give", "FemaleCore.GiveFittedGear(%line)", "Test: gives the game's pieces of the fitted gear, which turn into her copies, or with copies the copies, for a man. A word gives only the pieces whose name has it, like ml_ff_fitted_give cuirass" },
+	{ "ml_ff_npc_dress", "FemaleCore.NpcDressCommand(%line)", "Test: puts an item on the nearest woman NPC, by its name, like ml_ff_npc_dress Cuirass03_m03_A5, or its copy for her, Cuirass03_m03_A5_ff. It knows the fitted gear and the clothes other mods register with their names" },
+	{ "ml_ff_fitted_test", "FemaleCore.GiveFittedTest()", "Test: gives the pieces to try the fitted gear with: tunics, hose, a short pourpoint, a hood, leg plates, a cuirass, Legate's robe, Bergov's coat and the jester's coat. A woman gets her copies, a man the game's pieces" },
+	{ "ml_ff_start_character", "FemaleCore.StartCharacterCommand(%line)", "Test: a start character, as a mod registers it: her look, at every start of the game, new or loaded, like ml_ff_start_character woman_czech_2 5 blonde" },
+	{ "ml_ff_inventory", "FemaleCore.LogInventory()", "Test: writes in kcd.log each item of the inventory that the framework sees, by its id, and whether it has a copy for her or is one" },
+	{ "ml_ff_fitted_showcase", "FemaleCore.GiveFittedShowcase(%line)", "Test: gives each kind of garment of the fitted gear in a few colours, to show them: tunics, gambesons, coats, mail, plate, hose and hoods. A number gives that many colours of each, like ml_ff_fitted_showcase 5; 3 if not" },
+}
+
+function FemaleCore.Developer()
+	if FemaleCore.developer then
+		return
+	end
+	FemaleCore.developer = true
+	for _, command in ipairs(FemaleCore.DEVELOPER) do
+		try("command " .. command[1], function() System.AddCCommand(command[1], command[2], command[3]) end)
+	end
+	FemaleCore.Log("developer mode on:", #FemaleCore.DEVELOPER, "test commands until the game closes")
+end
+
+function FemaleCore.DeveloperCommand()
+	FemaleCore.Developer()
+	if MaleCore and MaleCore.Developer then
+		try("KCD2 Male Framework developer mode", MaleCore.Developer)
+	end
+	if MedievalLife and MedievalLife.Commands and MedievalLife.Commands.Developer then
+		try("KCD2 Life developer mode", MedievalLife.Commands.Developer)
+	end
+end
+
+-- ml_ff_fitted_give [word] [copies]: the game's pieces of the fitted gear whose name has the word, or all, in the
+-- inventory, where the swap turns them into her copies while she is a woman. With copies, the copies themselves: a man
+-- gets the game's pieces back.
+function FemaleCore.GiveFittedGear(line)
+	local filter, copies = nil, false
+	for word in string.gmatch(string.lower(tostring(line or "")), "%S+") do
+		if word == "copies" then
+			copies = true
+		else
+			filter = word
+		end
+	end
+	local given = 0
+	for original, copy in pairs(FemaleCore.FITTED_GEAR or {}) do
+		local name = string.lower((FemaleCore.FITTED_GEAR_NAMES or {})[original] or "")
+		if not filter or string.find(name, filter, 1, true) then
+			try("give", function() player.inventory:CreateItem(copies and copy or original, 1, 1) end)
+			given = given + 1
+		end
+	end
+	FemaleCore.Log("fitted gear given:", given, copies and "copies" or "pieces of the game", filter and ("with " .. filter) or "")
+end
+
+-- The pieces to try the fitted gear with (02), by the names of the game's items.
+FemaleCore.FITTED_TEST = {
+	"TunicShort05_m01_D", "TunicLong02_m01_C", "HoseJoined02_m01_B", "GambesonShort03_m01_A4", "Hood05_m01_B",
+	"LegsPlate03_m01_A5", "Cuirass03_m01_A5", "HabitLegate_m01", "CoatBergov_m01", "Coat06_m01_C",
+}
+
+-- A garment of each kind for the showcase, from the shirt to the plate, and how many of its colours by default.
+FemaleCore.FITTED_SHOWCASE = {
+	"TunicShort05", "TunicLong02", "GambesonShort04", "GambesonLong01", "Caftan02", "Coat11", "Waffenrock01", "Habit01",
+	"MailShort02", "MailLong01", "Brigandine05", "Cuirass07", "ArmPlate02", "BrigandineArm06", "HoseJoined02",
+	"HoseSeparate01", "LegsPadded01", "LegsBrigandine03", "LegsPlate03", "Hood05", "Hood12", "CoifLarge02", "CoifMail01",
+	"CollarChain01",
+}
+FemaleCore.SHOWCASE_COLOURS = 3
+
+-- Gives the game's items of the list, by their ids. A woman gets her copies, which need no swap: the swap waits while
+-- the console or the inventory is open, since the game stops then, and a piece put on before it comes off.
+local function giveFitted(originals, label)
+	local woman = FemaleCore.WomanInUse and FemaleCore.WomanInUse()
+	local given = 0
+	for _, original in ipairs(originals) do
+		local class = woman and (FemaleCore.FITTED_GEAR or {})[original] or original
+		if try("give", function() player.inventory:CreateItem(class, 1, 1) return true end) then
+			given = given + 1
+		end
+	end
+	FemaleCore.Log(label, given, woman and "copies" or "pieces of the game")
+end
+
+local function fittedByName()
+	local byName = {}
+	for original, name in pairs(FemaleCore.FITTED_GEAR_NAMES or {}) do
+		byName[string.lower(name)] = original
+	end
+	return byName
+end
+
+-- ml_ff_inventory: each item Lua sees in the inventory. In the prologue, Henry's gear did not change for her copies, and
+-- this tells whether it is there for the swap to see.
+function FemaleCore.LogInventory()
+	local total, copies, ours = 0, 0, 0
+	for _, id in pairs(player.inventory:GetInventoryTable() or {}) do
+		local item = ItemManager.GetItem(id)
+		if item then
+			total = total + 1
+			local class = tostring(item.class)
+			local copy = FemaleCore.CLOTHES[item.class]
+			local back = FemaleCore.BACK[item.class]
+			copies = copies + (copy and 1 or 0)
+			ours = ours + (back and 1 or 0)
+			FemaleCore.Log("inventory:", class, (FemaleCore.FITTED_GEAR_NAMES or {})[class] or "",
+				copy and "- has a copy for her" or (back and "- is a copy" or ""))
+		end
+	end
+	FemaleCore.Log("inventory:", total, "items,", copies, "with a copy for her,", ours, "copies")
+end
+
+-- ml_ff_fitted_test: the pieces of FITTED_TEST.
+function FemaleCore.GiveFittedTest()
+	local byName, originals = fittedByName(), {}
+	for _, name in ipairs(FemaleCore.FITTED_TEST) do
+		local original = byName[string.lower(name)]
+		if original then
+			originals[#originals + 1] = original
+		else
+			FemaleCore.Log("fitted test: no piece named", name)
+		end
+	end
+	giveFitted(originals, "fitted test given:")
+end
+
+-- ml_ff_fitted_showcase [colours]: each garment of FITTED_SHOWCASE in its first colours, by their number (_m01, _m02...),
+-- and then its named variants (_mBergov...) if it has fewer.
+function FemaleCore.GiveFittedShowcase(line)
+	local colours = tonumber(string.match(tostring(line or ""), "(%d+)")) or FemaleCore.SHOWCASE_COLOURS
+	local byName, originals = fittedByName(), {}
+	for _, garment in ipairs(FemaleCore.FITTED_SHOWCASE) do
+		local prefix = string.lower(garment) .. "_m"
+		local found = {}
+		for name, original in pairs(byName) do
+			if string.sub(name, 1, #prefix) == prefix then
+				local number = tonumber(string.match(string.sub(name, #prefix + 1), "^(%d+)"))
+				found[#found + 1] = { number = number or 1000, name = name, original = original }
+			end
+		end
+		table.sort(found, function(a, b)
+			if a.number ~= b.number then
+				return a.number < b.number
+			end
+			return a.name < b.name
+		end)
+		-- One item for each colour: a colour can have variants of its own, like _m01_C3 and _m01_C3_KHtournament_Henry.
+		local picked, used = 0, {}
+		for _, entry in ipairs(found) do
+			if picked >= colours then
+				break
+			end
+			if entry.number == 1000 or not used[entry.number] then
+				used[entry.number] = true
+				originals[#originals + 1] = entry.original
+				picked = picked + 1
+			end
+		end
+		if #found == 0 then
+			FemaleCore.Log("fitted showcase: no piece of", garment)
+		end
+	end
+	giveFitted(originals, "fitted showcase given:")
+end
+
+-- Dresses an NPC, a companion of another mod for one: each item class of the list goes into its inventory and on it. Returns how many went on. Not for the player: her clothes swap on their own.
+function FemaleCore.DressNpc(entity, classes)
+	local dressed = 0
+	if not (entity and entity.inventory and entity.actor) then
+		FemaleCore.Log("dress npc: not an NPC")
+		return 0
+	end
+	for _, class in ipairs(type(classes) == "table" and classes or { classes }) do
+		local ok = try("dress npc", function()
+			local id = entity.inventory:CreateItem(class, 1, 1)
+			entity.actor:EquipInventoryItem(id)
+			return true
+		end)
+		dressed = dressed + (ok and 1 or 0)
+	end
+	FemaleCore.Log("dress npc", tostring(entity:GetName()), dressed, "of", #(type(classes) == "table" and classes or { classes }))
+	return dressed
+end
+
+FemaleCore.NPC_DRESS_RANGE = 10
+
+-- ml_ff_npc_dress <name>: the nearest woman NPC, within NPC_DRESS_RANGE metres, gets the item of that name, as the
+-- item table and wh_cheat_addItem name it. Lua cannot find an item by its name, so only the names the framework knows
+-- work (ITEM_NAMES): the pieces of the fitted gear and their copies, <name>_ff, and the clothes other mods register
+-- with their names. Any other name says it cannot be put on.
+function FemaleCore.NpcDressCommand(line)
+	local name = string.match(tostring(line or ""), "^%s*(%S+)")
+	if not name then
+		FemaleCore.Log("ml_ff_npc_dress needs the name of an item, like ml_ff_npc_dress Cuirass03_m03_A5")
+		return
+	end
+	local class = FemaleCore.ITEM_NAMES[string.lower(name)]
+	if not class then
+		FemaleCore.Log(name .. ": KCD2 Female Framework does not know an item of that name, so it cannot be put on. It knows "
+			.. "the fitted gear and the clothes other mods register with their names (MAKING_CLOTHES.md)")
+		return
+	end
+	local position, nearest, best = player:GetWorldPos(), nil, nil
+	for _, entity in pairs(System.GetEntitiesInSphereByClass(position, FemaleCore.NPC_DRESS_RANGE, "NPC_Female") or {}) do
+		local other = entity:GetWorldPos()
+		local distance = (other.x - position.x) ^ 2 + (other.y - position.y) ^ 2
+		if not best or distance < best then
+			nearest, best = entity, distance
+		end
+	end
+	if not nearest then
+		FemaleCore.Log("no woman NPC within", FemaleCore.NPC_DRESS_RANGE, "m")
+		return
+	end
+	FemaleCore.Log("dressing", tostring(nearest:GetName()), "with", name)
+	if FemaleCore.DressNpc(nearest, { class }) == 0 then
+		FemaleCore.Log(name .. ": it could not be put on " .. tostring(nearest:GetName()))
+	end
+end
+
+-- The item names the framework knows, in lower case, and their class: Lua cannot find an item by its name.
+FemaleCore.ITEM_NAMES = FemaleCore.ITEM_NAMES or {}
+
+local function knowName(name, class)
+	if type(name) == "string" and type(class) == "string" then
+		FemaleCore.ITEM_NAMES[string.lower(name)] = class
+	end
+end
+
+-- Clothes for her from other mods (MAKING_CLOTHES.md): each entry is the item of the game, or of the mod, and its copy
+-- that she can wear, { original = id, copy = id }, and name and copy_name, their item names, to find them by name. With
+-- back = true, the original is a man's piece, and a man gets it back. A garment that already has a copy keeps it.
+-- source names the mod in the log. Returns how many were taken.
+function FemaleCore.RegisterClothes(list, source)
+	FemaleCore.CLOTHES = FemaleCore.CLOTHES or {}
+	local count = 0
+	for _, entry in ipairs(type(list) == "table" and list or {}) do
+		local original, copy = entry.original, entry.copy
+		if type(original) == "string" and type(copy) == "string" then
+			-- name and copy_name, the item names of both, are optional: ml_ff_npc_dress finds them by those.
+			knowName(entry.name, original)
+			knowName(entry.copy_name, copy)
+			FemaleCore.CLOTHES[original] = FemaleCore.CLOTHES[original] or copy
+			if entry.back then
+				FemaleCore.BACK[copy] = original
+			end
+			count = count + 1
+		end
+	end
+	FemaleCore.Log("clothes of", tostring(source or "a mod") .. ":", count)
+	return count
 end
 
 -- No event is known for an item that arrives, so the inventory is looked at once a second.
@@ -347,6 +780,11 @@ local function tick(gen)
 	end
 	if womanInUse() then
 		try("clothes", changeClothes)
+	elseif next(FemaleCore.BACK) then
+		try("clothes back", changeBack)
+	end
+	if next(FemaleCore.FITTED_ALIASES or {}) then
+		try("story gear", storyGear, womanInUse())
 	end
 	-- The rules also take a woman's clothes off a man of KCD2 Life.
 	for class, text in pairs(FemaleCore.STRIPPED) do
@@ -386,7 +824,7 @@ end
 -- face, as in LOOKS.md.
 local function copy(look)
 	return look and { id = look.id, name = look.name, ethnicity = look.ethnicity, age = look.age, villager = look.villager,
-		soul = look.soul, style = look.style, color = look.color, characters = { unpack(look.characters or {}) } }
+		soul = look.soul, style = look.style, color = look.color, outside = look.outside, characters = { unpack(look.characters or {}) } }
 end
 
 local function find(key)
@@ -411,6 +849,54 @@ function FemaleCore.ListLooks(gender)
 		end
 	end
 	return list
+end
+
+-- The faces of other mods (MAKING_FACES.md): a face pack, written by tools/make_face_pack.py, has its own tokens and
+-- its own Skald project, and its Lua file in Scripts/FemaleCore/Looks registers them here. The save keeps a look by its id,
+-- shared with KCD2 Male Framework, and the answer adds 500 and more to it, so the ids of a pack go from OUTSIDE_FIRST to
+-- OUTSIDE_LAST, in blocks of ten that the tool chooses. A look that clashes, by id or by name, is left out, and the log
+-- says it. Returns how many went in.
+FemaleCore.OUTSIDE_FIRST, FemaleCore.OUTSIDE_LAST = 200, 499
+
+local function idTaken(id)
+	if find(id) then
+		return "KCD2 Female Framework"
+	end
+	for _, look in ipairs(MaleCore and MaleCore.LOOKS or {}) do
+		if look.id == id then
+			return "KCD2 Male Framework"
+		end
+	end
+	return nil
+end
+
+function FemaleCore.RegisterLooks(pack, looks)
+	local added = 0
+	for _, look in ipairs(type(looks) == "table" and looks or {}) do
+		local id, name = tonumber(look.id), look.name
+		local problem
+		if type(name) ~= "string" or type(look.token) ~= "string" then
+			problem = "it needs a name and a token"
+		elseif not id or id ~= math.floor(id) or id < FemaleCore.OUTSIDE_FIRST or id > FemaleCore.OUTSIDE_LAST then
+			problem = string.format("its id %s is not between %d and %d", tostring(look.id), FemaleCore.OUTSIDE_FIRST, FemaleCore.OUTSIDE_LAST)
+		elseif find(name) then
+			problem = "a look has that name already"
+		elseif idTaken(id) then
+			problem = "id " .. id .. " is taken in " .. idTaken(id)
+		end
+		if problem then
+			FemaleCore.Log("look", tostring(name), "of", tostring(pack), "left out:", problem)
+		else
+			FemaleCore.LOOKS[#FemaleCore.LOOKS + 1] = {
+				id = id, name = name, ethnicity = look.ethnicity, age = look.age or "young", villager = false,
+				style = tonumber(look.style) or 1, color = tonumber(look.color) or 1, token = look.token,
+				characters = type(look.characters) == "table" and look.characters or {}, outside = tostring(pack),
+			}
+			added = added + 1
+		end
+	end
+	FemaleCore.Log("looks of", tostring(pack) .. ":", added)
+	return added
 end
 
 function FemaleCore.FindLook(name)
@@ -479,7 +965,7 @@ function FemaleCore.BecomeWoman(name, noScreen, hairStyle, hairColor)
 	end)
 	FemaleCore.RememberHair(style, color)
 	-- Her token also takes off his head and body, if they were kept on after ml_ff_henry.
-	sendToken(look.token)
+	sendLookToken(look)
 	setCurrent(look.id)
 	markWoman(true)
 	henryKept = false
@@ -500,7 +986,7 @@ local function putLook(look, noScreen, after)
 	showScreen(noScreen)
 	sendToken(FemaleCore.RESET_TOKEN)
 	Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
-		sendToken(look.token)
+		sendLookToken(look)
 		setCurrent(look.id)
 		Script.SetTimer(FemaleCore.TOKEN_MS + 200, function()
 			rebuild(function()
@@ -585,6 +1071,10 @@ function FemaleCore.ChooseNewCharacter(name)
 	local look = find(name)
 	if not look then
 		FemaleCore.Log("no look called", name, "for the new character")
+		return false
+	end
+	if not look.new_token then
+		FemaleCore.Log(look.name, "is a look of", tostring(look.outside), "and has no token for the new character of KCD2 Life")
 		return false
 	end
 	FemaleCore.Log("new character look", look.name, "id", look.id)
@@ -759,6 +1249,74 @@ function FemaleCore.StartLook()
 	return FemaleCore.startLook
 end
 
+-- The character of a mod: a mod that plays a woman of its own tells it once, and the framework puts her look on at
+-- every start of the game, new or loaded, as StartAs does, with no command. Only her look: her face, her hair and its
+-- color. Several mods: the last one wins, and the log says it; KCD2 Male Framework drops its own.
+--   FemaleCore.RegisterStartCharacter({
+--       name = "Heidi",          -- optional, for the log
+--       look = "woman_czech_2",  -- a look, by name or id (ml_ff_looks)
+--       hair = 5,                -- optional: a style, or a name as SetHair takes it, like "katherine"
+--       color = "blonde",        -- optional: the color of that style
+--   })
+-- Returns whether the look exists. nil drops the character.
+FemaleCore.startCharacter = nil
+
+function FemaleCore.RegisterStartCharacter(character)
+	if character == nil then
+		FemaleCore.startCharacter = nil
+		FemaleCore.Log("no start character")
+		return true
+	end
+	if type(character) ~= "table" or not find(character.look) then
+		FemaleCore.Log("start character: no look called", type(character) == "table" and tostring(character.look) or tostring(character),
+			"- ml_ff_looks lists them")
+		return false
+	end
+	if FemaleCore.startCharacter and FemaleCore.startCharacter ~= character then
+		FemaleCore.Log("start character", tostring(FemaleCore.startCharacter.name), "is replaced by", tostring(character.name))
+	end
+	FemaleCore.startCharacter = character
+	if MaleCore and MaleCore.DropStartCharacter then
+		try("male start character", MaleCore.DropStartCharacter, "KCD2 Female Framework")
+	end
+	FemaleCore.Log("start character:", tostring(character.name), "- look", character.look, "hair", tostring(character.hair),
+		tostring(character.color))
+	return true
+end
+
+-- KCD2 Male Framework calls it when a mod registers a man of its own: the last one wins.
+function FemaleCore.DropStartCharacter(by)
+	if FemaleCore.startCharacter then
+		FemaleCore.Log("start character", tostring(FemaleCore.startCharacter.name), "dropped: a character of", tostring(by), "came after")
+		FemaleCore.startCharacter = nil
+	end
+end
+
+-- At every start of the game, before applyStartLook: her look, if she does not have it yet.
+local function armStartCharacter(current)
+	local character = FemaleCore.startCharacter
+	if not character or FemaleCore.startLook then
+		return
+	end
+	local look = find(character.look)
+	if look and look.id ~= current then
+		FemaleCore.StartAs(character.look, character.hair, character.color)
+	end
+end
+
+-- ml_ff_start_character <look> [hair] [color]: a start character for a test, as a mod would register it.
+function FemaleCore.StartCharacterCommand(line)
+	local args = {}
+	for word in string.gmatch(tostring(line or ""):gsub('"', ""), "%S+") do
+		args[#args + 1] = word
+	end
+	if #args == 0 then
+		FemaleCore.Log("ml_ff_start_character needs a look, like ml_ff_start_character woman_czech_2 5 blonde")
+		return
+	end
+	FemaleCore.RegisterStartCharacter({ name = "test", look = args[1], hair = tonumber(args[2]) or args[2], color = args[3] })
+end
+
 local function inCutscene()
 	local value = try("cutscene", System.GetCVar, FemaleCore.CUTSCENE_CVAR)
 	return tonumber(value) == 1
@@ -794,7 +1352,11 @@ local function applyStartLook()
 			return
 		end
 		FemaleCore.Log("look chosen before the start:", name)
-		try("start look", function() FemaleCore.BecomeWoman(name, nil, startHair[1], startHair[2]) end)
+		FemaleCore.wearChanges = true
+		local became = try("start look", function() return FemaleCore.BecomeWoman(name, nil, startHair[1], startHair[2]) end)
+		if not became then
+			FemaleCore.wearChanges = false
+		end
 	end
 	Script.SetTimer(FemaleCore.START_WAIT_MS, attempt)
 end
@@ -823,6 +1385,8 @@ function FemaleCore:OnGameplayStarted()
 	henryKept = false
 	wasWoman = false
 	hair = nil
+	FemaleCore.questGearTold = false
+	FemaleCore.storyGearFailed = false
 	Script.SetTimer(FemaleCore.LOAD_WAIT_MS, function()
 		local old = count(FemaleCore.OLD_STATE_ITEM)
 		if old > 0 then
@@ -858,6 +1422,7 @@ function FemaleCore:OnGameplayStarted()
 				done()
 			end
 			startTick()
+			armStartCharacter(current)
 			applyStartLook()
 		end)
 	end)
@@ -923,7 +1488,7 @@ end
 -- Each look, and after it the characters of the game who wear its face.
 function FemaleCore.PrintLooks()
 	for _, look in ipairs(FemaleCore.ListLooks()) do
-		local line = string.format("%s: woman, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id)
+		local line = string.format("%s: woman, %s, %s, id %d", look.name, look.ethnicity or (look.outside and ("of " .. look.outside)) or "named character", look.age, look.id)
 		if #look.characters > 0 then
 			line = line .. " - " .. table.concat(look.characters, ", ")
 		end
